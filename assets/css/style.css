@@ -889,7 +889,7 @@ body {
 
   /* NEW: Setting up the background image and gradient */
   background-image: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)),
-    url("../img/img-8.webp"); /* Placeholder image for coding inspiration */
+    url("../img/img-1.webp"); /* Placeholder image for coding inspiration */
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
