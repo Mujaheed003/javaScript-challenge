@@ -321,7 +321,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Redirect to the dashboard page
         window.location.href = "public/dashboard.html";
-      }, 3000); // 7 seconds (7000ms)
+      }, 3000); // 3 seconds (3000ms)
     } else {
       // If validation fails, display an error popup
       createNotification("Submission Failed. Check fields.", "error");
