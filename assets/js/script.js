@@ -10,10 +10,26 @@
  * 6. Counter Animation (About Section)
  */
 
+// Function to check for WebP support
+function supportsWebP() {
+  const elem = document.createElement("canvas");
+  if (!!(elem.getContext && elem.getContext("2d"))) {
+    // was able or not to get WebP representation
+    return elem.toDataURL("image/webp").indexOf("data:image/webp") === 0;
+  } else {
+    // very old browser incapable of canvas
+    return false;
+  }
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   // Helper function for query selectors
   const $ = (selector) => document.querySelector(selector);
   const $$ = (selector) => document.querySelectorAll(selector);
+
+  if (supportsWebP()) {
+    document.body.classList.add("webp-supported");
+  }
 
   /* =========================================================
    * 1. Hero Slider Implementation
