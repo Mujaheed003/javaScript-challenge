@@ -11,16 +11,27 @@
     />
     <link rel="stylesheet" href="assets/css/style.css" />
     <link
-      rel="stylesheet"
+      rel="preload"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      as="style"
+      onload="this.onload=null;this.rel='stylesheet'"
     />
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      />
+    </noscript>
   </head>
   <body>
     <header id="navbar">
       <div class="container nav-content">
         <!-- <a href="#home" class="logo">30DaysJS</a> -->
         <a href="#home" class="logo"
-          ><img src="assets/img/logo.png" alt=""
+          ><img
+            src="assets/img/logo.png"
+            alt="30DaysJS Logo"
+            fetchpriority="high"
         /></a>
         <nav class="nav-links">
           <a href="#home" class="active">Home</a>
@@ -160,6 +171,7 @@
                 src="assets/img/creator-1.jpg"
                 alt="Profile of Creator 1"
                 class="profile-img"
+                loading="lazy"
               />
               <h3 class="name">Jane Doe</h3>
               <p class="position">Lead JavaScript Architect</p>
@@ -182,6 +194,7 @@
                 src="assets/img/creator-2.jpg"
                 alt="Profile of Creator 2"
                 class="profile-img"
+                loading="lazy"
               />
               <h3 class="name">Social Mallam</h3>
               <p class="position">Curriculum Developer</p>
@@ -204,6 +217,7 @@
                 src="assets/img/creator-3.jpg"
                 alt="Profile of Creator 3"
                 class="profile-img"
+                loading="lazy"
               />
               <h3 class="name">Sarah Lee</h3>
               <p class="position">UX/Design Lead</p>
@@ -493,7 +507,7 @@
       <div class="container footer-grid">
         <div class="footer-col footer-brand">
           <a href="#home" class="logo"
-            ><img src="assets/img/logo.png" alt=""
+            ><img src="assets/img/logo.png" alt="30DaysJS Logo" loading="lazy"
           /></a>
           <p>
             Master JavaScript, one project at a time. Consistency is the key to
@@ -532,6 +546,6 @@
       </div>
     </footer>
 
-    <script src="assets/js/script.js"></script>
+    <script defer src="assets/js/script.js"></script>
   </body>
 </html>
