@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Galactic Horizon | Parallax Landing</title>
+    <style>
+      /* --- GLOBAL STYLES & RESET --- */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Inter", sans-serif;
+        scroll-behavior: smooth;
+      }
+
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap");
+
+      /* --- PARALLAX SECTION STYLING --- */
+
+      .parallax-section {
+        position: relative;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        color: #fff;
+        padding: 20px;
+        /* Key to basic parallax: fixed background */
+        background-attachment: fixed;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
+
+      .section-1 {
+        background-image: url("https://placehold.co/1920x1080/0e1b3d/ffffff?text=DEEP+SPACE"); /* Nebula background */
+      }
+
+      .section-2 {
+        background-image: url("https://placehold.co/1920x800/222d5a/ffffff?text=PLANETARY+SURFACE"); /* Planet surface background */
+        min-height: 80vh;
+      }
+
+      .section-3 {
+        background-image: url("https://placehold.co/1920x1080/010a14/ffffff?text=ASTEROID+FIELD"); /* Darker space background */
+      }
+
+      .parallax-content {
+        z-index: 10;
+        max-width: 800px;
+        padding: 30px;
+        background: rgba(0, 0, 0, 0.4);
+        border-radius: 12px;
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
+      }
+
+      .parallax-content h1 {
+        font-size: clamp(2.5rem, 8vw, 5rem);
+        margin-bottom: 10px;
+        font-weight: 900;
+        text-shadow: 0 0 15px #4a90e2;
+      }
+
+      .parallax-content p {
+        font-size: clamp(1rem, 3vw, 1.3rem);
+        font-weight: 300;
+        line-height: 1.6;
+      }
+
+      /* --- OVERLAY TEXT SECTION (Non-parallax scrolling content) --- */
+
+      .scrolling-content {
+        background-color: #f0f0f0;
+        color: #333;
+        padding: 80px 5%;
+        text-align: left;
+      }
+
+      .scrolling-content h2 {
+        font-size: clamp(1.8rem, 5vw, 2.5rem);
+        color: #2c3e50;
+        margin-bottom: 25px;
+        border-bottom: 3px solid #4a90e2;
+        display: inline-block;
+        padding-bottom: 5px;
+      }
+
+      .scrolling-content .feature-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+        margin-top: 40px;
+      }
+
+      .feature-card {
+        background: #fff;
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s;
+      }
+
+      .feature-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+      }
+
+      .feature-card h3 {
+        color: #4a90e2;
+        margin-bottom: 10px;
+      }
+
+      .feature-card p {
+        font-size: 0.95rem;
+        line-height: 1.5;
+      }
+
+      /* --- NAVIGATION/CTA --- */
+      .cta-button {
+        display: inline-block;
+        margin-top: 30px;
+        padding: 12px 30px;
+        background-color: #4a90e2;
+        color: white;
+        text-decoration: none;
+        border-radius: 50px;
+        font-weight: 700;
+        font-size: 1rem;
+        transition: background-color 0.3s, transform 0.1s;
+      }
+
+      .cta-button:hover {
+        background-color: #357abd;
+        transform: scale(1.05);
+      }
+
+      /* --- SMALL JAVASCRIPT-DRIVEN EFFECT --- */
+      /* Used in JS to create the subtle "faster" parallax effect on the header text */
+      .header-move {
+        will-change: transform;
+        transition: transform 0.1s ease-out;
+      }
+
+      /* --- MOBILE/ACCESSIBILITY FALLBACK --- */
+      /* Disable fixed attachment on smaller screens or if motion is reduced for better performance/accessibility */
+      @media (max-width: 768px), (prefers-reduced-motion: reduce) {
+        .parallax-section {
+          background-attachment: scroll; /* Use regular scrolling on mobile */
+          background-position: top center;
+        }
+        /* Reset JS effect for mobile if fixed background is disabled */
+        .header-move {
+          transform: translate(0) !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- SECTION 1: MAIN HERO - WITH JS PARALLAX EFFECT -->
+    <section class="parallax-section section-1">
+      <div class="parallax-content header-move" id="heroHeader">
+        <h1>Galactic Horizon</h1>
+        <p>
+          The universe awaits. Discover the cosmos in stunning detail and
+          explore the future of interstellar travel with us.
+        </p>
+        <a href="#explore" class="cta-button">Begin Your Journey</a>
+      </div>
+      <div class="overlay"></div>
+    </section>
+
+    <!-- SECTION 2: SCROLLING CONTENT - Standard content over parallax background -->
+    <section class="parallax-section section-2">
+      <!-- Content intentionally minimal here, letting the background shine -->
+    </section>
+
+    <!-- SECTION 3: FEATURE OVERLAY - Standard scrolling content section -->
+    <section class="scrolling-content" id="explore">
+      <h2>Our Mission Control</h2>
+      <p>
+        We are dedicated to providing the most advanced tools and insights for
+        charting the unknown. Our platform integrates real-time data from
+        orbital satellites and deep-space probes to give you an unprecedented
+        view of the galaxy.
+      </p>
+
+      <div class="feature-grid">
+        <div class="feature-card">
+          <h3>Real-Time Star Charts</h3>
+          <p>
+            Access perpetually updated maps of celestial bodies, wormholes, and
+            navigational hazards across eight charted galaxies.
+          </p>
+        </div>
+        <div class="feature-card">
+          <h3>Quantum Communication</h3>
+          <p>
+            Stay connected with your fleet across light years using our
+            proprietary quantum encryption protocols, guaranteeing zero latency.
+          </p>
+        </div>
+        <div class="feature-card">
+          <h3>Terraforming Simulations</h3>
+          <p>
+            Run complex ecological and atmospheric simulations for colonization
+            on newly discovered exoplanets before committing resources.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 4: FINAL PARALLAX CTA -->
+    <section class="parallax-section section-3">
+      <div class="parallax-content">
+        <h2>Ready to Launch?</h2>
+        <p>
+          Your cosmic adventure begins now. Sign up today and get access to
+          exclusive launch window notifications and pre-flight checklists.
+        </p>
+        <a href="#" class="cta-button" style="background-color: #ff5722"
+          >Join the Fleet</a
+        >
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer
+      style="
+        background: #010a14;
+        color: #aaa;
+        text-align: center;
+        padding: 20px;
+      "
+    >
+      <p>
+        &copy; 2024 Galactic Horizon. All rights reserved. Built with CSS
+        Parallax.
+      </p>
+    </footer>
+
+    <script>
+      const heroHeader = document.getElementById("heroHeader");
+      let isParallaxEnabled = true;
+
+      // Check if reduced motion is preferred (good accessibility practice)
+      if (
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
+        window.innerWidth < 768
+      ) {
+        isParallaxEnabled = false;
+      }
+
+      // Simple function to create an extra subtle parallax effect on the header text
+      function handleScroll() {
+        if (!isParallaxEnabled) return;
+
+        // Get the scroll position
+        const scrollPos = window.scrollY;
+
+        // Calculate a slight vertical offset (scroll faster than the fixed background)
+        // Divide by a large number (e.g., 5) to keep the movement subtle
+        const offset = scrollPos / 5;
+
+        // Apply the transformation
+        heroHeader.style.transform = `translateY(${offset}px)`;
+      }
+
+      // Add the scroll listener
+      window.addEventListener("scroll", handleScroll);
+
+      // Optional: Remove background-attachment: fixed on resize to save resources
+      window.addEventListener("resize", () => {
+        if (window.innerWidth < 768) {
+          isParallaxEnabled = false;
+          // Ensure header is reset on mobile
+          if (heroHeader) heroHeader.style.transform = "translateY(0)";
+        } else {
+          isParallaxEnabled = true;
+        }
+      });
+    </script>
+  </body>
+</html>

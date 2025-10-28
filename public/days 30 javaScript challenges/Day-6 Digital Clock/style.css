@@ -1,0 +1,142 @@
+/* ==== GLOBAL STYLES ==== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  background: linear-gradient(135deg, #1a1a40, #090979, #00d4ff);
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* ==== CONTAINER ==== */
+.clock-container {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2rem;
+  padding: 4rem 6rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(20px);
+  text-align: center;
+  transition: all 0.4s ease;
+}
+
+/* ==== CLOCK ==== */
+.clock {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+}
+
+.clock span {
+  font-size: 6rem;
+  font-weight: 600;
+  min-width: 10rem;
+  text-align: center;
+  color: #fff;
+  text-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
+  position: relative;
+}
+
+.clock span::after {
+  content: attr(data-label);
+  font-size: 0.9rem;
+  font-weight: 500;
+  position: absolute;
+  bottom: -2.4rem;
+  left: 50%;
+  transform: translateX(-50%);
+  color: rgba(255, 255, 255, 0.8);
+  letter-spacing: 1px;
+}
+
+/* ==== DECORATIVE ELEMENTS ==== */
+.clock-container::before,
+.clock-container::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(70px);
+  z-index: -1;
+  transition: all 0.5s ease;
+}
+
+.clock-container::before {
+  width: 20rem;
+  height: 20rem;
+  background: #ff00cc;
+  top: 10%;
+  left: 5%;
+}
+
+.clock-container::after {
+  width: 180px;
+  height: 180px;
+  background: #00ccff;
+  bottom: 10%;
+  right: 5%;
+}
+
+/* ==== RESPONSIVE DESIGN ==== */
+
+/* Tablet */
+@media (max-width: 64em) {
+  .clock span {
+    font-size: 4.5rem;
+    min-width: 4rem;
+  }
+  .clock-container {
+    padding: 3rem 4rem;
+  }
+}
+
+/* Mobile Large */
+@media (max-width: 48em) {
+  .clock {
+    gap: 1.4rem;
+  }
+  .clock span {
+    font-size: 3.2rem;
+    min-width: 2rem;
+    width: 5rem;
+  }
+  .clock span::after {
+    font-size: 0.8rem;
+  }
+}
+
+/* Mobile Small */
+@media (max-width: 30em) {
+  /* html {
+    font-size: 62%;
+  } */
+  body {
+    padding: 2rem;
+  }
+
+  .clock-container {
+    width: 100%;
+    padding: 2.4rem 2rem;
+  }
+
+  .clock {
+    gap: 1rem;
+  }
+
+  .clock span {
+    font-size: 2rem;
+    min-width: 2rem;
+  }
+
+  .clock span::after {
+    bottom: -1.8rem;
+    font-size: 0.7rem;
+  }
+}

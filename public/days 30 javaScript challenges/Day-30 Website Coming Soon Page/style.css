@@ -1,0 +1,227 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 62%;
+}
+
+body,
+html {
+  height: 100%;
+  width: 100%;
+  font-family: "Poppins", sans-serif;
+}
+
+.container {
+  width: 100vw;
+  height: 100vh;
+  background: url("./bck.jpg") center/cover no-repeat;
+  color: #fff;
+  padding: 0 8%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.logo {
+  font-size: 5rem;
+  font-weight: 700;
+  padding: 2rem 0;
+  color: #fff;
+  cursor: pointer;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+}
+
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  transform: translateY(-3rem);
+}
+
+.subtitle {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.content h2 {
+  font-size: 6.4rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.content h2 span {
+  color: #b6646f;
+}
+
+.launching-time {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  margin-top: 4rem;
+}
+
+.launching-time div {
+  flex: 1 1 10rem;
+  min-width: 8rem;
+  text-align: center;
+}
+
+.launching-time div p {
+  font-size: 6rem;
+  font-weight: 600;
+}
+
+.launching-time div span {
+  font-size: 1.4rem;
+}
+
+.content button {
+  background: transparent;
+  color: #fff;
+  border: 2px solid #fff;
+  outline: none;
+  padding: 1.2rem 2.4rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 4rem;
+  cursor: pointer;
+  border-radius: 6px;
+  font-size: 1.6rem;
+  transition: 0.3s ease;
+  width: 20rem;
+}
+
+.content button:hover {
+  background: #fff;
+  color: #000;
+}
+
+.content button img {
+  width: 1.6rem;
+  transition: transform 0.3s ease;
+}
+
+.content button:hover img {
+  transform: translateX(4px);
+}
+
+/* Rocket Animation */
+.rocket {
+  width: 20rem;
+  position: absolute;
+  left: 40%;
+  bottom: 0;
+  animation: rocket 4s linear infinite;
+}
+
+@keyframes rocket {
+  0% {
+    bottom: 0;
+    opacity: 0;
+  }
+  100% {
+    bottom: 105%;
+    opacity: 1;
+  }
+}
+
+/* ======= RESPONSIVENESS ======= */
+
+/* Laptop screens (under 1200px) */
+@media (max-width: 75em) {
+  .content h2 {
+    font-size: 5.4rem;
+  }
+  .launching-time div p {
+    font-size: 5rem;
+  }
+}
+
+/* Tablet screens (under 992px) */
+@media (max-width: 62em) {
+  .content h2 {
+    font-size: 4.8rem;
+  }
+  .launching-time {
+    justify-content: center;
+  }
+  .rocket {
+    width: 15rem;
+    right: 5%;
+  }
+}
+
+/* Small tablets and large phones (under 768px) */
+@media (max-width: 48em) {
+  .logo {
+    font-size: 3.8rem;
+  }
+
+  .content h2 {
+    font-size: 3.8rem;
+    text-align: center;
+  }
+
+  .subtitle {
+    text-align: center;
+    font-size: 1.6rem;
+  }
+
+  .launching-time {
+    justify-content: center;
+    gap: 1.5rem;
+  }
+
+  .launching-time div p {
+    font-size: 4rem;
+  }
+
+  .content button {
+    align-self: center;
+    margin-top: 2.5rem;
+    width: 162px;
+  }
+
+  .rocket {
+    width: 12rem;
+    right: 2%;
+  }
+}
+
+/* Small phones (under 480px) */
+@media (max-width: 30em) {
+  .logo {
+    font-size: 2.8rem;
+    text-align: center;
+  }
+
+  .content h2 {
+    font-size: 2.8rem;
+  }
+
+  .launching-time div p {
+    font-size: 2.8rem;
+  }
+
+  .launching-time {
+    gap: 1rem;
+  }
+
+  .content button {
+    padding: 1rem 2rem;
+    font-size: 1.4rem;
+    width: 60%;
+  }
+
+  .rocket {
+    width: 9rem;
+  }
+}
+/* font-sizes */
+/* 10px, 12px, 14px, 16px, 18px, 20px, 24px, 30px, 36px, 44px, 52px, 62px, 74px, 86px, 98px */

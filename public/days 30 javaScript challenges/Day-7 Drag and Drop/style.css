@@ -1,0 +1,127 @@
+/* ====== GLOBAL STYLES ====== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+html {
+  font-size: 62.2%;
+}
+
+body {
+  background: linear-gradient(135deg, #141e30, #243b55);
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ====== CONTAINER ====== */
+.container {
+  width: 90%;
+  max-width: 100rem;
+  min-height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 3rem;
+  padding: 4rem 2rem;
+  flex-wrap: wrap;
+}
+
+/* ====== BOXES ====== */
+#left,
+#right {
+  flex: 1 1 30rem;
+  min-height: 42rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px dashed rgba(255, 255, 255, 0.5);
+  border-radius: 1.4rem;
+  padding: 2rem;
+  backdrop-filter: blur(15px);
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+#left:hover,
+#right:hover {
+  border-color: #00e0ff;
+  box-shadow: 0 0 25px rgba(0, 224, 255, 0.3);
+}
+
+/* ====== LIST ITEMS ====== */
+.list {
+  background: linear-gradient(135deg, #00e0ff, #8e2de2);
+  color: #fff;
+  font-weight: 500;
+  border-radius: 1.2rem;
+  height: 6rem;
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  cursor: grab;
+  padding: 0 2rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.list img {
+  width: 1.8rem;
+  margin-right: 1.4rem;
+  filter: invert(1);
+}
+
+.list:active {
+  cursor: grabbing;
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(0, 224, 255, 0.4);
+}
+
+/* ====== RESPONSIVE DESIGN ====== */
+
+/* Tablets */
+@media (max-width: 62em) {
+  .container {
+    gap: 2rem;
+  }
+  #left,
+  #right {
+    min-height: 38rem;
+  }
+  .list {
+    height: 5.4rem;
+    font-size: 0.95rem;
+  }
+}
+
+/* Mobile Large */
+@media (max-width: 40em) {
+  .container {
+    flex-direction: column;
+    align-items: center;
+  }
+  #left,
+  #right {
+    width: 100%;
+    max-width: 45rem;
+  }
+}
+
+/* Mobile Small */
+@media (max-width: 30em) {
+  .list {
+    height: 5rem;
+    font-size: 0.9rem;
+  }
+  .list img {
+    width: 1.4rem;
+    margin-right: 1rem;
+  }
+}

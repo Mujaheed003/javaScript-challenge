@@ -1,0 +1,199 @@
+/* ===============================
+   RESET AND BASE STYLING
+================================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+html {
+  font-size: 66.6%;
+}
+
+body {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+/* ===============================
+   FORM CONTAINER
+================================= */
+.container {
+  width: 100%;
+  max-width: 50rem;
+  background: #ffffff;
+  border-radius: 1.4rem;
+  padding: 4rem 3rem;
+  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.2);
+  position: relative;
+  animation: fadeIn 0.8s ease;
+}
+
+form {
+  width: 100%;
+  position: relative;
+}
+
+form ion-icon[name="paper-plane-outline"] {
+  position: absolute;
+  top: -7rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #fff;
+  color: #667eea;
+  font-size: 2.8rem;
+  padding: 1.8rem;
+  border-radius: 50%;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+form h2 {
+  text-align: center;
+  color: #333;
+  font-weight: 700;
+  margin-bottom: 2.4rem;
+  font-size: 2rem;
+}
+
+/* ===============================
+   INPUT GROUPS
+================================= */
+.input-group {
+  margin-bottom: 2rem;
+  position: relative;
+}
+
+.input-group label {
+  display: block;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 6px;
+}
+
+.input-group input,
+.input-group textarea {
+  width: 100%;
+  border: none;
+  outline: none;
+  background: #f3f3f3;
+  padding: 1.2rem 1.4rem;
+  border-radius: 8px;
+  font-size: 1.4rem;
+  color: #333;
+  transition: all 0.3s ease;
+}
+
+.input-group input:focus,
+.input-group textarea:focus {
+  border: 2px solid #667eea;
+  background: #fff;
+  box-shadow: 0 0 8px rgba(102, 126, 234, 0.3);
+}
+
+/* Placeholder style */
+::placeholder {
+  color: #aaa;
+  font-size: 1.4rem;
+}
+
+/* ===============================
+   BUTTON
+================================= */
+button {
+  width: 100%;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 1.2rem 0;
+  font-size: 1.6rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 1rem;
+}
+
+button:hover {
+  background: linear-gradient(135deg, #5a67d8, #6b46c1);
+  box-shadow: 0 4px 12px rgba(118, 75, 162, 0.4);
+}
+
+/* ===============================
+   ERROR & SUCCESS ICONS
+================================= */
+.input-group span {
+  position: absolute;
+  right: 1.4rem;
+  bottom: 1.2rem;
+  font-size: 1.4rem;
+  color: red;
+}
+
+.input-group span ion-icon[name="checkmark-circle"] {
+  color: seagreen;
+  font-size: 1.8rem;
+}
+
+#submit-error {
+  display: block;
+  text-align: center;
+  margin-top: 1rem;
+  color: red;
+  font-weight: 500;
+}
+
+/* ===============================
+   RESPONSIVE DESIGN
+================================= */
+@media (max-width: 48em) {
+  .container {
+    padding: 3rem 2rem;
+  }
+
+  form h2 {
+    font-size: 1.6rem;
+  }
+
+  button {
+    font-size: 1.4rem;
+  }
+}
+
+@media (max-width: 30em) {
+  .container {
+    padding: 2.4rem 1.4rem;
+  }
+
+  form h2 {
+    font-size: 1.2rem;
+  }
+
+  input,
+  textarea {
+    font-size: 1.4rem;
+  }
+
+  button {
+    font-size: 1.4rem;
+    padding: 1rem;
+  }
+}
+
+/* ===============================
+   ANIMATIONS
+================================= */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

@@ -1,0 +1,1180 @@
+/* ---------------------------------------------------- */
+/* 0. Base & Reset */
+/* ---------------------------------------------------- */
+:root {
+  --primary-color: #f7df1e; /* JavaScript Yellow */
+  --secondary-color: #212121; /* Dark Gray */
+  --text-color: #333;
+  --white-color: #fff;
+  --dark-bg: #1a1a1a;
+  --container-max-width: 1200px;
+  --transition-speed: 0.3s;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  color: var(--text-color);
+  background-color: var(--white-color);
+  overflow-x: hidden; /* Prevent horizontal scroll from animations */
+}
+
+/* Global Utility Classes */
+.container {
+  max-width: var(--container-max-width);
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.section-padding {
+  padding: 80px 0;
+}
+
+.bg-light {
+  background-color: #f4f4f4;
+}
+.bg-dark {
+  background-color: var(--dark-bg);
+}
+.text-white {
+  color: var(--white-color);
+}
+
+.section-title {
+  font-size: 3rem;
+  text-align: center;
+  margin-bottom: 10px;
+  color: var(--secondary-color);
+}
+
+.section-subtitle {
+  font-size: 1.2rem;
+  text-align: center;
+  margin-bottom: 40px;
+  color: #666;
+}
+
+/* Buttons */
+.btn {
+  display: inline-block;
+  padding: 10px 25px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-speed) ease;
+  border: none;
+}
+.go {
+  display: inline-block;
+  padding: 10px 25px;
+  font-weight: 600;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  border-radius: 50px;
+  transition: background-color var(--transition-speed), transform 0.2s;
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+  color: var(--dark-bg) !important;
+  box-shadow: 0 4px 15px rgba(247, 223, 30, 0.5);
+}
+
+.btn-primary:hover {
+  background-color: #ffe654;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(247, 223, 30, 0.7);
+}
+
+.btn-large {
+  padding: 15px 40px;
+  font-size: 1.1rem;
+  background: #ffe654;
+}
+.btn-large:hover {
+  transform: translateY(-2px);
+}
+
+/* ---------------------------------------------------- */
+/* 7. Navigation (Sticky & Responsive) */
+/* ---------------------------------------------------- */
+#navbar {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
+  background-color: transparent;
+  transition: background-color var(--transition-speed) ease;
+  padding: 15px 0;
+}
+
+/* Sticky effect */
+#navbar.sticky {
+  background-color: var(--dark-bg);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.nav-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo img {
+  width: 60px;
+}
+
+#navbar.sticky .logo {
+  color: var(--primary-color);
+}
+.nav-links a {
+  color: var(--white-color);
+  text-decoration: none;
+  margin-left: 25px;
+  font-weight: 500;
+  transition: color var(--transition-speed) ease;
+}
+
+.nav-links a.active {
+  color: var(--primary-color) !important;
+  border-bottom: 3px solid var(--primary-color) !important; /* Underline effect */
+  font-weight: 600;
+}
+
+.nav-links a.active:hover {
+  color: var(--primary-color) !important;
+}
+
+#navbar.sticky .nav-links a.active {
+  color: var(--primary-color) !important;
+}
+
+#navbar.sticky .nav-links a:not(.btn):not(.active) {
+  color: var(--white-color);
+}
+#navbar:not(.sticky) .nav-links a:not(.btn) {
+  color: var(--white-color);
+}
+
+.nav-links a:hover:not(.btn) {
+  color: var(--primary-color);
+}
+
+/* Hamburger Menu for Mobile */
+.hamburger {
+  font-size: 1.5rem;
+  color: var(--white-color);
+  cursor: pointer;
+  display: none; /* Hidden on desktop */
+}
+
+/* Mobile Navigation Dropdown */
+@media (max-width: 900px) {
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    flex-direction: column;
+    background-color: var(--dark-bg);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    padding: 20px 0;
+    text-align: center;
+  }
+
+  .nav-links.active {
+    display: flex;
+  }
+
+  .nav-links a {
+    margin: 10px 0;
+    color: var(--white-color);
+  }
+
+  .hamburger {
+    display: block;
+  }
+
+  #navbar:not(.sticky) .hamburger {
+    color: var(--white-color);
+  }
+  #navbar.sticky .hamburger {
+    color: var(--primary-color);
+  }
+}
+
+/* ---------------------------------------------------- */
+/* 1. Hero Section (Slider) */
+/* ---------------------------------------------------- */
+.hero-section {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.hero-slider-container {
+  width: 100%;
+  height: 100%;
+}
+
+.slide {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 1.5s ease-in-out; /* Smooth fade animation */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-size: cover;
+  background-position: center;
+  text-align: center;
+  padding: 0 20px;
+}
+
+/* Example Background Images (replace with actual images in /images folder) */
+.slide-1 {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url("../img/img-1.jpg");
+}
+.slide-2 {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url("../img/img-2.jpg");
+}
+.slide-3 {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url("../img/img-3.jpg");
+}
+.slide-4 {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url("../img/img-4.jpg");
+}
+.slide-5 {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url("../img/img-5.jpg");
+}
+.slide-6 {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url("../img/img-6.jpg");
+}
+.slide-7 {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url("../img/img-7.jpg");
+}
+
+/* Fallback for images (since I can't provide image files) */
+
+.slide.active {
+  opacity: 1;
+  z-index: 10;
+}
+
+.slide-content {
+  color: var(--white-color);
+  max-width: 800px;
+  /* Initial state for text animation (optional subtle effect) */
+  transform: translateY(20px);
+  opacity: 0;
+  transition: transform 1s ease, opacity 1s ease;
+}
+
+.slide.active .slide-content {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.slide-content h1 {
+  font-size: 4.5rem;
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.slide-content p {
+  font-size: 1.5rem;
+  margin-bottom: 40px;
+}
+
+@media (max-width: 768px) {
+  .slide-content h1 {
+    font-size: 3rem;
+  }
+  .slide-content p {
+    font-size: 1.2rem;
+  }
+  .btn-large {
+    padding: 12px 30px;
+    font-size: 1rem;
+  }
+}
+
+/* ---------------------------------------------------- */
+/* 2. About the Challenge */
+/* ---------------------------------------------------- */
+.about-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.about-card {
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  background-color: var(--white-color);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.about-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.icon-lg {
+  font-size: 3rem;
+  color: var(--primary-color);
+  margin-bottom: 15px;
+}
+
+.about-card h3 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+  color: var(--secondary-color);
+}
+
+/* Progress Bar */
+.progress-bar-container {
+  width: 80%;
+  margin: 40px auto;
+  background-color: #ddd;
+  border-radius: 25px;
+  overflow: hidden;
+  height: 30px;
+}
+
+.progress-bar {
+  height: 100%;
+  background-color: var(--primary-color);
+  transition: width 1s ease-out;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 15px;
+  font-weight: bold;
+  color: var(--dark-bg);
+}
+.progress-bar::after {
+  content: attr(data-label);
+}
+
+@media (max-width: 400px) {
+  .progress-bar {
+    font-size: 0.8rem;
+  }
+}
+
+/* ---------------------------------------------------- */
+/* NEW: Team / Creators Section */
+/* ---------------------------------------------------- */
+.team-section {
+  background-color: var(--dark-bg);
+}
+
+.team-section .section-title,
+.testimonials-section .section-title {
+  color: var(--primary-color);
+}
+
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+  margin-top: 40px;
+}
+
+.team-card {
+  background-color: var(--white-color);
+  border-radius: 10px;
+  padding: 30px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
+}
+
+.team-card:hover {
+  transform: translateY(-8px);
+}
+
+.profile-img {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 20px;
+  border: 4px solid var(--primary-color);
+  box-shadow: 0 0 15px rgba(247, 223, 30, 0.5);
+}
+
+.team-card .name {
+  font-size: 1.6rem;
+  margin-bottom: 5px;
+  color: var(--secondary-color);
+}
+
+.team-card .position {
+  font-size: 1rem;
+  color: #555;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+.team-card .bio {
+  font-size: 0.9rem;
+  color: #777;
+  margin-bottom: 20px;
+  font-style: italic;
+}
+
+.social-links a {
+  color: var(--secondary-color);
+  font-size: 1.4rem;
+  margin: 0 10px;
+  transition: color 0.3s;
+}
+
+.social-links a:hover {
+  color: var(--primary-color);
+}
+
+/* Ensure headings/subheadings are styled correctly in the dark section */
+.team-section .section-subtitle.text-white {
+  color: #ccc;
+}
+
+/* ---------------------------------------------------- */
+/* ... rest of style.css ... */
+
+/* ---------------------------------------------------- */
+/* 3. Daily Projects Section (3D Hover Effect) */
+/* ---------------------------------------------------- */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+  perspective: 1000px; /* For 3D flip effect */
+}
+
+.project-card {
+  position: relative;
+  height: 180px;
+  transform-style: preserve-3d;
+  transition: transform 0.8s;
+  cursor: pointer;
+  border-radius: 10px;
+}
+
+.project-card:hover {
+  transform: rotateY(180deg);
+}
+
+.card-front,
+.card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.card-front {
+  background-color: var(--white-color);
+  color: var(--secondary-color);
+  border: 3px solid var(--primary-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.card-back {
+  background-color: var(--primary-color);
+  background-size: cover;
+  background-position: center;
+  color: var(--primary-color);
+  transform: rotateY(180deg);
+  flex-direction: column;
+  text-align: center;
+  background-size: cover;
+}
+
+.btn-secondary {
+  /* margin-top: 5rem; */
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background-color: var(--dark-bg);
+  color: var(--primary-color);
+}
+.btn-secondary:hover {
+  background-color: #333;
+  color: var(--primary-color);
+}
+
+/* Styling for the View More Button Container */
+.project-view-more {
+  text-align: center;
+  margin-top: 50px;
+  padding-top: 20px;
+}
+
+.project-view-more .small-note {
+  margin-top: 15px;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.card-back.drum-kit {
+  background: url("../img/drum-kit.PNG");
+  background-size: cover;
+  background-position: center;
+}
+
+.card-back.weather-app {
+  background: url("../img/weather-app.PNG");
+  background-size: cover;
+  background-position: center;
+}
+
+.card-back.analog-clock {
+  background: url("../img/analog-clock.PNG");
+  background-size: cover;
+  background-position: center;
+}
+
+.card-back.recipe-fnder {
+  background: url("../img/dynamic-recipe-finder.PNG");
+  background-size: cover;
+  background-position: center;
+}
+
+.card-back.poomodoro-imer {
+  background: url("../img/pomodoro-timer.PNG");
+  background-size: cover;
+  background-position: center;
+}
+
+.card-back.expense-tracker {
+  background: url("../img/local-expense-tracker.PNG");
+  background-size: cover;
+  background-position: center;
+}
+
+.card-back.file-preview {
+  background: url("../img/file-previewer.PNG");
+  background-size: cover;
+  background-position: center;
+}
+
+.card-back.memory-card {
+  background: url("../img/memory-game.PNG");
+  background-size: cover;
+  background-position: center;
+}
+
+/* ---------------------------------------------------- */
+/* 4. Key Features / What You’ll Learn */
+/* ---------------------------------------------------- */
+.learnings-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.learning-item {
+  background-color: var(--white-color);
+  padding: 20px;
+  border-left: 5px solid var(--primary-color);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  font-size: 1.1rem;
+  font-weight: 500;
+  transition: transform 0.3s ease;
+}
+
+.learning-item i {
+  color: var(--primary-color);
+  margin-right: 10px;
+}
+
+.learning-item:hover {
+  transform: translateX(10px);
+}
+
+/* ---------------------------------------------------- */
+/* 5. Testimonials Section (Infinite Scroll) */
+/* ---------------------------------------------------- */
+.testimonials-section {
+  overflow: hidden;
+}
+
+.testimonial-slider-wrapper {
+  max-width: 100%;
+  overflow: hidden;
+  margin: 40px 0;
+}
+
+.testimonial-slider {
+  display: flex;
+  /* The animation will be applied via JavaScript */
+  animation: scroll-loop 25s linear infinite;
+  padding: 20px 0;
+}
+
+/* Duplicating the keyframes for smoother transition without gaps */
+@keyframes scroll-loop {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%); /* Half the width of the duplicated content */
+  }
+}
+
+.testimonial-card {
+  min-width: 350px; /* Fixed width for card */
+  margin: 0 15px;
+  padding: 30px;
+  background-color: #2a2a2a;
+  border-radius: 10px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+  color: var(--white-color);
+  font-style: italic;
+}
+
+.testimonial-author {
+  margin-top: 15px;
+  font-style: normal;
+  font-weight: bold;
+  color: var(--primary-color);
+}
+
+/* ---------------------------------------------------- */
+/* 6. Join the Challenge Section (Form) */
+/* ---------------------------------------------------- */
+.join-form {
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+  padding: 30px;
+  background-color: #fcfcfc;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.join-form input {
+  width: 100%;
+  padding: 15px;
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 1rem;
+  transition: border-color 0.3s;
+}
+
+.join-form input:focus {
+  border-color: var(--primary-color);
+  outline: none;
+}
+
+.form-message {
+  margin-top: 20px;
+  font-weight: bold;
+  color: green;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+.form-message.show {
+  opacity: 1;
+}
+
+/* Input error state */
+.join-form input.error {
+  border-color: #e74c3c;
+  box-shadow: 0 0 5px rgba(231, 76, 60, 0.5);
+}
+
+/* ---------------------------------------------------- */
+/* Modal Pop-up Styling (New Section) */
+/* ---------------------------------------------------- */
+
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed;
+  z-index: 2000; /* Ensure it's above everything, including the sticky navbar (1000) */
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.85); /* Dark, semi-transparent overlay */
+  padding-top: 50px; /* Space from the top */
+  animation: fadeIn 0.3s ease-out;
+}
+
+.modal-content {
+  background-color: var(--white-color);
+  margin: 5% auto; /* 5% from top and centered horizontally */
+  padding: 40px;
+  border-radius: 12px;
+  width: 90%; /* Default width for responsiveness */
+  max-width: 550px; /* Maximum width on desktop */
+  position: relative;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+  animation: slideDown 0.4s ease-out;
+}
+
+.close-btn {
+  color: #aaa;
+  float: right;
+  font-size: 36px;
+  font-weight: bold;
+  line-height: 1;
+  cursor: pointer;
+  transition: color 0.3s;
+  position: absolute;
+  top: 15px;
+  right: 25px;
+}
+
+.close-btn:hover,
+.close-btn:focus {
+  color: var(--primary-color);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Modal Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Ensure form styling looks good inside the modal */
+.modal-content .section-title,
+.modal-content .section-subtitle {
+  text-align: center;
+}
+/* Center the form inputs and button */
+.join-form {
+  padding: 0;
+  box-shadow: none; /* Remove box-shadow inside modal */
+  background-color: transparent;
+}
+
+@media (max-width: 320px) {
+  .modal .section-title {
+    font-size: 1.8rem;
+  }
+
+  .modal .section-subtitle {
+    font-size: 1rem;
+  }
+}
+
+/* End of new modal styles */
+
+/* --- NEW: Welcome Pop-up Specific Styles --- */
+.welcome-modal {
+  /* Ensures the welcome modal is styled nicely */
+  background-color: rgba(0, 0, 0, 0.7);
+  /* Make sure it's hidden initially */
+  display: none;
+}
+
+.welcome-content {
+  /* Custom look for the welcome modal */
+  background-color: var(--white-color);
+  border: 5px solid var(--primary-color); /* JavaScript Yellow border */
+  padding: 50px 30px;
+  text-align: center;
+}
+
+.welcome-content .section-title {
+  margin-bottom: 5px;
+  font-size: 2.5rem;
+}
+
+.welcome-content .section-subtitle {
+  margin-bottom: 30px;
+  font-size: 1.1rem;
+  color: #666;
+}
+
+.welcome-close {
+  /* Position the close button for the welcome modal */
+  color: #aaa;
+  right: 20px;
+}
+.welcome-close:hover {
+  color: var(--secondary-color);
+}
+
+/* Responsive adjustment for small screens */
+@media (max-width: 450px) {
+  .welcome-content {
+    padding: 40px 15px;
+  }
+  .welcome-content .section-title {
+    font-size: 2rem;
+  }
+  .welcome-content .section-subtitle {
+    font-size: 1rem;
+  }
+}
+
+/* style.css (Excerpt: New CTA Banner Styles) */
+/* ---------------------------------------------------- */
+/* Final CTA Banner (Before Footer) */
+/* ---------------------------------------------------- */
+
+.join-cta-banner {
+  /* Padding remains for a prominent visual strip */
+  padding: 60px 0;
+  text-align: center;
+}
+
+.join-cta-banner .container {
+  /* NEW: Constrain the width and center the entire banner module */
+  max-width: 900px;
+
+  /* Very slight translucent backing for text contrast */
+  padding: 100px 30px;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  /* NEW: Centers the module within the full-width background section */
+  margin-left: auto;
+  margin-right: auto;
+
+  /* NEW: Setting up the background image and gradient */
+  background-image: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)),
+    url("../img/img-8.jpg"); /* Placeholder image for coding inspiration */
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  /* Optional: adds a subtle parallax feel */
+
+  /* Ensure text is white for contrast against the dark background */
+  color: var(--white-color);
+}
+
+.join-cta-banner h2 {
+  font-size: 2.4rem;
+  margin-bottom: 10px;
+  /* Changed color to white for contrast */
+  color: var(--white-color);
+}
+
+.join-cta-banner p {
+  font-size: 1.1rem;
+  margin-bottom: 30px;
+  color: #ccc;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (max-width: 600px) {
+  .join-cta-banner h2 {
+    font-size: 1.6rem;
+  }
+}
+
+/* End of new CTA banner styles */
+
+/* ---------------------------------------------------- */
+/* 8. Footer */
+/* ---------------------------------------------------- */
+/* ---------------------------------------------------- */
+/* 8. Footer (Organized & Professional) */
+/* ---------------------------------------------------- */
+.footer {
+  background-color: var(--dark-bg);
+  color: #bbb;
+  padding: 60px 0 30px; /* More padding top for better spacing */
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr; /* Logo column wider than links/social */
+  gap: 40px;
+}
+
+.footer-col {
+  padding: 0 15px;
+}
+
+.footer-col h3 {
+  font-size: 1.2rem;
+  color: var(--white-color);
+  margin-bottom: 20px;
+  border-bottom: 2px solid var(--primary-color);
+  padding-bottom: 5px;
+  display: inline-block;
+}
+
+/* Footer Brand Column */
+.footer-brand .logo {
+  font-size: 1.8rem;
+  color: var(--primary-color);
+  display: block;
+  margin-bottom: 15px;
+}
+
+.footer-brand p {
+  font-size: 0.95rem;
+  margin-bottom: 15px;
+  line-height: 1.5;
+}
+
+.copyright {
+  font-size: 0.8rem;
+  color: #777;
+  margin-top: 20px;
+}
+
+/* Footer Links Column */
+.footer-links ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-links ul li {
+  margin-bottom: 10px;
+}
+
+.footer-links a {
+  color: #bbb;
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: color 0.3s;
+}
+
+.footer-links a:hover {
+  color: var(--primary-color);
+}
+
+/* Footer Social Column */
+.social-icons {
+  margin-bottom: 25px;
+  display: flex;
+}
+
+.social-icons a {
+  font-size: 1.5rem;
+  margin-right: 20px;
+  transition: color 0.3s, transform 0.3s;
+}
+
+.social-icons a:hover {
+  color: var(--primary-color);
+  transform: translateY(-2px);
+}
+
+.footer-cta {
+  /* Styles inherited from .btn .btn-primary */
+  display: block;
+  width: 100%;
+  text-align: center;
+}
+
+/* ---------------------------------------------------- */
+/* Responsiveness for Footer */
+/* ---------------------------------------------------- */
+@media (max-width: 768px) {
+  .footer-grid {
+    grid-template-columns: 1fr; /* Stack columns on smaller screens */
+    text-align: center;
+  }
+
+  .footer-col {
+    padding: 20px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .footer-col:last-child {
+    border-bottom: none;
+  }
+
+  .footer-col h3 {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .footer-brand p {
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .social-icons {
+    justify-content: center;
+  }
+}
+
+/* ---------------------------------------------------- */
+/* 9. Animations (Scroll Reveal - Placeholder) */
+/* ---------------------------------------------------- */
+/* Classes for elements that will be animated in by JavaScript */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ---------------------------------------------------- */
+/* 10. Final Responsiveness Adjustments */
+/* ---------------------------------------------------- */
+@media (max-width: 600px) {
+  .logo img {
+    width: 2rem;
+  }
+  .section-padding {
+    padding: 60px 0;
+  }
+  .section-title {
+    font-size: 2rem;
+  }
+  .footer .container {
+    flex-direction: column;
+  }
+  .footer p {
+    margin-bottom: 15px;
+  }
+  .learnings-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* style.css (Excerpt: New Styles for Popups and Loading Screen) */
+
+/* ---------------------------------------------------- */
+/* Global Notification Popups */
+/* ---------------------------------------------------- */
+.notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 15px 30px;
+  border-radius: 8px;
+  color: var(--dark-bg);
+  font-weight: 700;
+  z-index: 3000; /* Highest priority */
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.notification.success {
+  background-color: #4caf50; /* Green */
+  color: var(--white-color);
+}
+
+.notification.error {
+  background-color: #f44336; /* Red */
+  color: var(--white-color);
+}
+
+/* ---------------------------------------------------- */
+/* Full-Screen Loading Overlay */
+/* ---------------------------------------------------- */
+#loadingOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--dark-bg);
+  z-index: 4000; /* Above everything */
+  display: none; /* Controlled by JS */
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  color: var(--white-color);
+  text-align: center;
+}
+
+.loader-content h2 {
+  font-size: 2rem;
+  margin-top: 30px;
+  color: var(--primary-color);
+}
+
+.loader-content p {
+  font-size: 1.1rem;
+  margin-top: 10px;
+  color: #ccc;
+}
+
+/* Network-Style Loader (Rounding Animation) */
+.network-loader {
+  width: 60px;
+  height: 60px;
+  border: 5px solid rgba(255, 255, 255, 0.2);
+  border-top-color: var(--primary-color); /* The moving part */
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  display: flex;
+  align-self: center;
+  justify-self: center;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 600px) {
+  .network-loader {
+    width: 30px;
+    height: 30px;
+  }
+}
+/* End of new styles */

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Image Background Change Effect</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="img-box">
+        <!-- Background Image (static) -->
+        <img
+          src="car-removebg-preview.png"
+          alt="Transparent car"
+          class="base-img"
+        />
+
+        <!-- Foreground (original) Image -->
+        <div class="img-wrap">
+          <img src="car.jpg" alt="Car with background" id="original-img" />
+        </div>
+
+        <!-- Slider Line + Arrow -->
+        <span id="line">
+          <img src="download.png" alt="Arrow" class="arrow" />
+        </span>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>

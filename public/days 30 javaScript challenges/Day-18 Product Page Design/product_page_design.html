@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Modern Responsive Product Page (Pure CSS)</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <section class="container">
+      <div class="product">
+        <aside class="gallery">
+          <!-- Using placeholder images for a complete example -->
+          <img src="img/img1.jpg" alt="Product Image 1" id="productImg" />
+          <div class="controls">
+            <span class="btn active" data-index="0"></span>
+            <span class="btn" data-index="1"></span>
+            <span class="btn" data-index="2"></span>
+          </div>
+        </aside>
+
+        <aside class="details">
+          <h1>Elegant Female Abaya</h1>
+          <h2>₦25,000.00</h2>
+          <h3>✨ 20% OFF</h3>
+          <p>
+            This modern Abaya blends style and comfort, designed with premium
+            materials that make it perfect for any occasion. Stay stylish,
+            modest, and confident.
+          </p>
+
+          <form id="orderForm">
+            <div class="size-select">
+              <p>Size</p>
+              <div style="display: flex; gap: 8px">
+                <label
+                  ><input type="radio" name="size" value="S" checked /><span
+                    >S</span
+                  ></label
+                >
+                <label
+                  ><input type="radio" name="size" value="M" /><span
+                    >M</span
+                  ></label
+                >
+                <label
+                  ><input type="radio" name="size" value="L" /><span
+                    >L</span
+                  ></label
+                >
+                <label
+                  ><input type="radio" name="size" value="XL" /><span
+                    >XL</span
+                  ></label
+                >
+                <label
+                  ><input type="radio" name="size" value="XXL" /><span
+                    >XXL</span
+                  ></label
+                >
+              </div>
+            </div>
+
+            <div class="color-select">
+              <p>Color</p>
+              <div style="display: flex; gap: 12px">
+                <label
+                  ><input type="radio" name="color" value="blue" checked /><span
+                    class="color color-1"
+                  ></span
+                ></label>
+                <label
+                  ><input type="radio" name="color" value="green" /><span
+                    class="color color-2"
+                  ></span
+                ></label>
+                <label
+                  ><input type="radio" name="color" value="pink" /><span
+                    class="color color-3"
+                  ></span
+                ></label>
+                <label
+                  ><input type="radio" name="color" value="purple" /><span
+                    class="color color-4"
+                  ></span
+                ></label>
+              </div>
+            </div>
+
+            <div class="quantity-select">
+              <p>Quantity</p>
+              <input type="number" min="1" value="1" id="quantity" />
+            </div>
+
+            <div class="btn-group">
+              <button type="button" id="addToCart">Add to Cart</button>
+              <button type="submit" id="buyNow">Buy Now</button>
+            </div>
+
+            <p class="cart-info">
+              🛒 Items in cart: <span id="cartCount">0</span>
+            </p>
+          </form>
+        </aside>
+      </div>
+    </section>
+
+    <!-- Custom Alert Box -->
+    <div class="alert-box" id="alertBox">
+      ✅ Item added to cart successfully!
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>

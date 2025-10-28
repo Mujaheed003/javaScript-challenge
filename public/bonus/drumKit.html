@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Responsive Web Drum Kit</title>
+    <!-- Load Tone.js for synthesized audio -->
+    <script src="https://cdn.jsdelivr.net/npm/tone@14.7.71/build/Tone.min.js"></script>
+    <!-- Load Font Awesome for the main power icon -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    />
+    <style>
+      /* BASE STYLES & RESET */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Inter", sans-serif;
+      }
+
+      /* Using a dark, energetic theme */
+      body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background: #1a1a1a;
+        color: #f0f0f0;
+        padding: 20px;
+      }
+
+      /* HEADER */
+      .header {
+        text-align: center;
+        margin-bottom: 40px;
+        padding: 10px;
+      }
+
+      .header h1 {
+        font-size: clamp(1.8rem, 5vw, 3rem);
+        color: #ff5722; /* Vibrant Orange Accent */
+        text-shadow: 0 0 10px rgba(255, 87, 34, 0.5);
+      }
+
+      .instructions {
+        font-size: clamp(0.8rem, 2vw, 1rem);
+        margin-top: 10px;
+        color: #aaa;
+      }
+
+      /* DRUM KIT GRID - Responsive Layout */
+      .drum-kit {
+        display: grid;
+        gap: 15px;
+        width: 100%;
+        max-width: 900px;
+        /* Default grid for mobile: 2 columns */
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      /* Responsive Grid Adjustments for Tablet/Desktop */
+      @media (min-width: 600px) {
+        .drum-kit {
+          /* On wider screens, switch to 3 columns */
+          grid-template-columns: repeat(3, 1fr);
+          gap: 20px;
+        }
+      }
+
+      @media (min-width: 900px) {
+        .drum-kit {
+          /* For large screens, use 4 columns */
+          grid-template-columns: repeat(4, 1fr);
+        }
+      }
+
+      /* DRUM PAD STYLING */
+      .pad {
+        background: #333;
+        border: 4px solid #ff5722;
+        border-radius: 12px;
+        padding: clamp(20px, 5vw, 40px);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        user-select: none;
+        transition: all 0.07s ease;
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4);
+        aspect-ratio: 1 / 1; /* Ensures pads are square */
+        font-size: clamp(1rem, 3vw, 1.2rem);
+        font-weight: 600;
+      }
+
+      .pad .key-text {
+        color: #ff5722;
+        font-size: clamp(1.5rem, 4vw, 2.5rem);
+        margin-bottom: 5px;
+      }
+
+      .pad:hover {
+        border-color: #ff9800;
+      }
+
+      /* ACTIVE STATE (when played) */
+      .pad.playing {
+        transform: scale(1.05);
+        border-color: #8bc34a; /* Green feedback */
+        box-shadow: 0 0 20px #8bc34a, 0 0 40px #8bc34a;
+        color: #1a1a1a;
+        background: #f0f0f0;
+      }
+
+      /* POWER BUTTON STYLING */
+      .power-toggle {
+        margin-top: 40px;
+        padding: 10px 20px;
+        font-size: 1rem;
+        border: none;
+        border-radius: 30px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        transition: background 0.3s, box-shadow 0.3s;
+      }
+
+      .power-toggle.on {
+        background: #4caf50; /* Green */
+        color: white;
+        box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4);
+      }
+
+      .power-toggle.off {
+        background: #f44336; /* Red */
+        color: white;
+        box-shadow: 0 4px 15px rgba(244, 67, 54, 0.4);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <h1>Synthesized Web Drum Kit</h1>
+      <p class="instructions">
+        Use your **keyboard** or **tap** the pads to play! (Click "Power On"
+        first.)
+      </p>
+    </div>
+
+    <div class="drum-kit" id="drumKit">
+      <!-- Drum pads with data attributes for key and sound mapping -->
+      <div class="pad" data-key="65" data-sound="kick">
+        <div class="key-text">A</div>
+        Kick Drum
+      </div>
+      <div class="pad" data-key="83" data-sound="snare">
+        <div class="key-text">S</div>
+        Snare
+      </div>
+      <div class="pad" data-key="68" data-sound="closed-hat">
+        <div class="key-text">D</div>
+        Closed Hat
+      </div>
+      <div class="pad" data-key="70" data-sound="open-hat">
+        <div class="key-text">F</div>
+        Open Hat
+      </div>
+      <div class="pad" data-key="74" data-sound="tom-1">
+        <div class="key-text">J</div>
+        Tom High
+      </div>
+      <div class="pad" data-key="75" data-sound="tom-2">
+        <div class="key-text">K</div>
+        Tom Mid
+      </div>
+      <div class="pad" data-key="76" data-sound="ride">
+        <div class="key-text">L</div>
+        Ride Cymbal
+      </div>
+      <div class="pad" data-key="186" data-sound="crash">
+        <div class="key-text">;</div>
+        Crash Cymbal
+      </div>
+    </div>
+
+    <button class="power-toggle off" id="powerToggle">
+      <i class="fa-solid fa-power-off"></i>
+      <span id="powerText">Power Off</span>
+    </button>
+
+    <!-- Custom message box for Tone.js context initialization -->
+    <div
+      id="messageBox"
+      style="
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+      "
+    >
+      <div
+        style="
+          background: white;
+          padding: 30px;
+          border-radius: 12px;
+          text-align: center;
+          color: black;
+          max-width: 80%;
+          box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+        "
+      >
+        <p style="font-size: 1.2rem; margin-bottom: 20px">
+          🔊 Audio Context Locked
+        </p>
+        <p style="margin-bottom: 20px">
+          Please click the **Power On** button to enable sound.
+        </p>
+        <button
+          onclick="document.getElementById('messageBox').style.display = 'none';"
+          style="
+            background: #ff5722;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+          "
+        >
+          Got It!
+        </button>
+      </div>
+    </div>
+
+    <script>
+      // --- 1. SETUP TONE.JS SYNTHESIZER ---
+
+      // The Tone.js context must be started by a user gesture.
+      let isPoweredOn = false;
+      const powerToggle = document.getElementById("powerToggle");
+      const powerText = document.getElementById("powerText");
+
+      // Create a basic Master Reverb effect for space
+      const reverb = new Tone.Reverb(2).toDestination();
+
+      // Create a simple Sampler/Synth to generate percussion sounds
+      const synth = new Tone.Sampler({
+        urls: {
+          // Using simple frequency/note mapping for synthesized drums
+          A1: "C2", // Kick
+          B1: "D2", // Snare
+          C2: "F#4", // Closed Hat
+          D2: "C5", // Open Hat
+          E2: "F2", // Tom High
+          F2: "G2", // Tom Mid
+          G2: "E5", // Ride
+          A2: "A5", // Crash
+        },
+        volume: -10, // Adjust master volume
+      }).chain(reverb, Tone.Destination);
+
+      // --- 2. SOUND MAPPING LOGIC ---
+
+      // Map drum names to the pitch/note for the sampler
+      const soundMap = {
+        kick: "A1",
+        snare: "B1",
+        "closed-hat": "C2",
+        "open-hat": "D2",
+        "tom-1": "E2",
+        "tom-2": "F2",
+        ride: "G2",
+        crash: "A2",
+      };
+
+      // Map keyboard key codes to drum sound names
+      const keyToSoundMap = {
+        65: "kick", // A
+        83: "snare", // S
+        68: "closed-hat", // D
+        70: "open-hat", // F
+        74: "tom-1", // J
+        75: "tom-2", // K
+        76: "ride", // L
+        186: "crash", // ; (Semicolon)
+      };
+
+      // --- 3. CORE PLAY FUNCTION ---
+
+      function playSound(soundName, padElement) {
+        if (!isPoweredOn) {
+          document.getElementById("messageBox").style.display = "flex";
+          return;
+        }
+
+        const pitch = soundMap[soundName];
+
+        // Trigger the sampler note
+        if (pitch) {
+          synth.triggerAttackRelease(pitch, "8n");
+        }
+
+        // Visual feedback
+        if (padElement) {
+          padElement.classList.add("playing");
+          // Remove the playing class after a short delay
+          setTimeout(() => padElement.classList.remove("playing"), 100);
+        }
+      }
+
+      // --- 4. EVENT LISTENERS ---
+
+      // Keyboard Input (Keydown)
+      window.addEventListener("keydown", (e) => {
+        const keyCode = e.keyCode;
+        const soundName = keyToSoundMap[keyCode];
+
+        if (soundName) {
+          e.preventDefault(); // Prevent browser actions (like scrolling with space, though not mapped here)
+          const pad = document.querySelector(`.pad[data-key="${keyCode}"]`);
+          playSound(soundName, pad);
+        }
+      });
+
+      // Click/Touch Input (Touch/Click on Drum Pads)
+      const drumPads = document.querySelectorAll(".pad");
+      drumPads.forEach((pad) => {
+        // Use 'mousedown' for quicker response than 'click'
+        pad.addEventListener("mousedown", (e) => {
+          e.preventDefault();
+          const soundName = pad.getAttribute("data-sound");
+          playSound(soundName, pad);
+        });
+        // Handle touch for mobile devices
+        pad.addEventListener("touchstart", (e) => {
+          e.preventDefault();
+          const soundName = pad.getAttribute("data-sound");
+          playSound(soundName, pad);
+        });
+      });
+
+      // Power Toggle
+      powerToggle.addEventListener("click", async () => {
+        if (Tone.context.state !== "running") {
+          // Start the audio context on first click
+          await Tone.start();
+          isPoweredOn = true;
+          powerToggle.classList.remove("off");
+          powerToggle.classList.add("on");
+          powerText.textContent = "Power On";
+        } else {
+          // Simple toggle for the flag, though Tone context remains running
+          isPoweredOn = !isPoweredOn;
+          if (isPoweredOn) {
+            powerToggle.classList.remove("off");
+            powerToggle.classList.add("on");
+            powerText.textContent = "Power On";
+          } else {
+            powerToggle.classList.remove("on");
+            powerToggle.classList.add("off");
+            powerText.textContent = "Power Off";
+          }
+        }
+      });
+    </script>
+  </body>
+</html>

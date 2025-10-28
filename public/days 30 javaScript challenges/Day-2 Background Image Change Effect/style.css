@@ -1,0 +1,109 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body,
+html {
+  height: 100%;
+  width: 100%;
+  font-family: Arial, sans-serif;
+}
+
+.container {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f3fbff;
+  overflow: hidden;
+}
+
+.img-box {
+  position: relative;
+  width: 80%;
+  max-width: 90rem;
+  aspect-ratio: 16 / 9;
+  background-image: url("./background.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+  border-radius: 1.6rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* Base image */
+.base-img,
+.img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Image wrap that reveals the overlay */
+.img-wrap {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 50%;
+  height: 100%;
+  overflow: hidden;
+  transition: width 0.1s ease-out;
+}
+
+/* Draggable slider line */
+#line {
+  width: 2px;
+  height: 100%;
+  background-color: #fff;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  cursor: ew-resize;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.arrow {
+  width: 3.5rem;
+  height: 3.5rem;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* Responsiveness */
+@media (max-width: 64em) {
+  .img-box {
+    width: 85%;
+  }
+}
+
+@media (max-width: 48em) {
+  .img-box {
+    width: 90%;
+    aspect-ratio: 4 / 3;
+  }
+
+  .arrow {
+    width: 3rem;
+    height: 3rem;
+  }
+}
+
+@media (max-width: 30em) {
+  .img-box {
+    width: 95%;
+    aspect-ratio: 1 / 1;
+  }
+
+  .arrow {
+    width: 2rem;
+    height: 2rem;
+  }
+}

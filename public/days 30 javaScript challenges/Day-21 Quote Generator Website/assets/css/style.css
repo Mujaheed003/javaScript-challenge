@@ -1,0 +1,188 @@
+/* ===== Global Styles ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  background: linear-gradient(135deg, #6e72fc, #ad1deb);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  color: #fff;
+}
+
+/* ===== Quote Container ===== */
+.quote-box {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  width: 100%;
+  max-width: 650px;
+  padding: 40px 35px;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.quote-box:hover {
+  transform: scale(1.02);
+}
+
+/* ===== Heading ===== */
+.quote-box h2 {
+  font-size: 28px;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 25px;
+  position: relative;
+}
+
+.quote-box h2::after {
+  content: "";
+  width: 80px;
+  height: 3px;
+  background: #ff6a00;
+  display: block;
+  margin: 10px auto 0;
+  border-radius: 2px;
+}
+
+/* ===== Quote Text ===== */
+blockquote {
+  font-size: 22px;
+  font-weight: 400;
+  line-height: 1.6;
+  color: #fff;
+  margin: 20px 0;
+  position: relative;
+}
+
+blockquote::before,
+blockquote::after {
+  content: '"';
+  font-size: 30px;
+  color: #ffca28;
+  vertical-align: top;
+}
+
+span {
+  display: block;
+  margin-top: 10px;
+  text-align: right;
+  font-style: italic;
+  font-weight: 500;
+  color: #f1f1f1;
+  position: relative;
+}
+
+span::before {
+  content: "";
+  width: 30px;
+  height: 2px;
+  background: #ffca28;
+  position: absolute;
+  top: 50%;
+  left: -40px;
+}
+
+/* ===== Buttons Section ===== */
+.buttons {
+  margin-top: 40px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+button {
+  border: none;
+  outline: none;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 15px;
+  height: 50px;
+  width: 160px;
+  border-radius: 30px;
+  transition: all 0.3s ease;
+}
+
+/* ===== New Quote Button ===== */
+.new-btn {
+  background: linear-gradient(135deg, #ff6a00, #ee0979);
+  color: #fff;
+}
+
+.new-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 15px rgba(255, 255, 255, 0.2);
+}
+
+/* ===== Tweet Button ===== */
+.tweet-btn {
+  background: rgba(255, 255, 255, 0.85);
+  color: #333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tweet-btn img {
+  width: 22px;
+  margin-right: 8px;
+}
+
+.tweet-btn:hover {
+  background: #fff;
+  transform: translateY(-3px);
+}
+
+/* ===== Responsive Design ===== */
+@media (max-width: 768px) {
+  .quote-box {
+    max-width: 90%;
+    padding: 25px 20px;
+  }
+
+  blockquote {
+    font-size: 18px;
+  }
+
+  h2 {
+    font-size: 24px;
+  }
+
+  button {
+    width: 140px;
+    height: 45px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .quote-box {
+    padding: 20px 15px;
+  }
+
+  blockquote {
+    font-size: 16px;
+  }
+
+  span {
+    font-size: 14px;
+  }
+
+  .buttons {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  button {
+    width: 100%;
+  }
+}

@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Responsive Image Gallery</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <style>
+      /*
+ * ----------------------------------------------------
+ * Global Resets and Variables
+ * ----------------------------------------------------
+ */
+      :root {
+        --primary-color: #3498db; /* Blue */
+        --secondary-color: #2c3e50; /* Dark blue/grey */
+        --background-light: #f4f7f6;
+        --text-dark: #333;
+        --text-light: #fff;
+        --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        --transition-speed: 0.3s;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Poppins", sans-serif;
+        line-height: 1.6;
+        color: var(--text-dark);
+        background-color: var(--background-light);
+        overflow-x: hidden;
+      }
+
+      /*
+ * ----------------------------------------------------
+ * Header Styles
+ * ----------------------------------------------------
+ */
+      .gallery-header {
+        text-align: center;
+        padding: 60px 20px;
+        background-color: var(--secondary-color);
+        color: var(--text-light);
+      }
+
+      .gallery-header h1 {
+        font-size: 3rem;
+        margin-bottom: 10px;
+        font-weight: 700;
+      }
+
+      .gallery-header p {
+        font-size: 1.1rem;
+        font-weight: 300;
+      }
+
+      /*
+ * ----------------------------------------------------
+ * Gallery Grid (Main Content)
+ * ----------------------------------------------------
+ */
+      .gallery-container {
+        max-width: 1200px;
+        margin: 40px auto;
+        padding: 0 20px;
+      }
+
+      .gallery-grid {
+        display: grid;
+        /* Responsive grid: columns adjust based on available space */
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 20px;
+      }
+
+      .gallery-item {
+        background-color: var(--text-light);
+        border-radius: 8px;
+        overflow: hidden; /* Ensures image corners are rounded */
+        box-shadow: var(--card-shadow);
+        cursor: pointer;
+        transition: transform var(--transition-speed) ease,
+          box-shadow var(--transition-speed) ease;
+      }
+
+      .gallery-item:hover {
+        transform: translateY(-5px) scale(1.02);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+      }
+
+      .gallery-item img {
+        width: 100%;
+        height: 250px; /* Fixed height for thumbnails */
+        object-fit: cover; /* Ensures images cover the area without distortion */
+        display: block;
+        transition: transform 0.4s ease;
+      }
+
+      .gallery-item img:hover {
+        transform: scale(1.05); /* Subtle zoom on hover */
+      }
+
+      /*
+ * ----------------------------------------------------
+ * Lightbox Styles
+ * ----------------------------------------------------
+ */
+      .lightbox {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.9); /* Dark overlay */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        opacity: 0; /* Hidden by default */
+        pointer-events: none; /* Disable interaction when hidden */
+        transition: opacity var(--transition-speed) ease;
+      }
+
+      .lightbox.active {
+        opacity: 1;
+        pointer-events: all; /* Enable interaction when active */
+      }
+
+      .lightbox-img {
+        max-width: 90%;
+        max-height: 85%; /* Adjust height to leave space for controls/caption */
+        object-fit: contain; /* Ensure full image is visible */
+        border-radius: 5px;
+        box-shadow: var(--card-shadow);
+        transform: scale(0.8); /* Starting smaller for a zoom-in effect */
+        transition: transform var(--transition-speed) ease;
+      }
+
+      .lightbox.active .lightbox-img {
+        transform: scale(1); /* Zoom to full size when active */
+      }
+
+      .lightbox-btn {
+        position: absolute;
+        background: rgba(255, 255, 255, 0.2);
+        color: var(--text-light);
+        border: none;
+        padding: 15px 20px;
+        cursor: pointer;
+        font-size: 1.5rem;
+        border-radius: 5px;
+        transition: background-color 0.2s ease, transform 0.2s ease;
+      }
+
+      .lightbox-btn:hover {
+        background: rgba(255, 255, 255, 0.4);
+        transform: scale(1.05);
+      }
+
+      .lightbox-btn:active {
+        transform: scale(0.95);
+      }
+
+      .lightbox-close {
+        top: 20px;
+        right: 20px;
+        padding: 10px 15px; /* Smaller padding for close button */
+        font-size: 1.2rem;
+      }
+
+      .lightbox-prev {
+        left: 20px;
+      }
+
+      .lightbox-next {
+        right: 20px;
+      }
+
+      .lightbox-caption {
+        position: absolute;
+        bottom: 20px;
+        color: var(--text-light);
+        font-size: 1.1rem;
+        max-width: 80%;
+        text-align: center;
+        background: rgba(0, 0, 0, 0.5);
+        padding: 10px 20px;
+        border-radius: 5px;
+      }
+
+      /*
+ * ----------------------------------------------------
+ * Responsiveness
+ * ----------------------------------------------------
+ */
+
+      /* Adjust header for smaller screens */
+      @media (max-width: 768px) {
+        .gallery-header h1 {
+          font-size: 2.5rem;
+        }
+
+        .gallery-header p {
+          font-size: 1rem;
+        }
+
+        .gallery-grid {
+          /* On smaller screens, allow fewer columns */
+          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        }
+
+        .gallery-item img {
+          height: 200px; /* Slightly shorter thumbnails on mobile */
+        }
+
+        .lightbox-btn {
+          padding: 10px 15px;
+          font-size: 1.2rem;
+        }
+
+        .lightbox-close {
+          top: 10px;
+          right: 10px;
+        }
+
+        .lightbox-prev {
+          left: 10px;
+        }
+
+        .lightbox-next {
+          right: 10px;
+        }
+
+        .lightbox-caption {
+          font-size: 0.9rem;
+          bottom: 10px;
+        }
+      }
+
+      /* Even smaller screens / portrait mobile */
+      @media (max-width: 480px) {
+        .gallery-header h1 {
+          font-size: 2rem;
+        }
+
+        .gallery-grid {
+          grid-template-columns: 1fr; /* Single column layout */
+        }
+
+        .gallery-item img {
+          height: 180px;
+        }
+
+        /* Stack buttons for better touch targets if needed */
+        .lightbox-prev,
+        .lightbox-next {
+          top: 50%; /* Center vertically */
+          transform: translateY(-50%);
+          /* You might want to remove padding to make them closer to the image */
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="gallery-header">
+      <h1>Our Creative Gallery</h1>
+      <p>Explore a collection of inspiring images.</p>
+    </header>
+
+    <main class="gallery-container">
+      <div class="gallery-grid" id="gallery-grid"></div>
+    </main>
+
+    <div id="lightbox" class="lightbox">
+      <button
+        class="lightbox-btn lightbox-close"
+        aria-label="Close image gallery"
+      >
+        <i class="fas fa-times"></i>
+      </button>
+      <button class="lightbox-btn lightbox-prev" aria-label="Previous image">
+        <i class="fas fa-chevron-left"></i>
+      </button>
+      <img src="" alt="Full size image" class="lightbox-img" />
+      <button class="lightbox-btn lightbox-next" aria-label="Next image">
+        <i class="fas fa-chevron-right"></i>
+      </button>
+      <div class="lightbox-caption"></div>
+    </div>
+
+    <script>
+      /*
+       * ----------------------------------------------------
+       * Image Data (for dynamic gallery creation)
+       * ----------------------------------------------------
+       */
+
+      const images = [
+        {
+          id: 1,
+          thumbnail:
+            "https://images.unsplash.com/photo-1637429772437-d2de019a969c?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8d2FsbCUyMHBhcGVyJTIwaW1hZ2V8ZW58MHx8MHx8fDA%3D&fm=jpg&q=60&w=3000",
+          full: "https://images.unsplash.com/photo-1672725063452-5f0115853ea5?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8d2FsbCUyMHBhcGVyJTIwaW1hZ2V8ZW58MHx8MHx8fDA%3D&fm=jpg&q=60&w=3000",
+          alt: "A serene mountain landscape at sunset",
+          caption: "Mountain Sunset View",
+        },
+        {
+          id: 2,
+          thumbnail:
+            "https://images.unsplash.com/photo-1672725063452-5f0115853ea5?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8d2FsbCUyMHBhcGVyJTIwaW1hZ2V8ZW58MHx8MHx8fDA%3D&fm=jpg&q=60&w=3000",
+          full: "images/full-2.jpg",
+          alt: "Close-up of a delicate blooming flower",
+          caption: "Delicate Bloom",
+        },
+        {
+          id: 3,
+          thumbnail:
+            "https://plus.unsplash.com/premium_photo-1661609574287-364eaeb04fc1?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8d2FsbCUyMHBhcGVyJTIwaW1hZ2V8ZW58MHx8MHx8fDA%3D&fm=jpg&q=60&w=3000",
+          full: "images/full-3.jpg",
+          alt: "Urban city skyline at night with vibrant lights",
+          caption: "City at Night",
+        },
+        {
+          id: 4,
+          thumbnail:
+            "https://images.unsplash.com/photo-1641025389841-123ffcff3aa4?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTZ8fHdhbGwlMjBwYXBlciUyMGltYWdlfGVufDB8fDB8fHww&fm=jpg&q=60&w=3000",
+          full: "images/full-4.jpg",
+          alt: "Abstract watercolor painting with soft colors",
+          caption: "Abstract Art",
+        },
+        {
+          id: 5,
+          thumbnail:
+            "https://media.istockphoto.com/id/2173923576/photo/abstract-quantum-computing.webp?a=1&b=1&s=612x612&w=0&k=20&c=D6BImSdi80YOPuYu-gnvs3LSZracfPIGOaq6M_rSV6o=",
+          full: "images/full-5.jpg",
+          alt: "A winding road through a dense forest",
+          caption: "Forest Road",
+        },
+        {
+          id: 6,
+          thumbnail:
+            "https://images.unsplash.com/photo-1643180109978-8b88bd13f568?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fHdhbGwlMjBwYXBlciUyMGltYWdlfGVufDB8fDB8fHww&fm=jpg&q=60&w=3000",
+          full: "images/full-6.jpg",
+          alt: "Person working on a laptop with coffee",
+          caption: "Morning Productivity",
+        },
+        // Add more images as desired, ensuring unique full/thumb paths and relevant captions
+        {
+          id: 7,
+          thumbnail:
+            "https://images.unsplash.com/photo-1731945087783-e3c4565f93fe?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fHdhbGwlMjBwYXBlciUyMGltYWdlfGVufDB8fDB8fHww&fm=jpg&q=60&w=3000",
+          full: "images/full-7.jpg",
+          alt: "Coffee beans scattered on a wooden table",
+          caption: "Coffee Break",
+        },
+        {
+          id: 8,
+          thumbnail:
+            "https://plus.unsplash.com/premium_photo-1733306603512-093ae80df543?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjR8fHdhbGwlMjBwYXBlciUyMGltYWdlfGVufDB8fDB8fHww&fm=jpg&q=60&w=3000",
+          full: "images/full-8.jpg",
+          alt: "Colorful hot air balloons in the sky",
+          caption: "Balloon Festival",
+        },
+        {
+          id: 9,
+          thumbnail:
+            "https://plus.unsplash.com/premium_photo-1661843652801-66305e3c980c?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mjh8fHdhbGwlMjBwYXBlciUyMGltYWdlfGVufDB8fDB8fHww&fm=jpg&q=60&w=3000",
+          full: "images/full-9.jpg",
+          alt: "Colorful hot air balloons in the sky",
+          caption: "Balloon Festival",
+        },
+      ];
+
+      /*
+       * ----------------------------------------------------
+       * DOM Elements & Variables
+       * ----------------------------------------------------
+       */
+      const galleryGrid = document.getElementById("gallery-grid");
+      const lightbox = document.getElementById("lightbox");
+      const lightboxImg = lightbox.querySelector(".lightbox-img");
+      const lightboxCaption = lightbox.querySelector(".lightbox-caption");
+      const closeBtn = lightbox.querySelector(".lightbox-close");
+      const prevBtn = lightbox.querySelector(".lightbox-prev");
+      const nextBtn = lightbox.querySelector(".lightbox-next");
+
+      let currentImageIndex = 0; // To keep track of the currently displayed image
+
+      /*
+       * ----------------------------------------------------
+       * Functions
+       * ----------------------------------------------------
+       */
+
+      /**
+       * Dynamically creates and injects image elements into the gallery grid.
+       */
+      function buildGallery() {
+        galleryGrid.innerHTML = ""; // Clear existing content
+        images.forEach((image, index) => {
+          const galleryItem = document.createElement("div");
+          galleryItem.classList.add("gallery-item");
+          galleryItem.innerHTML = `
+            <img 
+                src="${image.thumbnail}" 
+                alt="${image.alt}" 
+                data-full="${image.full}"
+                data-caption="${image.caption}"
+                data-index="${index}"
+            >
+        `;
+          galleryGrid.appendChild(galleryItem);
+        });
+      }
+
+      /**
+       * Displays a specific image in the lightbox.
+       * @param {number} index - The index of the image to display from the `images` array.
+       */
+      function showImageInLightbox(index) {
+        if (index < 0 || index >= images.length) {
+          return; // Prevent out-of-bounds access
+        }
+        currentImageIndex = index;
+        const imageData = images[currentImageIndex];
+
+        lightboxImg.src = imageData.full;
+        lightboxImg.alt = imageData.alt;
+        lightboxCaption.textContent = imageData.caption;
+
+        lightbox.classList.add("active"); // Show the lightbox
+        document.body.style.overflow = "hidden"; // Prevent body scrolling
+      }
+
+      /**
+       * Closes the lightbox.
+       */
+      function closeLightbox() {
+        lightbox.classList.remove("active"); // Hide the lightbox
+        document.body.style.overflow = "auto"; // Re-enable body scrolling
+      }
+
+      /**
+       * Shows the next image in the gallery. Loops to the start if at the end.
+       */
+      function showNextImage() {
+        const nextIndex = (currentImageIndex + 1) % images.length;
+        showImageInLightbox(nextIndex);
+      }
+
+      /**
+       * Shows the previous image in the gallery. Loops to the end if at the start.
+       */
+      function showPrevImage() {
+        const prevIndex =
+          (currentImageIndex - 1 + images.length) % images.length;
+        showImageInLightbox(prevIndex);
+      }
+
+      /*
+       * ----------------------------------------------------
+       * Event Listeners
+       * ----------------------------------------------------
+       */
+
+      // 1. Event delegation for opening the lightbox
+      galleryGrid.addEventListener("click", (e) => {
+        const clickedImage = e.target.closest(".gallery-item img");
+        if (clickedImage) {
+          const index = parseInt(clickedImage.dataset.index);
+          showImageInLightbox(index);
+        }
+      });
+
+      // 2. Lightbox controls
+      closeBtn.addEventListener("click", closeLightbox);
+      prevBtn.addEventListener("click", showPrevImage);
+      nextBtn.addEventListener("click", showNextImage);
+
+      // 3. Keyboard navigation for lightbox (Escape to close, arrows for next/prev)
+      document.addEventListener("keydown", (e) => {
+        if (lightbox.classList.contains("active")) {
+          if (e.key === "Escape") {
+            closeLightbox();
+          } else if (e.key === "ArrowRight") {
+            showNextImage();
+          } else if (e.key === "ArrowLeft") {
+            showPrevImage();
+          }
+        }
+      });
+
+      // 4. Close lightbox when clicking outside the image (on the dark overlay)
+      lightbox.addEventListener("click", (e) => {
+        // Check if the click target is the lightbox itself, not the image or buttons
+        if (e.target === lightbox) {
+          closeLightbox();
+        }
+      });
+
+      /*
+       * ----------------------------------------------------
+       * Initialization
+       * ----------------------------------------------------
+       */
+      document.addEventListener("DOMContentLoaded", () => {
+        buildGallery(); // Populate the gallery when the DOM is ready
+      });
+    </script>
+  </body>
+</html>

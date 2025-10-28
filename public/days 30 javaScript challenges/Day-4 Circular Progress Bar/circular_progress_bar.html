@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Circular Progress Bar</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <section class="skills">
+      <div class="progress-card">
+        <div class="outer">
+          <div class="inner">
+            <div id="num1" class="number">0%</div>
+          </div>
+        </div>
+        <svg width="160" height="160">
+          <defs>
+            <linearGradient
+              id="GradientColor1"
+              x1="0%"
+              y1="0%"
+              x2="100%"
+              y2="100%"
+            >
+              <stop offset="0%" stop-color="#ff005a" />
+              <stop offset="100%" stop-color="#7a00ff" />
+            </linearGradient>
+          </defs>
+          <circle
+            class="circle circle1"
+            cx="80"
+            cy="80"
+            r="70"
+            stroke-linecap="round"
+          />
+        </svg>
+        <p class="label" id="html">HTML</p>
+      </div>
+
+      <div class="progress-card">
+        <div class="outer">
+          <div class="inner">
+            <div id="num2" class="number">0%</div>
+          </div>
+        </div>
+        <svg width="160" height="160">
+          <defs>
+            <linearGradient
+              id="GradientColor2"
+              x1="0%"
+              y1="0%"
+              x2="100%"
+              y2="100%"
+            >
+              <stop offset="0%" stop-color="#00c3ff" />
+              <stop offset="100%" stop-color="#0057ff" />
+            </linearGradient>
+          </defs>
+          <circle
+            class="circle circle2"
+            cx="80"
+            cy="80"
+            r="70"
+            stroke-linecap="round"
+          />
+        </svg>
+        <p class="label" id="css">CSS</p>
+      </div>
+
+      <div class="progress-card">
+        <div class="outer">
+          <div class="inner">
+            <div id="num3" class="number">0%</div>
+          </div>
+        </div>
+        <svg width="160" height="160">
+          <defs>
+            <linearGradient
+              id="GradientColor3"
+              x1="0%"
+              y1="0%"
+              x2="100%"
+              y2="100%"
+            >
+              <stop offset="0%" stop-color="#00ff88" />
+              <stop offset="100%" stop-color="#009944" />
+            </linearGradient>
+          </defs>
+          <circle
+            class="circle circle3"
+            cx="80"
+            cy="80"
+            r="70"
+            stroke-linecap="round"
+          />
+        </svg>
+        <p class="label" id="js">JavaScript</p>
+      </div>
+    </section>
+
+    <script src="script.js"></script>
+  </body>
+</html>

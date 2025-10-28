@@ -1,0 +1,159 @@
+/* Reset & Global */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+/* Background Section */
+.hero_section {
+  width: 100%;
+  height: 100vh;
+  background: linear-gradient(135deg, #2e3192, #1bffff);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+/* Dropdown Container */
+.selector {
+  width: 36rem;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 1.6rem;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  transition: all 0.4s ease;
+}
+
+/* Top Selection Field */
+#selectorField {
+  width: 100%;
+  padding: 1.6rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #fff;
+  cursor: pointer;
+  font-size: 1.6rem;
+  letter-spacing: 0.5px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+#arrowIcon {
+  transition: transform 0.4s ease;
+  font-size: 1.8rem;
+}
+
+.rotate {
+  transform: rotate(180deg);
+}
+
+/* Options List */
+#list {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 0 0 1.6rem 1.6rem;
+  overflow: hidden;
+  transition: all 0.4s ease;
+}
+
+.hide {
+  display: none;
+}
+
+.options {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 1.4rem 2rem;
+  list-style: none;
+  color: #333;
+  background: rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+  transition: 0.3s ease;
+  position: relative;
+}
+
+.options img {
+  width: 2.8rem;
+  height: 2.8rem;
+  margin-right: 1.2rem;
+}
+
+.options:hover {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+/* Selected Text Style */
+#selectText {
+  color: #fff;
+  font-weight: 500;
+}
+
+/* RESPONSIVE DESIGN */
+
+/* Tablets */
+@media (max-width: 62em) {
+  .selector {
+    width: 32rem;
+  }
+
+  #selectorField {
+    font-size: 1.6rem;
+  }
+
+  .options {
+    padding: 1.2rem 1.8rem;
+  }
+}
+
+/* Mobile - Large */
+@media (max-width: 38em) {
+  .hero_section {
+    padding: 3rem;
+  }
+
+  .selector {
+    width: 100%;
+    max-width: 32rem;
+  }
+
+  #selectorField {
+    padding: 1.4rem 1.8rem;
+    font-size: 1.6rem;
+  }
+
+  .options img {
+    width: 2.6rem;
+  }
+
+  .options p {
+    font-size: 1.6rem;
+  }
+}
+
+/* Mobile - Small */
+@media (max-width: 25em) {
+  .selector {
+    width: 100%;
+  }
+
+  #selectorField {
+    padding: 1.2rem 1.4rem;
+    font-size: 1rem;
+  }
+
+  .options {
+    padding: 1rem 1.4rem;
+  }
+
+  .options img {
+    width: 2.2rem;
+  }
+}

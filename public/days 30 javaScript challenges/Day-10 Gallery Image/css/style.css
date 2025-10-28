@@ -1,0 +1,151 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: sans-serif;
+}
+
+html {
+  font-size: 71.01%;
+}
+
+body {
+  background: #191919;
+  overflow-x: hidden;
+}
+
+h1 {
+  color: white;
+  text-align: center;
+  margin: 2rem auto -7.5rem;
+  font-size: 3.6rem;
+}
+
+h1 br {
+  display: none;
+}
+
+.gallery-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 7% auto;
+  padding: 0 2rem;
+  gap: 1rem;
+}
+
+.gallery {
+  display: flex;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  gap: 2rem;
+  padding: 1rem;
+  scrollbar-width: none;
+  width: 100%;
+  max-width: 100rem;
+}
+
+.gallery::-webkit-scrollbar {
+  display: none;
+}
+
+.gallery div {
+  display: flex;
+  gap: 2rem;
+  flex: none;
+}
+
+.gallery div img {
+  width: 32vw; /* Default for large screens (~3 images per view) */
+  max-width: 30rem;
+  border-radius: 1rem;
+  filter: grayscale(100%);
+  transition: transform 0.5s, filter 0.5s;
+}
+
+.gallery div img:hover {
+  filter: grayscale(0);
+  transform: scale(1.05);
+  cursor: pointer;
+}
+
+#backBtn,
+#nextBtn {
+  width: 5rem;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+#backBtn:hover,
+#nextBtn:hover {
+  transform: scale(1.1);
+}
+
+/* =======================================
+   RESPONSIVE — Show fewer images per view
+========================================= */
+
+/* Laptops and large tablets (max-width: 1024px) — show 2 images */
+@media (max-width: 64em) {
+  .gallery div img {
+    width: 45vw;
+  }
+
+  h1 {
+    margin-bottom: -3rem;
+  }
+}
+
+/* Tablets and small laptops (max-width: 768px) — show 2 smaller images */
+@media (max-width: 48em) {
+  h1 {
+    font-size: 2.4rem;
+    margin: 4rem auto -3rem;
+  }
+
+  .gallery {
+    gap: 1.5rem;
+  }
+
+  .gallery div img {
+    width: 48vw; /* fits two per view */
+  }
+
+  #backBtn,
+  #nextBtn {
+    width: 4rem;
+  }
+}
+
+/* Mobile (max-width: 480px) — show one image at a time */
+@media (max-width: 30em) {
+  h1 br {
+    display: block;
+  }
+
+  .gallery-wrap {
+    margin: 15% auto;
+    padding: 0 1rem;
+  }
+
+  .gallery div img {
+    width: 90vw; /* fits one image per view */
+  }
+
+  #backBtn,
+  #nextBtn {
+    width: 3.2rem;
+  }
+}
+
+/* Very small screens (below 360px) */
+@media (max-width: 23em) {
+  .gallery div img {
+    width: 95vw;
+  }
+
+  #backBtn,
+  #nextBtn {
+    width: 3rem;
+  }
+}

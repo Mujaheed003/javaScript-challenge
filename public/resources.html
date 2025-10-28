@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>30DaysJS — Resources</title>
+    <link
+      rel="shortcut icon"
+      href="../assets/img/favicon.png"
+      type="image/x-icon"
+    />
+    <link rel="stylesheet" href="../assets/css/dashboard.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+  </head>
+  <body>
+    <aside class="sidebar" id="sidebar">
+      <div class="logo-container">
+        <a href="dashboard.html" class="logo"
+          ><img src="../assets/img/logo.png" alt="" /></a
+        ><marquee behavior="" direction=""
+          ><small
+            >&copy; <span id="year"></span> 30 Days JavaScript Challenge.</small
+          ></marquee
+        >
+      </div>
+      <nav class="nav-links" id="navLinks">
+        <a href="dashboard.html" class="nav-link-item"
+          ><i class="fas fa-home"></i> Dashboard</a
+        >
+        <a href="challenges.html" class="nav-link-item"
+          ><i class="fas fa-code"></i> All Challenges</a
+        >
+        <a href="progress.html" class="nav-link-item"
+          ><i class="fas fa-chart-line"></i> My Progress</a
+        >
+        <a href="resources.html" class="nav-link-item"
+          ><i class="fas fa-book"></i> Resources</a
+        >
+      </nav>
+      <div class="sidebar-action">
+        <a href="#" id="logoutBtn" class="btn btn-primary"
+          ><i class="fas fa-sign-out-alt"></i> Logout</a
+        >
+      </div>
+    </aside>
+
+    <div class="main-content">
+      <header class="mobile-header">
+        <a href="index.html" class="logo"
+          ><img src="../assets/img/logo.png" alt=""
+        /></a>
+        <button id="hamburger" class="hamburger" aria-label="Toggle menu">
+          <i class="fas fa-bars"></i>
+        </button>
+      </header>
+
+      <main>
+        <section class="page-hero">
+          <div class="container">
+            <h1 class="section-title">Resources</h1>
+            <p class="section-subtitle">
+              Hand-picked links, cheat sheets and docs to help you finish the
+              challenge.
+            </p>
+          </div>
+        </section>
+
+        <section class="resources-section">
+          <div class="container">
+            <div class="dashboard-card">
+              <div class="card-header">Recommended Reading</div>
+              <div class="card-body">
+                <ul>
+                  <li>
+                    <a
+                      href="https://www.freecodecamp.org/news/23-free-websites-to-learn-javascript/?utm_source=chatgpt.com"
+                      class="link"
+                      >FreeCodeCamp — Free interactive lessons + Projects;
+                      strongly recommended</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      href="https://www.coursera.org/learn/html-css-javascript-for-web-developers"
+                      class="link"
+                      >Coursera — Course "HTML, CSS and JavaScript for Web
+                      Developers"</a
+                    >
+                  </li>
+                  <li>
+                    <a href="https://www.w3schools.com/html/" class="link"
+                      >W3Schools — Good for HTML & CSS basics</a
+                    >
+                  </li>
+                  <li>
+                    <a href="https://www.udemy.com/" class="link"
+                      >Udemy — Free/Paid tutorial courses</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      href="https://github.com/getify/You-Dont-Know-JS"
+                      class="link"
+                      >You Don't Know JS (book)</a
+                    >
+                  </li>
+                  <li>
+                    <a href="https://developer.mozilla.org/" class="link"
+                      >MDN — JavaScript Guide</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      href="https://css-tricks.com/snippets/css/a-guide-to-flexbox/"
+                      class="link"
+                      >CSS Tricks — Flexbox</a
+                    >
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="../assets/js/dashboard.js"></script>
+    <script src="../assets/js/script.js"></script>
+  </body>
+</html>

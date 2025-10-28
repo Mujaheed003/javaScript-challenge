@@ -1,0 +1,193 @@
+/* ===== Reset and Base ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+html {
+  font-size: 68.23%;
+}
+
+body {
+  background: linear-gradient(135deg, #141e30, #243b55);
+  color: #fff;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+/* ===== Hero Section ===== */
+.hero {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+  width: 100%;
+  max-width: 70rem;
+  border-radius: 2rem;
+  padding: 4rem 3rem;
+  text-align: center;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  animation: fadeIn 1s ease;
+}
+
+.hero h1 {
+  font-size: 2.6rem;
+  font-weight: 600;
+  margin-bottom: 30px;
+  line-height: 1.2;
+}
+
+.hero h1 span {
+  color: #ff6b81;
+}
+
+/* ===== Textarea ===== */
+textarea {
+  width: 100%;
+  height: 22rem;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  font-size: 1.6rem;
+  border: none;
+  outline: none;
+  padding: 2rem;
+  border-radius: 1.2rem;
+  resize: none;
+  margin-bottom: 2.4rem;
+  transition: all 0.3s ease;
+}
+
+textarea:focus {
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+}
+
+textarea::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 1.6rem;
+}
+
+/* ===== Row Controls ===== */
+.row {
+  display: flex;
+  align-items: center;
+  gap: 1.4rem;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+select {
+  flex: 1;
+  height: 5rem;
+  padding: 0 2rem;
+  border-radius: 3rem;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  border: none;
+  outline: none;
+  appearance: none;
+  font-size: 1rem;
+  background-image: url("./dropdown.png");
+  background-repeat: no-repeat;
+  background-size: 1.6rem;
+  background-position-x: calc(100% - 20px);
+  background-position-y: center;
+  transition: background 0.3s ease;
+}
+
+select:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* ===== Button ===== */
+button {
+  background: #ff6b81;
+  color: #fff;
+  border: none;
+  padding: 1.2rem 2.4rem;
+  border-radius: 3rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(255, 107, 129, 0.3);
+}
+
+button:hover {
+  background: #ff8b9b;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(255, 107, 129, 0.4);
+}
+
+button img {
+  width: 1.8rem;
+  margin-right: 8px;
+}
+
+/* ===== Animations ===== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===== Responsiveness ===== */
+@media (max-width: 64em) {
+  .hero {
+    max-width: 90%;
+    padding: 3.6rem 2.4rem;
+  }
+  .hero h1 {
+    font-size: 2.2rem;
+  }
+}
+
+@media (max-width: 48em) {
+  .hero {
+    max-width: 90%;
+    padding: 3rem 2rem;
+  }
+  .hero h1 {
+    font-size: 1.9rem;
+    margin-bottom: 2.4rem;
+  }
+  textarea {
+    height: 20rem;
+  }
+  .row {
+    flex-direction: column;
+    gap: 2rem;
+  }
+  select,
+  button {
+    width: 100%;
+  }
+  select {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 30em) {
+  .hero h1 {
+    font-size: 1.6rem;
+  }
+  textarea {
+    height: 18rem;
+    font-size: 0.95rem;
+  }
+  button {
+    padding: 1.2rem;
+    font-size: 0.9rem;
+  }
+}

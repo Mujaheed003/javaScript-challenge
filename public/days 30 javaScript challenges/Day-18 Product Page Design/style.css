@@ -1,0 +1,288 @@
+/* FONTS & RESET */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+/* BODY & BACKGROUND */
+body {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+}
+
+/* CONTAINER SETUP */
+.container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+/* PRODUCT CARD (Mobile First - Stacked Layout) */
+.product {
+  display: flex;
+  flex-direction: column; /* Stacks on mobile */
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 1.5rem;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+  max-width: 900px;
+  width: 100%;
+}
+
+/* GALLERY */
+.gallery {
+  position: relative;
+  flex: 1 1 100%; /* Takes full width on mobile */
+  background: #111;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 300px; /* Minimum height for the image */
+}
+
+.gallery img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: 0.4s ease-in-out;
+  max-width: 100%; /* Ensure image scales down */
+}
+
+.gallery:hover img {
+  transform: scale(1.05);
+}
+
+.controls {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  gap: 10px;
+}
+
+.btn {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn.active,
+.btn:hover {
+  background: #ff4081;
+}
+
+/* DETAILS */
+.details {
+  flex: 1 1 100%; /* Takes full width on mobile */
+  background: #fff;
+  padding: 2rem 1.5rem; /* Responsive padding */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.details h1 {
+  color: #222;
+  font-size: 1.8rem; /* Adjusted for mobile */
+}
+
+.details h2 {
+  color: #ff4081;
+  margin: 0.3rem 0;
+  font-size: 1.5rem;
+}
+
+.details h3 {
+  color: #00d87e;
+  margin-bottom: 1rem;
+}
+
+.details p {
+  color: #555;
+  font-size: 0.95rem;
+  line-height: 1.6rem;
+}
+
+/* FORM STYLING */
+.size-select,
+.color-select,
+.quantity-select {
+  margin-top: 1.5rem;
+}
+
+.size-select p,
+.color-select p,
+.quantity-select p {
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.size-select label,
+.color-select label {
+  margin-right: 10px;
+  display: inline-block; /* Fix for inline display */
+}
+
+.size-select input,
+.color-select input {
+  display: none;
+}
+
+.size-select span {
+  padding: 6px 10px;
+  background: #eee;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+  display: inline-block;
+}
+
+.size-select input:checked + span {
+  background: #ff4081;
+  color: #fff;
+}
+
+.color {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: inline-block;
+  cursor: pointer;
+  transition: 0.3s;
+  box-shadow: 0 0 0 2px #fff, 0 0 0 4px #ccc; /* Ensure color swatch is visible */
+}
+
+.color-1 {
+  background: #007bff;
+}
+.color-2 {
+  background: #28a745;
+}
+.color-3 {
+  background: #ff4d6d;
+}
+.color-4 {
+  background: #6f42c1;
+}
+
+.color-select input:checked + span {
+  transform: scale(1.2);
+  box-shadow: 0 0 0 3px #fff, 0 0 0 5px #000;
+}
+
+/* QUANTITY */
+.quantity-select input {
+  padding: 6px 10px;
+  width: 80px;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  text-align: center;
+  outline: none;
+}
+
+/* BUTTONS */
+.btn-group {
+  display: flex;
+  flex-wrap: wrap; /* Allows buttons to wrap on very small screens */
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.btn-group button {
+  flex: 1 1 45%; /* Allows two buttons per line on mobile */
+  border: none;
+  border-radius: 30px;
+  padding: 12px 15px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+  min-width: 120px;
+}
+
+#addToCart {
+  background: #6f42c1;
+  color: #fff;
+}
+
+#addToCart:hover {
+  background: #552fa5;
+}
+
+#buyNow {
+  background: #ff4081;
+  color: #fff;
+}
+
+#buyNow:hover {
+  background: #e73370;
+}
+
+/* CART INFO */
+.cart-info {
+  margin-top: 1rem;
+  color: #333;
+  font-weight: 500;
+}
+
+/* CUSTOM ALERT BOX */
+.alert-box {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background: #28a745;
+  color: #fff;
+  padding: 15px 25px;
+  border-radius: 10px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 0.5s ease;
+  font-weight: 500;
+  z-index: 1000;
+}
+
+.alert-box.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* --- RESPONSIVENESS (Media Query for Tablet/Desktop) --- */
+@media (min-width: 768px) {
+  .product {
+    flex-direction: row; /* Switches to side-by-side */
+  }
+
+  .gallery {
+    flex: 0 0 45%; /* Occupies 45% of the width */
+    min-height: 500px;
+  }
+
+  .details {
+    flex: 0 0 55%; /* Occupies 55% of the width */
+    padding: 2rem 3rem; /* Restores original desktop padding */
+  }
+
+  .details h1 {
+    font-size: 2rem; /* Restores desktop font size */
+  }
+
+  .btn-group button {
+    flex: 1; /* Allows buttons to take equal space */
+  }
+}

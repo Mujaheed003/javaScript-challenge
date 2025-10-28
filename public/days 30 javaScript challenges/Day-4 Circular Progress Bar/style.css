@@ -1,0 +1,123 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  background: linear-gradient(135deg, #141e30, #243b55);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.skills {
+  display: flex;
+  gap: 40px;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.progress-card {
+  position: relative;
+  width: 160px;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.outer {
+  position: relative;
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  background: transparent;
+  box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.3),
+    -6px -6px 12px rgba(255, 255, 255, 0.1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.inner {
+  width: 120px;
+  height: 120px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: inset 4px 4px 6px 3px 3px 5px rgba(0, 0, 0, 0.2),
+    inset -4px -4px 6px rgba(255, 255, 255, 0.2);
+}
+
+.number {
+  font-size: 20px;
+  font-weight: 600;
+  color: #fff;
+}
+
+svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.circle {
+  fill: none;
+  stroke-width: 15px;
+  stroke-dasharray: 440;
+  stroke-dashoffset: 440;
+  transition: stroke-dashoffset 0.3s linear;
+}
+
+.circle1 {
+  stroke: url(#GradientColor1);
+}
+.circle2 {
+  stroke: url(#GradientColor2);
+}
+.circle3 {
+  stroke: url(#GradientColor3);
+}
+
+.label {
+  margin-top: 12px;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+#html {
+  color: #ff005a;
+}
+
+#css {
+  color: #00c3ff;
+}
+
+#js {
+  color: #00ff88;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .skills {
+    gap: 30px;
+  }
+}
+@media (max-width: 768px) {
+  .skills {
+    flex-direction: row;
+    gap: 25px;
+  }
+}
+@media (max-width: 480px) {
+  .skills {
+    flex-direction: column;
+    gap: 20px;
+  }
+}

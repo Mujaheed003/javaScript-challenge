@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quote Generator Website</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/css/style.css" />
+  </head>
+  <body>
+    <section class="quote-wrapper">
+      <div class="quote-box">
+        <h2>✨ Quote of the Day</h2>
+        <blockquote id="quote">Loading...</blockquote>
+        <span id="author">Loading...</span>
+        <div class="buttons">
+          <button class="new-btn" onclick="getQuote(api_url)">New Quote</button>
+          <button class="tweet-btn" onclick="tweet()">
+            <img src="assets/img/IMG_9290.PNG" alt="Tweet Icon" /> Tweet
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <script src="assets/js/script.js"></script>
+  </body>
+</html>

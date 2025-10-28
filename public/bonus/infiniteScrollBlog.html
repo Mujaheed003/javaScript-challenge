@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Infinite Scroll Blog (Local Data)</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: #f7f9fb; /* Light background */
+        min-height: 100vh;
+      }
+      .post-card {
+        background-color: white;
+        transition: transform 0.2s, box-shadow 0.2s;
+        border-left: 5px solid #4f46e5; /* Indigo accent */
+      }
+      .post-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+          0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      }
+      .loader-ring {
+        width: 40px;
+        height: 40px;
+        border: 4px solid #4f46e5;
+        border-top-color: transparent;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
+  </head>
+  <body class="p-4 sm:p-8">
+    <div class="max-w-4xl mx-auto">
+      <!-- Header -->
+      <header class="text-center mb-10 p-6 bg-white rounded-xl shadow-lg">
+        <h1 class="text-4xl sm:text-5xl font-extrabold text-gray-900">
+          The Infinite Scroll Feed
+        </h1>
+        <p class="text-gray-600 mt-2 text-lg">
+          Scroll down to discover more articles (data is locally simulated).
+        </p>
+      </header>
+
+      <!-- Post Container -->
+      <div id="postsContainer" class="space-y-6">
+        <!-- Posts will be injected here -->
+      </div>
+
+      <!-- Loader/Sentinel Element -->
+      <div id="loader" class="mt-8 mb-16 p-4 flex justify-center hidden">
+        <div class="loader-ring"></div>
+      </div>
+
+      <!-- End Message -->
+      <div
+        id="endMessage"
+        class="hidden text-center text-gray-500 mt-12 text-lg font-medium"
+      >
+        <p>--- End of the Simulated Feed ---</p>
+      </div>
+    </div>
+
+    <script>
+      // --- Configuration and State ---
+      let currentPage = 1;
+      let isLoading = false;
+      const maxPages = 8; // Increased simulated pages for longer scroll experience
+
+      // DOM Elements
+      const postsContainer = document.getElementById("postsContainer");
+      const loader = document.getElementById("loader");
+      const endMessage = document.getElementById("endMessage");
+
+      // --- Data Simulation Function ---
+
+      const mockAuthors = [
+        "Anya S. Sharma",
+        "Kai Jensen",
+        "Lena Petrova",
+        "Omar Hassan",
+      ];
+      const mockCategories = [
+        "Technology",
+        "Travel",
+        "Food & Drink",
+        "Lifestyle",
+        "Finance",
+        "Design",
+        "Science",
+      ];
+
+      /**
+       * Generates a unique batch of 5 mock blog posts based on the page number.
+       */
+      const generateLocalPostsBatch = (page) => {
+        const posts = [];
+        for (let i = 0; i < 5; i++) {
+          const globalIndex = (page - 1) * 5 + i + 1;
+
+          const category = mockCategories[globalIndex % mockCategories.length];
+          const author = mockAuthors[globalIndex % mockAuthors.length];
+          const date = new Date(
+            Date.now() - globalIndex * 24 * 60 * 60 * 1000
+          ).toLocaleDateString("en-US", {
+            month: "short",
+            day: "numeric",
+            year: "numeric",
+          });
+
+          let title, summary;
+
+          if (category === "Technology") {
+            title = `The Future of AI: Beyond Chatbots (Page ${page}, Post ${
+              i + 1
+            })`;
+            summary =
+              "Exploring next-generation machine learning models that integrate physical and digital environments. How close are we to true AGI?";
+          } else if (category === "Travel") {
+            title = `Hidden Gems: Finding Peace in Southeast Asia (Page ${page}, Post ${
+              i + 1
+            })`;
+            summary =
+              "A guide to secluded temples and lesser-known islands that offer tranquility away from the tourist crowds. Plan your escape now.";
+          } else if (category === "Food & Drink") {
+            title = `Mastering Sourdough: A Beginner's Guide to the Perfect Rise (Page ${page}, Post ${
+              i + 1
+            })`;
+            summary =
+              "Tips and tricks for maintaining a strong starter and achieving an airy crumb in your homemade sourdough loaves.";
+          } else if (category === "Finance") {
+            title = `Passive Income Streams: Investing in Digital Real Estate (Page ${page}, Post ${
+              i + 1
+            })`;
+            summary =
+              "Learn how to monetize virtual assets and build stable, automated income sources in the growing digital economy.";
+          } else {
+            title = `The Art of Minimalist Living in a Digital Age (Page ${page}, Post ${
+              i + 1
+            })`;
+            summary =
+              "Decluttering your digital life can be as transformative as cleaning your home. Here are five easy steps to start today.";
+          }
+
+          posts.push({ title, summary, author, date, category });
+        }
+        return posts;
+      };
+
+      // --- Core Fetch and Render Logic ---
+
+      /**
+       * Loads a batch of posts, either locally or via API (if enabled).
+       */
+      const loadPosts = async (page) => {
+        if (isLoading || page > maxPages) {
+          if (page > maxPages) {
+            loader.classList.add("hidden");
+            endMessage.classList.remove("hidden");
+          }
+          return;
+        }
+
+        isLoading = true;
+        loader.classList.remove("hidden");
+        endMessage.classList.add("hidden");
+
+        try {
+          // Simulate network latency for a realistic feel
+          await new Promise((resolve) => setTimeout(resolve, 800));
+
+          // Get posts from the local generator
+          const newPosts = generateLocalPostsBatch(page);
+
+          // Render the new posts
+          newPosts.forEach((post) => {
+            const postElement = document.createElement("div");
+            postElement.className = "post-card p-6 rounded-xl shadow-md";
+
+            const categoryColor = getCategoryColor(post.category);
+
+            postElement.innerHTML = `
+                        <div class="flex items-center text-sm font-medium mb-2 space-x-3">
+                            <span class="px-3 py-1 rounded-full text-xs text-white ${categoryColor}">${post.category}</span>
+                            <span class="text-gray-500">${post.date}</span>
+                        </div>
+                        <h2 class="text-2xl font-bold text-gray-800 hover:text-indigo-600 cursor-pointer transition">${post.title}</h2>
+                        <p class="text-gray-600 mt-2">${post.summary}</p>
+                        <p class="text-sm font-semibold text-gray-700 mt-3">By: ${post.author}</p>
+                    `;
+            postsContainer.appendChild(postElement);
+          });
+
+          currentPage++;
+        } catch (error) {
+          console.error("Error loading posts:", error);
+          // Simple error display
+          loader.innerHTML = `<p class="text-red-500 font-semibold">An unexpected error occurred during loading.</p>`;
+        } finally {
+          isLoading = false;
+          loader.classList.add("hidden");
+          // Check once more if max pages reached after loading
+          if (currentPage > maxPages) {
+            endMessage.classList.remove("hidden");
+          }
+        }
+      };
+
+      /**
+       * Determines a Tailwind color class based on the category for visual variety.
+       */
+      const getCategoryColor = (category) => {
+        const lowerCaseCat = category.toLowerCase();
+        if (lowerCaseCat.includes("tech") || lowerCaseCat.includes("science"))
+          return "bg-blue-600";
+        if (
+          lowerCaseCat.includes("travel") ||
+          lowerCaseCat.includes("adventure")
+        )
+          return "bg-green-600";
+        if (lowerCaseCat.includes("food") || lowerCaseCat.includes("drink"))
+          return "bg-red-600";
+        if (lowerCaseCat.includes("design") || lowerCaseCat.includes("art"))
+          return "bg-purple-600";
+        if (lowerCaseCat.includes("finance")) return "bg-amber-600";
+        return "bg-indigo-600";
+      };
+
+      // --- Infinite Scroll Setup (Intersection Observer) ---
+
+      const observerOptions = {
+        root: null, // relative to the viewport
+        rootMargin: "100px", // start loading before the user reaches the very bottom
+        threshold: 0, // Trigger as soon as the element enters the rootMargin area
+      };
+
+      const intersectionCallback = (entries, observer) => {
+        const [entry] = entries;
+
+        // If the loader is visible and we are not already loading
+        if (entry.isIntersecting && !isLoading) {
+          loadPosts(currentPage);
+        }
+      };
+
+      const observer = new IntersectionObserver(
+        intersectionCallback,
+        observerOptions
+      );
+
+      // --- Initialization ---
+
+      document.addEventListener("DOMContentLoaded", () => {
+        // 1. Initial Load: Load the very first page of content immediately
+        loadPosts(currentPage);
+
+        // 2. Start observing the loader element for infinite scroll
+        observer.observe(loader);
+      });
+    </script>
+  </body>
+</html>

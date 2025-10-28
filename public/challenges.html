@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <link
+      rel="shortcut icon"
+      href="../assets/img/favicon.png"
+      type="image/x-icon"
+    />
+    <title>30DaysJS — All Challenges</title>
+    <link rel="stylesheet" href="../assets/css/dashboard.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+  </head>
+  <body>
+    <aside class="sidebar" id="sidebar">
+      <div class="logo-container">
+        <a href="dashboard.html" class="logo"
+          ><img src="../assets/img/logo.png" alt=""
+        /></a>
+        <marquee behavior="" direction=""
+          ><small
+            >&copy; <span id="year"></span> 30 Days JavaScript Challenge.</small
+          ></marquee
+        >
+      </div>
+      <nav class="nav-links" id="navLinks">
+        <a href="dashboard.html" class="nav-link-item"
+          ><i class="fas fa-home"></i> Dashboard</a
+        >
+        <a href="challenges.html" class="nav-link-item"
+          ><i class="fas fa-code"></i> All Challenges</a
+        >
+        <a href="progress.html" class="nav-link-item"
+          ><i class="fas fa-chart-line"></i> My Progress</a
+        >
+        <a href="resources.html" class="nav-link-item"
+          ><i class="fas fa-book"></i> Resources</a
+        >
+      </nav>
+      <div class="sidebar-action">
+        <a href="#" id="logoutBtn" class="btn btn-primary"
+          ><i class="fas fa-sign-out-alt"></i> Logout</a
+        >
+      </div>
+    </aside>
+
+    <div class="main-content">
+      <header class="mobile-header">
+        <a href="index.html" class="logo"
+          ><img src="../assets/img/logo.png" alt=""
+        /></a>
+        <button id="hamburger" class="hamburger" aria-label="Toggle menu">
+          <i class="fas fa-bars"></i>
+        </button>
+      </header>
+
+      <main>
+        <section class="page-hero">
+          <div class="container">
+            <h1 class="section-title">All Challenges</h1>
+            <p class="section-subtitle">
+              Browse all 30 daily projects and open any day to view details.
+            </p>
+          </div>
+        </section>
+
+        <section class="challenges-list">
+          <div class="container">
+            <div class="projects-grid all-projects-grid">
+              <!-- Example expanded list of challenges -->
+              <article class="dashboard-card">
+                <div class="card-header">Day 01 — Age Calculator App</div>
+                <div class="card-body">
+                  <p>
+                    Working with Date objects and input validation. Using Date()
+                    and calculating differences between dates. Handling user
+                    inputs (birthday). Displaying years, months, and days
+                    dynamically.
+                  </p>
+                  <div class="card-actions">
+                    <a
+                      class="btn-demo"
+                      href="days 30 javaScript challenges/Day-1 Age Calculator App/age_calculator.html"
+                      >Open</a
+                    >
+                  </div>
+                </div>
+              </article>
+
+              <article class="dashboard-card">
+                <div class="card-header">
+                  Day 02 — Background Image Change Effect
+                </div>
+                <div class="card-body">
+                  <p>
+                    DOM manipulation and dynamic styling. Changing background
+                    Images via JavaScript. Using arrays and timers for image
+                    rotation. Adding transitions or fade effects with CSS.
+                  </p>
+                  <div class="card-actions">
+                    <a
+                      class="btn-demo"
+                      href="days 30 javaScript challenges/Day-2 Background Image Change Effect/background_image_change_effect.html"
+                      >Open</a
+                    >
+                  </div>
+                </div>
+              </article>
+
+              <article class="dashboard-card">
+                <div class="card-header">Day 03 — Calculator</div>
+                <div class="card-body">
+                  <p>
+                    Event handling, math logic, and expression evaluation.
+                    Handling click events. Performing arithmetic operations.
+                    Managing operator precedence and clearing display.
+                  </p>
+                  <div class="card-actions">
+                    <a
+                      class="btn-demo"
+                      href="days 30 javaScript challenges/Day-3 Calculator/calculator.html"
+                      >Open</a
+                    >
+                  </div>
+                </div>
+              </article>
+
+              <article class="dashboard-card">
+                <div class="card-header">Day 04 — Circular Progress Bar</div>
+                <div class="card-body">
+                  <p>
+                    SVG manipulation and CSS animation, create. Create circular
+                    progress usin SVG or conic-gradient. Animating the stroke
+                    with JS and CSS. Linking progress to user actions or loading
+                    states.
+                  </p>
+                  <div class="card-actions">
+                    <a
+                      class="btn-demo"
+                      href="days 30 javaScript challenges/Day-4 Circular Progress Bar/circular_progress_bar.html"
+                      >Open</a
+                    >
+                  </div>
+                </div>
+              </article>
+
+              <article class="dashboard-card">
+                <div class="card-header">Day 05 — Cryptocurrency Website</div>
+                <div class="card-body">
+                  <p>
+                    Fetching and displaying real-time API data. Working with
+                    external crpto APIs (like CoinGecko). Formatting large
+                    numbers and prices. Updating data dynamically.
+                  </p>
+                  <div class="card-actions">
+                    <a
+                      class="btn-demo"
+                      href="days 30 javaScript challenges/Day-5 Cryptocurrency Website/cryptocurrency.html"
+                      >Open</a
+                    >
+                  </div>
+                </div>
+              </article>
+
+              <article class="dashboard-card">
+                <div class="card-header">Day 06 — Digital Clock</div>
+                <div class="card-body">
+                  <p>
+                    Real-time updates and time formatting. Using setInterval()
+                    for live updates. Formatting time with leadin zeros.
+                    Displaying hours, minutes, seconds and AM/PM.
+                  </p>
+                  <div class="card-actions">
+                    <a
+                      class="btn-demo"
+                      href="days 30 javaScript challenges/Day-6 Digital Clock/digital_clock.html"
+                      >Open</a
+                    >
+                  </div>
+                </div>
+              </article>
+
+              <article class="dashboard-card">
+                <div class="card-header">Day 07 — Drag and Drop</div>
+                <div class="card-body">
+                  <p>
+                    Drag-and-drop API and DOM manipulation. Handling dragstart,
+                    dragover, drop events. Reordering elements dynamically.
+                    Visual feedback for dragging.
+                  </p>
+                  <div class="card-actions">
+                    <a
+                      class="btn-demo"
+                      href="days 30 javaScript challenges/Day-7 Drag and Drop/drag_and_drop.html"
+                      >Open</a
+                    >
+                  </div>
+                </div>
+              </article>
+
+              <article class="dashboard-card">
+                <div class="card-header">Day 08 — Email Subscription Form</div>
+                <div class="card-body">
+                  <p>
+                    Form handling and user feedback. Validating email input
+                    using Regex. Displaying success/error messages. Using form
+                    submission and API integration (optional)<./p>
+                  </p>
+                  <div class="card-actions">
+                    <a
+                      class="btn-demo"
+                      href="days 30 javaScript challenges/Day-8 Email Subscription Form/email_subscription_form.html"
+                      >Open</a
+                    >
+                  </div>
+                </div>
+              </article>
+
+              <article class="dashboard-card">
+                <div class="card-header">Day 09 — Form Validation</div>
+                <div class="card-body">
+                  <p>
+                    Input validation and error messaging. Checking empty fields,
+                    patterns, and length. Showing custom error messages.
+                    Enabling/disabling submit button.
+                  </p>
+                  <div class="card-actions">
+                    <a
+                      class="btn-demo"
+                      href="days 30 javaScript challenges/Day-9 Form Validation/form_validation.html"
+                      >Open</a
+                    >
+                  </div>
+                </div>
+              </article>
+
+              <article class="dashboard-card">
+                <div class="card-header">Day 10 — Gallery Image</div>
+                <div class="card-body">
+                  <p>
+                    Grid layout and modal display. Displaying images in a
+                    responsive grid. Enlarging image in modal/lightbox view.
+                    Filtering gallery by category (optional).
+                  </p>
+                  <div class="card-actions">
+                    <a
+                      class="btn-demo"
+                      href="days 30 javaScript challenges/Day-10 Gallery Image/gallery_image.html"
+                      >Open</a
+                    >
+                  </div>
+                </div>
+              </article>
+
+              <article class="dashboard-card">
+                <div class="card-header">Day 11 — Hide and Show Password</div>
+                <div class="card-body">
+                  <p>
+                    Toggling input types and icon interactivity. Switching input
+                    type between "password" and "text". Updating icon
+                    (eye/eye-slash) dynamically.
+                  </p>
+                  <div class="card-actions">
+                    <a
+                      class="btn-demo"
+                      href="days 30 javaScript challenges/Day-11 Hide and Show Password/hide_and_show_password.html"
+                      >Open</a
+                    >
+                  </div>
+                </div>
+              </article>
+
+              <article class="dashboard-card">
+                <div class="card-header">Day 12 — Image Search Engine</div>
+                <div class="card-body">
+                  <p>
+                    API fetching and search functionality. Using image APIs
+                    (like Unsplash API). Handling user input for searching
+                    queries. dynamically displaying results.
+                  </p>
+                  <div class="card-actions">
+                    <a
+                      class="btn-demo"
+                      href="days 30 javaScript challenges/Day-12 Image Search Engine/image_search_engine.html"
+                      >Open</a
+                    >
+                  </div>
+                </div>
+              </article>
+
+              <article class="dashboard-card">
+                <div class="card-header">
+                  Day 13 — Light and Dark Theme Website
+                </div>
+                <div class="card-body">
+                  <p>
+                    Theme toggling using CSS variables and JavaScript. Switching
+                    between light/dark themes. Saving user preference in
+                    localStorage. Smooth color transition effects.
+                  </p>
+                  <div class="card-actions">
+                    <a
+                      class="btn-demo"
+                      href="days 30 javaScript challenges/Day-13 Light and Dark Theme Website/light_and_dark_theme.html"
+                      >Open</a
+                    >
+                  </div>
+                </div>
+              </article>
+
+              <article class="dashboard-card">
+                <div class="card-header">Day 14 — Mini Calendar</div>
+                <div class="card-body">
+                  <p>
+                    Date handling and dynamic rendering. Using JS Date()
+                    methods. Displaying day, month, and year automatically.
+                    Highlighting current date.
+                  </p>
+                  <div class="card-actions">
+                    <a
+                      class="btn-demo"
+                      href="days 30 javaScript challenges/Day-14 Mini Calendar/mini_calendar.html"
+                      >Open</a
+                    >
+                  </div>
+                </div>
+              </article>
+
+              <article class="dashboard-card">
+                <div class="card-header">Day 15 — Music Player</div>
+                <div class="card-body">
+                  <p>
+                    Music API and interactive controls. Playing, pausing,
+                    skipping, and volume control. Updating progress bar.
+                    Handling playlists and UI updates.
+                  </p>
+                  <div class="card-actions">
+                    <a
+                      class="btn-demo"
+                      href="days 30 javaScript challenges/Day-15 Music Player/music_player.html"
+                      >Open</a
+                    >
+                  </div>
+                </div>
+              </article>
+
+              <article class="dashboard-card">
+                <div class="card-header">Day 16 — Note App</div>
+                <div class="card-body">
+                  <p>
+                    Local Storage CRUD operations. Adding, editing, deleting
+                    notes. Saving data persistently in localStorage. Updating UI
+                    dynamically.
+                  </p>
+                  <div class="card-actions">
+                    <a
+                      class="btn-demo"
+                      href="days 30 javaScript challenges/Day-16 Note App/note.html"
+                      >Open</a
+                    >
+                  </div>
+                </div>
+              </article>
+
+              <article class="dashboard-card">
+                <div class="card-header">Day 17 — Pop Up</div>
+                <div class="card-body">
+                  <p>
+                    Modal windows and event triggers. Creating modals with
+                    overly background. Opening/closing modals with buttons or
+                    timers. Smooth animations and accessibility.
+                  </p>
+                  <div class="card-actions">
+                    <a
+                      class="btn-demo"
+                      href="days 30 javaScript challenges/Day-17 Popup/popup.html"
+                      >Open</a
+                    >
+                  </div>
+                </div>
+              </article>
+
+              <article class="dashboard-card">
+                <div class="card-header">Day 18 — Product Page Design</div>
+                <div class="card-body">
+                  <p>
+                    Ecommerce UI and interactive components. Using HTML/CSS for
+                    layout. Adding image zoom, color options, or sizes
+                    selection. Handling add-to=cart buttons.
+                  </p>
+                  <div class="card-actions">
+                    <a
+                      class="btn-demo"
+                      href="days 30 javaScript challenges/Day-18 Product Page Design/product_page_design.html"
+                      >Open</a
+                    >
+                  </div>
+                </div>
+              </article>
+
+              <article class="dashboard-card">
+                <div class="card-header">
+                  Day 19 — QR Code Generator Website
+                </div>
+                <div class="card-body">
+                  <p>
+                    Using APIs and Canvas manipulation. Generating QR codes from
+                    user input. Using third-party API (like api.qrserver.com).
+                    Displaying and downloading the QR image.
+                  </p>
+                  <div class="card-actions">
+                    <a
+                      class="btn-demo"
+                      href="days 30 javaScript challenges/Day-19 QR Code Generator Website/QR_code_generator.html"
+                      >Open</a
+                    >
+                  </div>
+                </div>
+              </article>
+
+              <article class="dashboard-card">
+                <div class="card-header">Day 20 — Quiz App</div>
+                <div class="card-body">
+                  <p>
+                    Conditional logic, scoring, and UI feedback. Managing
+                    question arrays and answers. Tracking user score. Displaying
+                    results dynamically.
+                  </p>
+                  <div class="card-actions">
+                    <a
+                      class="btn-demo"
+                      href="days 30 javaScript challenges/Day-20 Quiz App/quiz.html"
+                      >Open</a
+                    >
+                  </div>
+                </div>
+              </article>
+
+              <article class="dashboard-card">
+                <div class="card-header">Day 21 — Quote Generator Website</div>
+                <div class="card-body">
+                  <p>
+                    Fetching data from APIs and randomization. Using a quotes
+                    API or local array. Randomly selecting and displaying
+                    quotes. Adding copy/shre functionality.
+                  </p>
+                  <div class="card-actions">
+                    <a
+                      class="btn-demo"
+                      href="days 30 javaScript challenges/Day-21 Quote Generator Website/quote_generator.html"
+                      >Open</a
+                    >
+                  </div>
+                </div>
+              </article>
+
+              <article class="dashboard-card">
+                <div class="card-header">
+                  Day 22 — Random Password Generator
+                </div>
+                <div class="card-body">
+                  <p>
+                    Random string generator and dipboard handling. Using
+                    character sets (letters, numbers, symbols). Generating
+                    random combinations. Copying password to clipboard.
+                  </p>
+                  <div class="card-actions">
+                    <a
+                      class="btn-demo"
+                      href="days 30 javaScript challenges/Day-22 Random Password Generator/random_password_generator.html"
+                      >Open</a
+                    >
+                  </div>
+                </div>
+              </article>
+
+              <article class="dashboard-card">
+                <div class="card-header">Day 23 — Select Menu Design</div>
+                <div class="card-body">
+                  <p>
+                    Custome dropdown menu creation. Replacing default select UI.
+                    Using event listeners for selection changes. Animating
+                    dropdown open/close.
+                  </p>
+                  <div class="card-actions">
+                    <a
+                      class="btn-demo"
+                      href="days 30 javaScript challenges/Day-23 Select Menu Design/select_menu_design.html"
+                      >Open</a
+                    >
+                  </div>
+                </div>
+              </article>
+
+              <article class="dashboard-card">
+                <div class="card-header">Day 24 — Show Password Strength</div>
+                <div class="card-body">
+                  <p>
+                    Regex validationand real-time feedback. Checking length,
+                    symbols, and uppercase letters. Displaying strength level
+                    with colors or bars.
+                  </p>
+                  <div class="card-actions">
+                    <a
+                      class="btn-demo"
+                      href="days 30 javaScript challenges/Day-24 Show Password Strength/show_password_strength.html"
+                      >Open</a
+                    >
+                  </div>
+                </div>
+              </article>
+
+              <article class="dashboard-card">
+                <div class="card-header">Day 25 — Stop Watch</div>
+                <div class="card-body">
+                  <p>
+                    Time measurement and interval control. String pausing, and
+                    resetting time. Using setInterval() and updating display.
+                    Formatting elapsed time.
+                  </p>
+                  <div class="card-actions">
+                    <a
+                      class="btn-demo"
+                      href="days 30 javaScript challenges/Day-25 Stop Watch/stop_watch.html"
+                      >Open</a
+                    >
+                  </div>
+                </div>
+              </article>
+
+              <article class="dashboard-card">
+                <div class="card-header">Day 26 — Text To Vioce Converter</div>
+                <div class="card-body">
+                  <p>
+                    Spech synthesis API. Converting text input into spoken
+                    words. Controlling pitch, rate, and voice. Handling browser
+                    compatibility.
+                  </p>
+                  <div class="card-actions">
+                    <a
+                      class="btn-demo"
+                      href="days 30 javaScript challenges/Day-26 Text To Vioce Converter/text_to_vioce_converter.html"
+                      >Open</a
+                    >
+                  </div>
+                </div>
+              </article>
+
+              <article class="dashboard-card">
+                <div class="card-header">Day 27 — Toast Notification</div>
+                <div class="card-body">
+                  <p>
+                    Timed pop-up messages and CSS animations. Creating small
+                    notification popups. Adding auto-hide timers, styling for
+                    success/erro/info types.
+                  </p>
+                  <div class="card-actions">
+                    <a
+                      class="btn-demo"
+                      href="days 30 javaScript challenges/Day-27 Toast Notification/toast_notification.html"
+                      >Open</a
+                    >
+                  </div>
+                </div>
+              </article>
+
+              <article class="dashboard-card">
+                <div class="card-header">Day 28 — To-do List App</div>
+                <div class="card-body">
+                  <p>
+                    Task management and data persistence. Adding, deleting and
+                    marking tasks complete. Saving tasks in localStorage.
+                    Filtering tasks (all, active, completed).
+                  </p>
+                  <div class="card-actions">
+                    <a
+                      class="btn-demo"
+                      href="days 30 javaScript challenges/Day-28 To-do List App/to_do_list.html"
+                      >Open</a
+                    >
+                  </div>
+                </div>
+              </article>
+
+              <article class="dashboard-card">
+                <div class="card-header">Day 29 — Weather App</div>
+                <div class="card-body">
+                  <p>
+                    Fetching real-time data using an external API. Using the
+                    OpenWeather API. Displaying live temperature, humidity, and
+                    icons. Handling errors and location-based data.
+                  </p>
+                  <div class="card-actions">
+                    <a
+                      class="btn-demo"
+                      href="days 30 javaScript challenges/Day-29 Weather App/weather.html"
+                      >Open</a
+                    >
+                  </div>
+                </div>
+              </article>
+
+              <article class="dashboard-card">
+                <div class="card-header">Day 30 — Website Coming Soon Page</div>
+                <div class="card-body">
+                  <p>
+                    Countdown timer and creative page layout. Using
+                    setInterval() for countdowns. Showing launch date/time.
+                    Adding animated background or subscription form.
+                  </p>
+                  <div class="card-actions">
+                    <a
+                      class="btn-demo"
+                      href="days 30 javaScript challenges/Day-30 Website Coming Soon Page/coming_soon_page.html"
+                      >Open</a
+                    >
+                  </div>
+                </div>
+              </article>
+
+              <!-- Add more days... -->
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="../assets/js/dashboard.js"></script>
+    <script src="../assets/js/script.js"></script>
+  </body>
+</html>

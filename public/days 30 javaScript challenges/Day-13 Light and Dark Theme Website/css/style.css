@@ -1,0 +1,285 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --primary-color: #fff;
+  --secondary-color: #000;
+}
+
+.dark-theme {
+  --primary-color: #000;
+  --secondary-color: #fff;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: var(--primary-color);
+  color: var(--secondary-color);
+  overflow-x: hidden;
+}
+
+/* ===================== NAVBAR ===================== */
+.navbar {
+  background: var(--primary-color);
+  color: var(--secondary-color);
+  padding: 0.5rem 5%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  z-index: 10;
+}
+
+.logo img {
+  width: 7rem;
+  transition: 0.3s;
+}
+
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: 2rem;
+  align-items: center;
+}
+
+.nav-links li {
+  position: relative;
+}
+
+.nav-links a {
+  color: var(--secondary-color);
+  text-decoration: none;
+  font-weight: 700;
+  padding: 0 0.5rem;
+  display: block;
+  position: relative;
+}
+
+.nav-links a::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 2px;
+  background: var(--secondary-color);
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  transition: width 0.3s ease;
+}
+
+a.active::after,
+.nav-links a:hover::after {
+  width: 100%;
+}
+
+.nav-links ul {
+  display: none;
+  position: absolute;
+  top: 2.5rem;
+  left: 0;
+  background-color: var(--primary-color);
+  list-style: none;
+  min-width: 15rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.nav-links li:hover > ul {
+  display: block;
+}
+
+.nav-links ul li a {
+  padding: 0.5rem 1rem;
+}
+
+.menu-toggle {
+  display: none;
+  cursor: pointer;
+  font-size: 1.8rem;
+  color: var(--secondary-color);
+}
+
+#theme-icon {
+  width: 3rem;
+  cursor: pointer;
+  margin-left: 1rem;
+}
+
+/* ===================== HERO SECTION ===================== */
+.hero {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 5%;
+  gap: 2rem;
+  /* flex-wrap: wrap; */
+  background: var(--primary-color);
+}
+
+.hero-text {
+  flex: 1 1 40rem;
+}
+
+.hero h1 {
+  font-size: 3.2rem;
+  color: var(--secondary-color);
+  line-height: 1.3;
+}
+
+.hero h1 span {
+  color: #999;
+}
+
+.hero p {
+  color: var(--secondary-color);
+  line-height: 1.8;
+  font-size: 1.2rem;
+  margin: 1.5rem 0;
+}
+
+.hero button {
+  background: #999;
+  color: var(--secondary-color);
+  font-size: 1.1rem;
+  padding: 1.2rem 2.4rem;
+  border: none;
+  border-radius: 1rem;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.hero button:hover {
+  background: #555;
+  color: #fff;
+}
+
+.image-container {
+  flex: 1 1 40rem;
+  text-align: center;
+}
+
+.image-container img {
+  width: 80%;
+  max-width: 40rem;
+  transition: 0.3s ease-in-out;
+}
+
+/* ===================== RESPONSIVENESS ===================== */
+
+@media (max-width: 75em) {
+  h1 br {
+    display: none;
+  }
+}
+
+/* Laptops (1024px and below) */
+@media (max-width: 64em) {
+  .navbar {
+    padding: 1rem 5%;
+  }
+
+  .hero {
+    padding: 4rem 5%;
+  }
+
+  .hero h1 {
+    font-size: 2.4rem;
+  }
+}
+
+/* Tablets (768px and below) */
+@media (max-width: 48em) {
+  .menu-toggle {
+    display: block;
+  }
+
+  .nav-links {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: var(--primary-color);
+    flex-direction: column;
+    align-items: flex-start;
+    display: none;
+    padding: 2rem 2rem;
+    gap: 1rem;
+    border-top: 1px solid #ccc;
+  }
+
+  .nav-links.show {
+    display: flex;
+  }
+
+  .nav-links ul {
+    position: static;
+    box-shadow: none;
+  }
+
+  .navbar img#theme-icon {
+    width: 3rem;
+  }
+
+  .hero {
+    flex-direction: column-reverse;
+    text-align: center;
+  }
+
+  .image-container img {
+    width: 90%;
+  }
+
+  h1 {
+    margin-top: -2rem;
+  }
+
+  .hero p {
+    font-size: 1.1rem;
+  }
+
+  .hero button {
+    font-size: 1rem;
+  }
+}
+
+/* Mobile (480px and below) */
+@media (max-width: 30em) {
+  .navbar {
+    padding: 1rem 1.5rem;
+  }
+
+  .logo img {
+    width: 9rem;
+  }
+
+  #theme-icon {
+    width: 2.8rem;
+  }
+
+  .hero {
+    padding: 2.5rem 1rem;
+    margin-bottom: 0;
+  }
+
+  .hero h1 {
+    font-size: 2rem;
+    margin-top: -10rem;
+  }
+
+  .hero p {
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  .hero button {
+    padding: 1rem 2rem;
+    font-size: 0.9rem;
+  }
+
+  .image-container img {
+    width: 100%;
+  }
+}

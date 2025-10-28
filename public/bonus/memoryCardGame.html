@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Memory Card Game</title>
+    <!-- Poppins font for modern aesthetic -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Font Awesome for card icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+
+    <style>
+      /* CSS Styling */
+      :root {
+        --primary-color: #3498db; /* Blue */
+        --secondary-color: #2c3e55; /* Dark Blue */
+        --background-light: #f4f7f6;
+        --card-front-bg: #ecf0f1; /* Light grey for card front */
+        --card-back-bg: var(--primary-color);
+        --matched-bg: #27ae60; /* Green for matched cards */
+        --text-dark: #333;
+        --text-light: #fff;
+        --shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        --transition-speed: 0.4s; /* For card flip animation */
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Poppins", sans-serif;
+        background-color: var(--background-light);
+        color: var(--text-dark);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        overflow-x: hidden;
+        padding: 20px;
+      }
+
+      .game-container {
+        background-color: var(--card-front-bg);
+        border-radius: 15px;
+        box-shadow: var(--shadow);
+        padding: 30px;
+        text-align: center;
+        max-width: 900px;
+        width: 100%;
+      }
+
+      h1 {
+        font-size: 2.5rem;
+        color: var(--secondary-color);
+        margin-bottom: 20px;
+      }
+
+      .controls {
+        margin-bottom: 25px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .btn {
+        background-color: var(--primary-color);
+        color: var(--text-light);
+        border: none;
+        padding: 10px 20px;
+        border-radius: 50px;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 600;
+        transition: background-color var(--transition-speed);
+      }
+
+      .btn:hover {
+        background-color: #2980b9;
+      }
+
+      .status-display {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: var(--secondary-color);
+      }
+
+      .status-display span {
+        color: var(--primary-color);
+        margin-left: 5px;
+      }
+
+      /* --- Memory Grid --- */
+      #game-board {
+        display: grid;
+        /* Default for a 4x4 or 5x4 grid, adjusted by JS */
+        grid-template-columns: repeat(4, 1fr);
+        gap: 15px;
+        perspective: 1000px; /* For 3D flip effect */
+      }
+
+      .memory-card {
+        width: 100%;
+        height: 120px; /* Fixed height for cards */
+        position: relative;
+        transform-style: preserve-3d; /* Enable 3D transform for children */
+        transition: transform var(--transition-speed);
+        cursor: pointer;
+        border-radius: 10px;
+        box-shadow: var(--shadow);
+      }
+
+      .memory-card.flip {
+        transform: rotateY(180deg);
+      }
+
+      .memory-card.match .card-front {
+        background-color: var(--matched-bg);
+        color: var(--text-light);
+        pointer-events: none; /* Disable interaction once matched */
+      }
+
+      .memory-card.disable {
+        pointer-events: none; /* Disable clicks during flip animation or check */
+      }
+
+      .front-face,
+      .back-face {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        backface-visibility: hidden; /* Hide the back of the element when facing away */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 10px;
+        font-size: 2.5rem; /* Icon size */
+        font-weight: 700;
+        color: var(--secondary-color);
+        user-select: none; /* Prevent text selection */
+      }
+
+      .front-face {
+        background-color: var(--card-front-bg);
+        transform: rotateY(180deg); /* Start flipped for content */
+      }
+
+      .back-face {
+        background-color: var(--card-back-bg);
+        color: var(--text-light);
+        border: 2px solid var(--primary-color);
+      }
+
+      /* --- Game Over / Win Message --- */
+      .game-over-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.8);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 2000;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .game-over-modal.active {
+        display: flex;
+        opacity: 1;
+      }
+
+      .modal-content {
+        background-color: var(--card-front-bg);
+        padding: 40px;
+        border-radius: 15px;
+        text-align: center;
+        box-shadow: var(--shadow);
+        transform: scale(0.8);
+        transition: transform 0.3s ease;
+      }
+
+      .game-over-modal.active .modal-content {
+        transform: scale(1);
+      }
+
+      .modal-content h2 {
+        font-size: 2.2rem;
+        color: var(--matched-bg);
+        margin-bottom: 15px;
+      }
+
+      .modal-content p {
+        font-size: 1.2rem;
+        margin-bottom: 25px;
+      }
+
+      /* --- Responsiveness --- */
+      @media (max-width: 768px) {
+        .game-container {
+          padding: 20px;
+        }
+
+        h1 {
+          font-size: 2rem;
+        }
+
+        .controls {
+          flex-direction: column;
+          gap: 10px;
+        }
+
+        .btn {
+          width: 100%;
+          max-width: 200px;
+        }
+
+        #game-board {
+          grid-template-columns: repeat(
+            3,
+            1fr
+          ); /* 3 columns on smaller tablets */
+          gap: 10px;
+        }
+
+        .memory-card {
+          height: 100px; /* Slightly smaller cards */
+        }
+
+        .front-face,
+        .back-face {
+          font-size: 2rem;
+        }
+      }
+
+      @media (max-width: 480px) {
+        h1 {
+          font-size: 1.8rem;
+        }
+
+        #game-board {
+          grid-template-columns: repeat(
+            3,
+            1fr
+          ); /* Stay 3 columns for mobile portrait */
+          gap: 8px;
+        }
+
+        .memory-card {
+          height: 80px; /* Even smaller cards for compact view */
+        }
+
+        .front-face,
+        .back-face {
+          font-size: 1.5rem;
+        }
+
+        .modal-content {
+          padding: 25px;
+          width: 90%;
+        }
+        .modal-content h2 {
+          font-size: 1.8rem;
+        }
+        .modal-content p {
+          font-size: 1rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="game-container">
+      <h1>Memory Game</h1>
+      <div class="controls">
+        <button id="start-btn" class="btn">Start Game</button>
+        <div class="status-display">Moves: <span id="moves-count">0</span></div>
+        <div class="status-display">Time: <span id="time-count">0s</span></div>
+      </div>
+
+      <div id="game-board">
+        <!-- Memory cards will be dynamically generated here -->
+      </div>
+    </div>
+
+    <!-- Game Over / Win Modal -->
+    <div id="game-over-modal" class="game-over-modal">
+      <div class="modal-content">
+        <h2 id="modal-title">You Won!</h2>
+        <p>
+          Congratulations! You found all matches in
+          <span id="final-moves">0</span> moves and
+          <span id="final-time">0s</span>.
+        </p>
+        <button id="restart-btn" class="btn">Play Again</button>
+      </div>
+    </div>
+
+    <script>
+      // JavaScript for Memory Game Logic
+
+      // -------------------------------------------------------------------
+      // Global Variables and DOM Elements
+      // -------------------------------------------------------------------
+      const gameBoard = document.getElementById("game-board");
+      const startButton = document.getElementById("start-btn");
+      const movesCountSpan = document.getElementById("moves-count");
+      const timeCountSpan = document.getElementById("time-count");
+      const gameOverModal = document.getElementById("game-over-modal");
+      const modalTitle = document.getElementById("modal-title");
+      const finalMovesSpan = document.getElementById("final-moves");
+      const finalTimeSpan = document.getElementById("final-time");
+      const restartButton = document.getElementById("restart-btn");
+
+      // Card data - emojis for visual appeal, you can use Font Awesome classes too
+      const cardIcons = [
+        "&#127822;", // Pizza
+        "&#127835;", // Hamburger
+        "&#127850;", // Cake
+        "&#127853;", // Ice Cream
+        "&#127858;", // Donut
+        "&#127869;", // Sushi
+        "&#127889;", // Sparkles (for matching animation)
+        "&#127874;", // Cocktail glass
+      ];
+
+      // Game state variables
+      let cards = [];
+      let flippedCards = [];
+      let matchedPairs = 0;
+      let moves = 0;
+      let timer = null;
+      let seconds = 0;
+      let gameStarted = false;
+      let lockBoard = false; // Prevents flipping more than 2 cards at a time
+
+      // -------------------------------------------------------------------
+      // Game Logic Functions
+      // -------------------------------------------------------------------
+
+      /**
+       * Initializes or restarts the game.
+       */
+      function startGame() {
+        resetGame(); // Reset all game state
+        generateCards(); // Create new cards for the board
+        shuffleCards(); // Randomize card positions
+        renderCards(); // Display cards on the board
+
+        gameBoard.classList.remove("disable"); // Ensure board is clickable
+
+        // Start timer
+        gameStarted = true;
+        timer = setInterval(updateTimer, 1000);
+
+        gameOverModal.classList.remove("active"); // Hide modal if open
+        updateControlsState(true); // Disable start button, enable other interactions
+        showMessage("Good luck! Find all the pairs.");
+      }
+
+      /**
+       * Resets all game state variables.
+       */
+      function resetGame() {
+        clearInterval(timer);
+        gameStarted = false;
+        lockBoard = false;
+        flippedCards = [];
+        matchedPairs = 0;
+        moves = 0;
+        seconds = 0;
+
+        movesCountSpan.textContent = moves;
+        timeCountSpan.textContent = seconds;
+        gameBoard.innerHTML = ""; // Clear existing cards
+
+        updateControlsState(false);
+      }
+
+      /**
+       * Generates the card pairs based on `cardIcons`.
+       */
+      function generateCards() {
+        cards = [];
+        // Create two cards for each icon
+        cardIcons.forEach((icon, index) => {
+          cards.push({ id: index, icon: icon, matched: false });
+          cards.push({ id: index, icon: icon, matched: false });
+        });
+      }
+
+      /**
+       * Shuffles the cards array randomly.
+       */
+      function shuffleCards() {
+        for (let i = cards.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [cards[i], cards[j]] = [cards[j], cards[i]]; // ES6 destructuring for swap
+        }
+      }
+
+      /**
+       * Renders the shuffled cards onto the game board.
+       */
+      function renderCards() {
+        gameBoard.innerHTML = ""; // Clear previous cards
+
+        // Adjust grid columns based on number of cards
+        const numCards = cards.length;
+        let columns = 4; // Default
+        if (numCards === 12) columns = 4; // 3x4
+        else if (numCards === 16) columns = 4; // 4x4
+        else if (numCards === 20) columns = 5; // 4x5
+        else if (numCards === 24) columns = 6; // 4x6 (or 6x4)
+
+        // Dynamic grid adjustment
+        gameBoard.style.gridTemplateColumns = `repeat(${columns}, 1fr)`;
+
+        cards.forEach((card, index) => {
+          const cardElement = document.createElement("div");
+          cardElement.classList.add("memory-card");
+          cardElement.dataset.id = card.id; // Store original ID for matching
+          cardElement.dataset.index = index; // Store current position index
+
+          cardElement.innerHTML = `
+                    <div class="front-face">${card.icon}</div>
+                    <div class="back-face"><i class="fas fa-question"></i></div>
+                `;
+
+          cardElement.addEventListener("click", flipCard);
+          gameBoard.appendChild(cardElement);
+        });
+      }
+
+      /**
+       * Handles the card flipping logic.
+       * @param {Event} event - The click event.
+       */
+      function flipCard(event) {
+        if (!gameStarted || lockBoard) return; // Ignore clicks if game not started or board is locked
+
+        const clickedCard = event.currentTarget;
+
+        // If the card is already flipped or matched, do nothing
+        if (
+          clickedCard.classList.contains("flip") ||
+          clickedCard.classList.contains("match")
+        ) {
+          return;
+        }
+
+        clickedCard.classList.add("flip");
+        flippedCards.push(clickedCard);
+
+        if (flippedCards.length === 2) {
+          moves++;
+          movesCountSpan.textContent = moves;
+          lockBoard = true; // Lock the board to prevent more flips
+
+          checkForMatch();
+        }
+      }
+
+      /**
+       * Checks if the two flipped cards are a match.
+       */
+      function checkForMatch() {
+        const [card1, card2] = flippedCards;
+        const isMatch = card1.dataset.id === card2.dataset.id;
+
+        isMatch ? disableCards() : unflipCards();
+      }
+
+      /**
+       * Disables matched cards.
+       */
+      function disableCards() {
+        const [card1, card2] = flippedCards;
+
+        card1.classList.add("match", "disable");
+        card2.classList.add("match", "disable");
+
+        matchedPairs++;
+        resetFlippedCards(); // Reset flipped cards array and unlock board
+
+        // Check for game over
+        if (matchedPairs === cards.length / 2) {
+          endGame();
+        }
+      }
+
+      /**
+       * Unflips non-matching cards after a short delay.
+       */
+      function unflipCards() {
+        const [card1, card2] = flippedCards;
+
+        setTimeout(() => {
+          card1.classList.remove("flip");
+          card2.classList.remove("flip");
+          resetFlippedCards();
+        }, 1000); // 1-second delay before flipping back
+      }
+
+      /**
+       * Resets the `flippedCards` array and unlocks the board.
+       */
+      function resetFlippedCards() {
+        flippedCards = [];
+        lockBoard = false;
+      }
+
+      /**
+       * Updates the game timer.
+       */
+      function updateTimer() {
+        seconds++;
+        timeCountSpan.textContent = seconds + "s";
+      }
+
+      /**
+       * Ends the game and displays the results in a modal.
+       */
+      function endGame() {
+        clearInterval(timer);
+        gameStarted = false;
+        gameBoard.classList.add("disable"); // Make board unclickable
+
+        // Update modal content
+        modalTitle.textContent = "Congratulations!";
+        finalMovesSpan.textContent = moves;
+        finalTimeSpan.textContent = seconds + "s";
+
+        gameOverModal.classList.add("active"); // Show modal
+      }
+
+      /**
+       * Updates the state of the control buttons.
+       * @param {boolean} started - True if the game has started.
+       */
+      function updateControlsState(started) {
+        startButton.disabled = started;
+        // You might add a 'Pause' button here that would toggle enabled/disabled based on 'started'
+      }
+
+      /**
+       * A simple non-blocking message display.
+       * @param {string} msg
+       */
+      function showMessage(msg) {
+        // This could be enhanced with a dedicated message div
+        console.log(msg); // For now, just log to console
+      }
+
+      // -------------------------------------------------------------------
+      // Event Listeners
+      // -------------------------------------------------------------------
+      startButton.addEventListener("click", startGame);
+      restartButton.addEventListener("click", startGame); // Restart from modal
+
+      // -------------------------------------------------------------------
+      // Initial Setup
+      // -------------------------------------------------------------------
+      document.addEventListener("DOMContentLoaded", () => {
+        // Display an initial message or prompt to start
+        showMessage("Click 'Start Game' to begin!");
+      });
+    </script>
+  </body>
+</html>

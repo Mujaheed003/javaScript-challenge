@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Responsive Pomodoro Timer</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: #1f2937; /* Dark background */
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 1rem;
+      }
+      .timer-container {
+        background-color: #374151; /* Darker card background */
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        max-width: 400px;
+        width: 100%;
+      }
+      .timer-display {
+        font-size: 5rem;
+        font-weight: 700;
+        color: white;
+        text-shadow: 0 0 10px rgba(79, 70, 229, 0.5);
+        min-height: 80px; /* Prevent layout shift */
+      }
+      .active-btn {
+        background-color: #4f46e5; /* Indigo-600 */
+        color: white;
+        box-shadow: 0 4px #3730a3;
+      }
+      .active-btn:hover {
+        background-color: #4338ca; /* Indigo-700 */
+      }
+      .inactive-btn {
+        background-color: #4b5563; /* Gray-600 */
+        color: #d1d5db; /* Gray-300 */
+      }
+      .action-button {
+        transition: all 0.15s ease-in-out;
+        padding: 0.75rem 2rem;
+        border-radius: 9999px;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+      }
+      .status-pill {
+        padding: 0.5rem 1.5rem;
+        border-radius: 9999px;
+        font-weight: 700;
+        font-size: 1.125rem;
+      }
+
+      /* Responsive adjustments for smaller screens */
+      @media (max-width: 640px) {
+        .timer-display {
+          font-size: 4rem;
+        }
+        .action-button {
+          padding: 0.6rem 1.5rem;
+        }
+      }
+    </style>
+  </head>
+  <body class="selection:bg-indigo-300 selection:text-indigo-900">
+    <div class="timer-container rounded-3xl p-6 sm:p-8 text-center">
+      <!-- Status Pills (Work/Break Selection) -->
+      <div class="flex justify-center space-x-3 mb-8">
+        <button
+          id="workBtn"
+          data-mode="work"
+          class="status-pill active-btn transition-colors"
+        >
+          Work
+        </button>
+        <button
+          id="shortBreakBtn"
+          data-mode="shortBreak"
+          class="status-pill inactive-btn hover:bg-gray-700 transition-colors"
+        >
+          Short Break
+        </button>
+        <button
+          id="longBreakBtn"
+          data-mode="longBreak"
+          class="status-pill inactive-btn hover:bg-gray-700 transition-colors"
+        >
+          Long Break
+        </button>
+      </div>
+
+      <!-- Timer Display -->
+      <div id="timerDisplay" class="timer-display mb-10">25:00</div>
+
+      <!-- Action Buttons -->
+      <div
+        class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4"
+      >
+        <button
+          id="startStopBtn"
+          class="action-button bg-green-500 text-white hover:bg-green-600 active:bg-green-700 shadow-lg shadow-green-500/50"
+        >
+          START
+        </button>
+        <button
+          id="resetBtn"
+          class="action-button bg-gray-500 text-white hover:bg-gray-600 active:bg-gray-700 shadow-lg shadow-gray-500/50"
+        >
+          RESET
+        </button>
+      </div>
+
+      <!-- Cycle Counter -->
+      <div id="cycleCounter" class="mt-8 text-gray-400 font-medium">
+        Completed Pomodoros: 0
+      </div>
+    </div>
+
+    <script>
+      // --- Configuration ---
+      const TIME_MODES = {
+        work: 25 * 60, // 25 minutes
+        shortBreak: 5 * 60, // 5 minutes
+        longBreak: 15 * 60, // 15 minutes
+      };
+
+      // --- State Variables ---
+      let currentMode = "work";
+      let timeRemaining = TIME_MODES.work;
+      let isRunning = false;
+      let intervalId = null;
+      let pomodorosCompleted = 0;
+      const longBreakInterval = 4; // Long break after every 4 work cycles
+
+      // --- DOM Elements ---
+      const timerDisplay = document.getElementById("timerDisplay");
+      const startStopBtn = document.getElementById("startStopBtn");
+      const resetBtn = document.getElementById("resetBtn");
+      const cycleCounter = document.getElementById("cycleCounter");
+      const modeButtons = document.querySelectorAll(".status-pill");
+
+      // --- Audio Context for Tones (No external files needed) ---
+
+      // This is a minimal function to create a basic sound effect without Tone.js or external files.
+      const playDing = () => {
+        try {
+          const audioCtx = new (window.AudioContext ||
+            window.webkitAudioContext)();
+          const oscillator = audioCtx.createOscillator();
+          const gainNode = audioCtx.createGain();
+
+          oscillator.connect(gainNode);
+          gainNode.connect(audioCtx.destination);
+
+          oscillator.type = "sine";
+          oscillator.frequency.setValueAtTime(440, audioCtx.currentTime); // A4
+          gainNode.gain.setValueAtTime(0.5, audioCtx.currentTime); // Volume
+
+          // Start the sound
+          oscillator.start();
+
+          // Stop the sound after 0.5 seconds
+          gainNode.gain.exponentialRampToValueAtTime(
+            0.001,
+            audioCtx.currentTime + 0.5
+          );
+          oscillator.stop(audioCtx.currentTime + 0.5);
+        } catch (e) {
+          console.warn("Audio not supported or failed to play:", e);
+          // Fail silently if audio API is restricted
+        }
+      };
+
+      // --- Logic Functions ---
+
+      /**
+       * Formats seconds into MM:SS string.
+       */
+      const formatTime = (seconds) => {
+        const minutes = String(Math.floor(seconds / 60)).padStart(2, "0");
+        const secs = String(seconds % 60).padStart(2, "0");
+        return `${minutes}:${secs}`;
+      };
+
+      /**
+       * Updates the timer display and HTML document title.
+       */
+      const updateDisplay = () => {
+        timerDisplay.textContent = formatTime(timeRemaining);
+        document.title = `${formatTime(
+          timeRemaining
+        )} | ${currentMode.toUpperCase()} Time`;
+      };
+
+      /**
+       * Runs every second to decrement the timer.
+       */
+      const tick = () => {
+        if (timeRemaining > 0) {
+          timeRemaining--;
+          updateDisplay();
+        } else {
+          // Timer finished!
+          clearInterval(intervalId);
+          isRunning = false;
+          startStopBtn.textContent = "START";
+          startStopBtn.classList.remove("bg-red-500", "shadow-red-500/50");
+          startStopBtn.classList.add("bg-green-500", "shadow-green-500/50");
+
+          playDing();
+
+          // Automatically switch mode
+          handleModeSwitch();
+        }
+      };
+
+      /**
+       * Handles the transition to the next phase (Work -> Break or Break -> Work).
+       */
+      const handleModeSwitch = () => {
+        let nextMode;
+
+        if (currentMode === "work") {
+          pomodorosCompleted++;
+          cycleCounter.textContent = `Completed Pomodoros: ${pomodorosCompleted}`;
+
+          if (pomodorosCompleted % longBreakInterval === 0) {
+            nextMode = "longBreak";
+            showMessageBox("Time for a Long Break! (15 minutes)");
+          } else {
+            nextMode = "shortBreak";
+            showMessageBox("Time for a Short Break! (5 minutes)");
+          }
+        } else {
+          // Done with a break, switch back to work
+          nextMode = "work";
+          showMessageBox("Break is over! Time to Focus (25 minutes)");
+        }
+
+        // Switch to the next mode automatically
+        setMode(nextMode);
+        // Optionally, auto-start the next phase
+        // startTimer();
+      };
+
+      /**
+       * Switches the active timer mode and updates UI.
+       */
+      const setMode = (mode) => {
+        if (isRunning) return;
+
+        currentMode = mode;
+        timeRemaining = TIME_MODES[mode];
+        updateDisplay();
+        updateModeButtons(mode);
+      };
+
+      /**
+       * Updates the visual style of the mode selection buttons.
+       */
+      const updateModeButtons = (activeMode) => {
+        modeButtons.forEach((button) => {
+          if (button.dataset.mode === activeMode) {
+            button.classList.remove("inactive-btn", "hover:bg-gray-700");
+            button.classList.add("active-btn");
+          } else {
+            button.classList.remove("active-btn");
+            button.classList.add("inactive-btn", "hover:bg-gray-700");
+          }
+        });
+      };
+
+      // --- Control Functions ---
+
+      const startTimer = () => {
+        if (isRunning) return;
+        isRunning = true;
+        intervalId = setInterval(tick, 1000);
+
+        startStopBtn.textContent = "PAUSE";
+        startStopBtn.classList.remove("bg-green-500", "shadow-green-500/50");
+        startStopBtn.classList.add("bg-red-500", "shadow-red-500/50");
+      };
+
+      const pauseTimer = () => {
+        if (!isRunning) return;
+        isRunning = false;
+        clearInterval(intervalId);
+
+        startStopBtn.textContent = "START";
+        startStopBtn.classList.remove("bg-red-500", "shadow-red-500/50");
+        startStopBtn.classList.add("bg-green-500", "shadow-green-500/50");
+      };
+
+      const resetTimer = () => {
+        pauseTimer();
+        timeRemaining = TIME_MODES[currentMode];
+        updateDisplay();
+      };
+
+      // --- Custom Message Box (No alert()) ---
+
+      const showMessageBox = (message) => {
+        // Create a simple overlay message for feedback
+        const overlay = document.createElement("div");
+        overlay.className =
+          "fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 transition-opacity duration-300";
+        overlay.innerHTML = `
+                <div class="bg-white p-8 rounded-xl shadow-2xl text-center max-w-sm mx-4 transform scale-100 transition-transform duration-300">
+                    <p class="text-xl font-bold text-gray-800 mb-4">${message}</p>
+                    <button id="closeMessage" class="px-6 py-2 bg-indigo-600 text-white rounded-lg font-semibold hover:bg-indigo-700 transition">
+                        OK, Got It!
+                    </button>
+                </div>
+            `;
+        document.body.appendChild(overlay);
+
+        document
+          .getElementById("closeMessage")
+          .addEventListener("click", () => {
+            overlay.remove();
+          });
+      };
+
+      // --- Event Listeners ---
+
+      startStopBtn.addEventListener("click", () => {
+        if (isRunning) {
+          pauseTimer();
+        } else {
+          startTimer();
+        }
+      });
+
+      resetBtn.addEventListener("click", resetTimer);
+
+      modeButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          const mode = button.dataset.mode;
+          setMode(mode);
+        });
+      });
+
+      // --- Initialization ---
+
+      // Set initial display and title
+      document.addEventListener("DOMContentLoaded", () => {
+        updateDisplay();
+        updateModeButtons(currentMode);
+      });
+    </script>
+  </body>
+</html>

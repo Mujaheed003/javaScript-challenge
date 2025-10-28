@@ -1,0 +1,147 @@
+/* Reset and setup */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  background: linear-gradient(135deg, #1f1c2c, #928dab);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+/* Calendar Container */
+.calendar {
+  width: 34rem;
+  height: 24rem;
+  display: flex;
+  border-radius: 1.6rem;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  background: #fff;
+  animation: fadeIn 0.8s ease;
+}
+
+/* Left Side */
+.left-side {
+  width: 60%;
+  background: linear-gradient(180deg, #00c6ff, #0072ff);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  transition: all 0.3s ease;
+}
+
+.left-side:hover {
+  background: linear-gradient(180deg, #0072ff, #00c6ff);
+}
+
+#date {
+  font-size: 9rem;
+  font-weight: 700;
+  line-height: 8rem;
+}
+
+#day {
+  font-size: 2.2rem;
+  letter-spacing: 1px;
+}
+
+/* Right Side */
+.right-side {
+  width: 40%;
+  background: #ffffff;
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+#month {
+  font-size: 2.2rem;
+  color: #0072ff;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+#year {
+  font-size: 1.8rem;
+  font-weight: 500;
+  color: #444;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 48em) {
+  .calendar {
+    width: 28rem;
+    height: 20rem;
+  }
+
+  #date {
+    font-size: 7rem;
+    line-height: 6.5rem;
+  }
+
+  #day {
+    font-size: 1.8rem;
+  }
+
+  #month {
+    font-size: 1.8rem;
+  }
+}
+
+@media (max-width: 30em) {
+  body {
+    padding: 1rem;
+  }
+  .calendar-section {
+    width: 100%;
+  }
+
+  .calendar {
+    width: 100%;
+    height: 18rem;
+    flex-direction: column;
+  }
+
+  .left-side,
+  .right-side {
+    width: 100%;
+    height: 50%;
+  }
+
+  .right-side {
+    background: #f0f0f0;
+  }
+
+  #date {
+    font-size: 6rem;
+  }
+
+  #day,
+  #month,
+  #year {
+    font-size: 1.6rem;
+  }
+}

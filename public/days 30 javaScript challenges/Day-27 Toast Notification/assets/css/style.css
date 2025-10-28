@@ -1,0 +1,191 @@
+/* ========== GLOBAL RESET ========== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+/* ========== BODY ========== */
+body {
+  background: linear-gradient(135deg, #3a0ca3, #7209b7, #f72585);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  color: #fff;
+  overflow-x: hidden;
+}
+
+/* ========== BUTTON SECTION ========== */
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 40px;
+}
+
+.buttons button {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  outline: none;
+  color: #fff;
+  padding: 12px 25px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(6px);
+}
+
+.buttons button:hover {
+  background: rgba(255, 255, 255, 0.35);
+  transform: scale(1.05);
+}
+
+/* ========== TOAST BOX CONTAINER ========== */
+#toastBox {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  display: flex;
+  align-items: flex-end;
+  flex-direction: column;
+  gap: 15px;
+  padding: 10px;
+  z-index: 999;
+}
+
+/* ========== TOAST STYLING ========== */
+.toast {
+  width: 350px;
+  min-height: 70px;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(8px);
+  border-radius: 12px;
+  color: #222;
+  font-weight: 500;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  transform: translateX(120%);
+  animation: slideIn 0.5s ease forwards;
+}
+
+/* ========== SLIDE ANIMATION ========== */
+@keyframes slideIn {
+  100% {
+    transform: translateX(0);
+  }
+}
+
+/* ========== ICON STYLE ========== */
+.toast i {
+  margin: 0 20px;
+  font-size: 30px;
+  color: #4caf50;
+}
+
+/* ========== TOAST VARIANTS ========== */
+.toast.error i {
+  color: #e63946;
+}
+
+.toast.invalid i {
+  color: #ff9f1c;
+}
+
+/* ========== BOTTOM PROGRESS BAR ========== */
+.toast::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 5px;
+  background: #4caf50;
+  animation: progress 6s linear forwards;
+}
+
+.toast.error::after {
+  background: #e63946;
+}
+
+.toast.invalid::after {
+  background: #ff9f1c;
+}
+
+@keyframes progress {
+  100% {
+    width: 0;
+  }
+}
+
+/* ========== RESPONSIVENESS ========== */
+
+/* Tablet */
+@media (max-width: 900px) {
+  .toast {
+    width: 300px;
+    min-height: 65px;
+    font-size: 15px;
+  }
+
+  .buttons button {
+    font-size: 15px;
+    padding: 10px 20px;
+  }
+}
+
+/* Mobile (big and small) */
+@media (max-width: 600px) {
+  body {
+    text-align: center;
+    padding: 20px;
+  }
+
+  #toastBox {
+    bottom: 20px;
+    right: 10px;
+    left: 10px;
+    align-items: center;
+  }
+
+  .toast {
+    width: 90%;
+    font-size: 14px;
+  }
+
+  .buttons {
+    flex-direction: column;
+  }
+
+  .buttons button {
+    width: 100%;
+    max-width: 250px;
+  }
+}
+
+/* Very Small Phones */
+@media (max-width: 400px) {
+  h1 {
+    margin-top: -200px;
+  }
+  .buttons {
+    margin-top: 5px;
+  }
+  .toast {
+    width: 95%;
+    font-size: 13px;
+  }
+
+  .toast i {
+    font-size: 25px;
+    margin: 0 10px;
+  }
+}

@@ -1,0 +1,191 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: sans-serif;
+}
+
+html {
+  font-size: 76.54%;
+}
+
+.hero {
+  width: 100%;
+  height: 100vh;
+  background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)),
+    url("../img/bck-img.jpg");
+  background-size: cover;
+  background-position: center;
+  padding: 1rem 10%;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Heading styles */
+.hero h3 {
+  font-weight: 400;
+  font-size: 3rem;
+  margin-bottom: 2rem;
+  color: #28b8e4;
+}
+
+.hero h1 {
+  font-size: 5rem;
+  line-height: 1.2;
+}
+
+.hero p {
+  margin: 2rem 0 5rem;
+  font-size: 1.8rem;
+}
+
+/* Form styles */
+form {
+  background: #fff;
+  display: flex;
+  width: fit-content;
+  border-radius: 5rem;
+  overflow: hidden;
+}
+
+form input {
+  border: none;
+  outline: none;
+  padding: 1rem 2rem;
+  height: 7rem;
+  width: 40rem;
+  font-size: 1.6rem;
+}
+
+form button {
+  background: linear-gradient(#0870b6, #28b8e4);
+  border: none;
+  outline: none;
+  height: 7rem;
+  width: 10rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5rem;
+}
+
+form button img {
+  width: 3.6rem;
+}
+
+span {
+  color: #61b752;
+  margin-top: 15px;
+  display: block;
+  font-size: 1.6rem;
+}
+
+/* ---------------------- */
+/* RESPONSIVENESS */
+/* ---------------------- */
+
+/* Laptops and smaller desktops */
+@media (max-width: 64em) {
+  .hero h1 {
+    font-size: 4.2rem;
+  }
+
+  form input {
+    width: 35rem;
+    height: 6.5rem;
+  }
+
+  form button {
+    width: 9rem;
+    height: 6.5rem;
+  }
+}
+
+/* Tablets */
+@media (max-width: 48em) {
+  .hero {
+    padding: 1rem 8%;
+    text-align: center;
+    align-items: center;
+  }
+
+  .hero h3 {
+    font-size: 2.6rem;
+  }
+
+  .hero h1 {
+    font-size: 3rem;
+  }
+
+  .hero p {
+    font-size: 1.6rem;
+  }
+
+  form {
+    flex-direction: column;
+    width: 100%;
+    max-width: 40rem;
+  }
+
+  form input {
+    width: 100%;
+    height: 4rem;
+    border-radius: 5px;
+    border-bottom: 1px solid #ccc;
+  }
+
+  form button {
+    width: 100%;
+    height: 4rem;
+    margin-top: 1rem;
+    border-radius: 5px;
+  }
+}
+
+/* Mobile devices (large and small) */
+@media (max-width: 30em) {
+  .hero {
+    padding: 1.2rem;
+    text-align: center;
+  }
+
+  .hero h3 {
+    font-size: 2rem;
+  }
+
+  .hero h1 {
+    font-size: 2rem;
+  }
+
+  .hero p {
+    font-size: 1.6rem;
+  }
+
+  form {
+    flex-direction: column;
+    width: 100%;
+    max-width: 35rem;
+  }
+
+  form input {
+    width: 100%;
+    height: 3rem;
+    font-size: 1.4rem;
+  }
+
+  form button {
+    width: 100%;
+    height: 3rem;
+  }
+
+  form button img {
+    width: 2.8rem;
+  }
+
+  span {
+    font-size: 1.4rem;
+  }
+}

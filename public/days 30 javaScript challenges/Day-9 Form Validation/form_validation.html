@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Form Validation</title>
+    <link rel="stylesheet" href="css/style.css" />
+
+    <script
+      type="module"
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
+    ></script>
+    <script
+      nomodule
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
+    ></script>
+  </head>
+  <body>
+    <div class="container">
+      <form action="">
+        <ion-icon name="paper-plane-outline"></ion-icon>
+        <h2>Contact Form</h2>
+
+        <div class="input-group">
+          <label for="">Full Name</label>
+          <input
+            type="text"
+            id="contact-name"
+            placeholder="Enter your name"
+            onkeyup="validateName()"
+          />
+          <span id="name-error"></span>
+        </div>
+
+        <div class="input-group">
+          <label for="">Phone Number</label>
+          <input
+            type="tel"
+            id="contact-phone"
+            placeholder="+234 123 4567 890"
+            onkeyup="validatePhone()"
+          />
+          <span id="phone-error"></span>
+        </div>
+
+        <div class="input-group">
+          <label for="">Email Id</label>
+          <input
+            type="email"
+            id="contact-email"
+            placeholder="Enter Email"
+            onkeyup="validateEmail()"
+          />
+          <span id="email-error"></span>
+        </div>
+
+        <div class="input-group">
+          <label for="">Your Message</label>
+          <textarea
+            rows="5"
+            id="contact-message"
+            placeholder="Enter your message"
+            onkeyup="validateMessage()"
+          ></textarea>
+          <span id="message-error"></span>
+        </div>
+
+        <button onclick="return validateForm()">Submit</button>
+        <span id="submit-error"></span>
+      </form>
+    </div>
+
+    <script src="js/script.js"></script>
+  </body>
+</html>

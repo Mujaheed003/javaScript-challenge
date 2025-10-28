@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>30DaysJS — Dashboard</title>
+    <link
+      rel="shortcut icon"
+      href="../assets/img/favicon.png"
+      type="image/x-icon"
+    />
+    <link rel="stylesheet" href="../assets/css/dashboard.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+  </head>
+  <body>
+    <aside class="sidebar" id="sidebar">
+      <div class="logo-container">
+        <a href="dashboard.html" class="logo"
+          ><img src="../assets/img/logo.png" alt=""
+        /></a>
+        <marquee behavior="" direction=""
+          ><small
+            >&copy; <span id="year"></span> 30 Days JavaScript Challenge.</small
+          ></marquee
+        >
+      </div>
+
+      <nav class="nav-links" id="navLinks">
+        <a href="dashboard.html" class="nav-link-item"
+          ><i class="fas fa-home"></i> Dashboard</a
+        >
+        <a href="challenges.html" class="nav-link-item"
+          ><i class="fas fa-code"></i> All Challenges</a
+        >
+        <a href="progress.html" class="nav-link-item"
+          ><i class="fas fa-chart-line"></i> My Progress</a
+        >
+        <a href="resources.html" class="nav-link-item"
+          ><i class="fas fa-book"></i> Resources</a
+        >
+      </nav>
+
+      <div class="sidebar-action">
+        <a href="#" id="logoutBtn" class="btn btn-primary"
+          ><i class="fas fa-sign-out-alt"></i> Logout</a
+        >
+      </div>
+    </aside>
+
+    <div class="main-content">
+      <header class="mobile-header">
+        <a href="dashboard.html" class="logo"
+          ><img src="../assets/img/logo.png" alt=""
+        /></a>
+        <button id="hamburger" class="hamburger" aria-label="Toggle menu">
+          <i class="fas fa-bars"></i>
+        </button>
+      </header>
+
+      <main>
+        <section class="dashboard-hero">
+          <div class="container">
+            <h1 class="section-title">
+              Welcome back, <span id="userName">Coder</span> 👋
+            </h1>
+            <p class="section-subtitle">
+              Track your JavaScript challenge journey and continue building
+              momentum.
+            </p>
+          </div>
+        </section>
+
+        <section class="dashboard-summary">
+          <div class="container summary-container">
+            <div class="summary-card">
+              <i class="fas fa-bolt summary-icon"></i>
+              <div>
+                <h3 class="counter" data-target="30">0</h3>
+                <p>Total Challenges</p>
+              </div>
+            </div>
+
+            <div class="summary-card">
+              <i class="fas fa-check-circle summary-icon"></i>
+              <div>
+                <h3 class="counter" data-target="12">0</h3>
+                <p>Completed</p>
+              </div>
+            </div>
+
+            <div class="summary-card">
+              <i class="fas fa-clock summary-icon"></i>
+              <div>
+                <h3 class="counter" data-target="18">0</h3>
+                <p>Pending</p>
+              </div>
+            </div>
+
+            <div class="summary-card">
+              <i class="fas fa-fire summary-icon"></i>
+              <div>
+                <h3 class="counter" data-target="40">0</h3>
+                <p>Progress (%)</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="projects-dashboard">
+          <div class="container">
+            <div class="filter-controls">
+              <input
+                id="projectSearch"
+                placeholder="Search projects (e.g., 'API', 'DOM')"
+              />
+              <select id="categoryFilter">
+                <option value="all">All Categories</option>
+                <option value="dom">DOM Manipulation</option>
+                <option value="api">API / Fetch</option>
+                <option value="css-js">CSS & JS</option>
+                <option value="games">Mini Games</option>
+              </select>
+            </div>
+
+            <div class="projects-grid">
+              <!-- Cards (example) -->
+              <article class="dashboard-card">
+                <div class="card-header">Background Color Changer</div>
+                <div class="card-body">
+                  <p>
+                    <b>MOM Manipulation and Event-driven UI Updates.</b>
+                    Selecting and changing DOM element styles with JavaScript.
+                    Generating random colors or gradients. Handling user
+                    interaction (e.g, button click or timer). Using CSS
+                    variables for dynamic theme changes.
+                  </p>
+                  <span class="tag">DOM</span>
+                  <div class="progress-bar">
+                    <div class="progress done" style="width: 100%"></div>
+                  </div>
+                  <div class="card-actions">
+                    <span class="status status-done"
+                      ><i class="fas fa-check-circle"></i> Completed</span
+                    >
+                    <a
+                      class="btn-demo"
+                      href="bonus/backgroundChangeColor.html"
+                      target="_blank"
+                      >View Demo <i class="fas fa-external-link-alt"></i
+                    ></a>
+                  </div>
+                </div>
+              </article>
+
+              <article class="dashboard-card">
+                <div class="card-header">Drawing App</div>
+                <div class="card-body">
+                  <p>
+                    <b>Canvas API and Mouse Event Handling.</b> Drawingon the
+                    screen the HTML canvas element. Handling mouse events
+                    (mousedown, mousemove, mouseup). Choosing colors, line
+                    widths, and clear/reset functions. Saving drawings as images
+                    (optional).
+                  </p>
+                  <span class="tag">API</span>
+                  <div class="progress-bar">
+                    <div class="progress pending" style="width: 50%"></div>
+                  </div>
+                  <div class="card-actions">
+                    <span class="status status-pending"
+                      ><i class="fas fa-clock"></i> In Progress</span
+                    >
+                    <a
+                      class="btn-demo"
+                      href="bonus/drawingApp.html"
+                      target="_blank"
+                      >View Demo <i class="fas fa-external-link-alt"></i
+                    ></a>
+                  </div>
+                </div>
+              </article>
+
+              <article class="dashboard-card">
+                <div class="card-header">Infinite Scrolling</div>
+                <div class="card-body">
+                  <p>
+                    <b>Lady Loading and Scroll Event Handling.</b> Detecting
+                    scroll position using the scroll event. Dynamically loading
+                    new content when reaching the button. Working with APIs or
+                    mock data for continuous feed. Optimazing performance with
+                    throttling/debouncing.
+                  </p>
+                  <span class="tag">CSS / JS / API</span>
+                  <div class="progress-bar">
+                    <div class="progress done" style="width: 80%"></div>
+                  </div>
+                  <div class="card-actions">
+                    <span class="status status-done"
+                      ><i class="fas fa-clock"></i> In Progress...</span
+                    >
+                    <a
+                      class="btn-demo"
+                      href="bonus/infiniteScrollBlog.html"
+                      target="_blank"
+                      >View Demo <i class="fas fa-external-link-alt"></i
+                    ></a>
+                  </div>
+                </div>
+              </article>
+
+              <article class="dashboard-card">
+                <div class="card-header">Image Lightbox</div>
+                <div class="card-body">
+                  <p>
+                    <b>Modal Window and Overlay Effects.</b> Displaying a large
+                    version of an image in a modal overly. Using event listeners
+                    for open/close actions. Managing z-index, transitions and
+                    background dimming. Adding navigation (next/previous)
+                    functionality.
+                  </p>
+                  <span class="tag">CSS / JS</span>
+                  <div class="progress-bar">
+                    <div class="progress done" style="width: 90%"></div>
+                  </div>
+                  <div class="card-actions">
+                    <span class="status status-done"
+                      ><i class="fas fa-clock"></i> In Progress</span
+                    >
+                    <a
+                      class="btn-demo"
+                      href="bonus/imageLightBox.html"
+                      target="_blank"
+                      >View Demo <i class="fas fa-external-link-alt"></i
+                    ></a>
+                  </div>
+                </div>
+              </article>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="../assets/js/dashboard.js"></script>
+    <script src="../assets/js/script.js"></script>
+  </body>
+</html>

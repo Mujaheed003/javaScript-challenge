@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Local Expense Tracker</title>
+    <!-- Poppins font for modern aesthetic -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Font Awesome for icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+
+    <style>
+      /* CSS Styling */
+      :root {
+        --primary-color: #5b55e3; /* Purple/Blue */
+        --secondary-color: #2c3e50; /* Dark Grey */
+        --income-color: #2ecc71; /* Green */
+        --expense-color: #e74c3c; /* Red */
+        --background-light: #f4f7f6;
+        --card-bg: #ffffff;
+        --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        --transition-speed: 0.3s;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Poppins", sans-serif;
+        background-color: var(--background-light);
+        color: var(--secondary-color);
+        line-height: 1.6;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        padding: 20px;
+      }
+
+      .app-container {
+        width: 100%;
+        max-width: 450px; /* Max width suitable for a finance tracker */
+        margin: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        padding: 20px;
+        background-color: var(--card-bg);
+        border-radius: 12px;
+        box-shadow: var(--shadow);
+      }
+
+      /* Header and Balance */
+      h1 {
+        font-size: 1.8rem;
+        font-weight: 700;
+        text-align: center;
+        color: var(--secondary-color);
+        margin-bottom: 5px;
+      }
+
+      h2 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        text-align: center;
+        color: var(--primary-color);
+      }
+
+      .balance-card {
+        background-color: var(--secondary-color);
+        color: var(--card-bg);
+        padding: 25px;
+        border-radius: 8px;
+        text-align: center;
+        margin-bottom: 15px;
+      }
+
+      .balance-card h3 {
+        font-size: 1rem;
+        font-weight: 400;
+        margin-bottom: 5px;
+        border-bottom: none; /* Override general h3 style */
+      }
+
+      #balance-amount {
+        font-size: 2.5rem;
+        font-weight: 700;
+        display: block;
+        transition: color 0.3s ease;
+      }
+
+      /* Income/Expense Summary */
+      .inc-exp-container {
+        display: flex;
+        background-color: var(--card-bg);
+        box-shadow: var(--shadow);
+        border-radius: 8px;
+        text-align: center;
+        overflow: hidden;
+      }
+
+      .inc-exp-container > div {
+        flex: 1;
+        padding: 15px 10px;
+        font-size: 1rem;
+      }
+
+      .inc-exp-container > div:first-child {
+        border-right: 1px solid var(--background-light);
+      }
+
+      .money {
+        font-weight: 600;
+        font-size: 1.2rem;
+        margin-top: 5px;
+      }
+
+      .money.plus {
+        color: var(--income-color);
+      }
+
+      .money.minus {
+        color: var(--expense-color);
+      }
+
+      /* Transaction History */
+      h3 {
+        border-bottom: 2px solid var(--background-light);
+        padding-bottom: 5px;
+        margin: 15px 0;
+        font-size: 1.2rem;
+      }
+
+      #history-list {
+        list-style-type: none;
+        padding: 0;
+        max-height: 250px;
+        overflow-y: auto;
+        margin-bottom: 20px;
+        padding-right: 5px;
+      }
+
+      #history-list::-webkit-scrollbar {
+        width: 8px;
+        border-radius: 10px;
+      }
+      #history-list::-webkit-scrollbar-thumb {
+        background-color: #ccc;
+        border-radius: 10px;
+      }
+
+      .transaction {
+        background-color: var(--card-bg);
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        color: var(--secondary-color);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px;
+        margin: 10px 0;
+        border-radius: 5px;
+        position: relative;
+        transition: transform var(--transition-speed);
+      }
+
+      .transaction:hover {
+        transform: translateX(5px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .transaction .text {
+        flex-grow: 1;
+        font-weight: 400;
+      }
+
+      .transaction.plus {
+        border-right: 5px solid var(--income-color);
+      }
+
+      .transaction.minus {
+        border-right: 5px solid var(--expense-color);
+      }
+
+      .transaction-amount {
+        font-weight: 600;
+        margin-left: 10px;
+      }
+
+      .delete-btn {
+        background-color: var(--expense-color);
+        color: var(--text-light);
+        border: none;
+        cursor: pointer;
+        font-size: 0.8rem;
+        padding: 4px 8px;
+        margin-left: 10px;
+        border-radius: 4px;
+        transition: background-color var(--transition-speed);
+      }
+
+      .delete-btn:hover {
+        background-color: #c0392b;
+      }
+
+      /* Add Transaction Form */
+      .form-group {
+        margin-bottom: 15px;
+      }
+
+      label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 5px;
+        font-size: 0.9rem;
+      }
+
+      input[type="text"],
+      input[type="number"] {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 1rem;
+        transition: border-color var(--transition-speed);
+      }
+
+      input[type="text"]:focus,
+      input[type="number"]:focus {
+        outline: none;
+        border-color: var(--primary-color);
+      }
+
+      .btn-submit {
+        cursor: pointer;
+        background-color: var(--primary-color);
+        color: var(--text-light);
+        border: 0;
+        display: block;
+        font-size: 1rem;
+        margin: 10px 0 30px;
+        padding: 12px;
+        width: 100%;
+        border-radius: 8px;
+        font-weight: 600;
+        transition: background-color var(--transition-speed);
+      }
+
+      .btn-submit:hover {
+        background-color: #433eab;
+      }
+
+      /* Message/Modal Box (Instead of alert()) */
+      .modal-message {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        padding: 15px 25px;
+        border-radius: 8px;
+        color: var(--text-light);
+        font-weight: 600;
+        z-index: 1001;
+        box-shadow: var(--shadow);
+        opacity: 0;
+        transform: translateX(100%);
+        transition: all 0.5s ease-in-out;
+      }
+
+      .modal-message.show {
+        opacity: 1;
+        transform: translateX(0);
+      }
+
+      .modal-message.error {
+        background-color: var(--expense-color);
+      }
+
+      .modal-message.success {
+        background-color: var(--income-color);
+      }
+
+      /* Small screen adjustments */
+      @media (max-width: 480px) {
+        body {
+          padding: 10px;
+        }
+        .app-container {
+          padding: 15px;
+          gap: 15px;
+        }
+
+        .balance-card {
+          padding: 20px;
+        }
+
+        #balance-amount {
+          font-size: 2rem;
+        }
+
+        .inc-exp-container > div {
+          padding: 10px 5px;
+        }
+
+        .transaction {
+          font-size: 0.95rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app-container" id="app-content">
+      <h1>Expense Tracker</h1>
+
+      <!-- Current Balance -->
+      <div class="balance-card">
+        <h3>YOUR BALANCE</h3>
+        <span id="balance-amount">+₦0.00</span>
+      </div>
+
+      <!-- Income and Expense Summary -->
+      <div class="inc-exp-container">
+        <div>
+          <h4>Income</h4>
+          <p id="money-plus" class="money plus">+₦0.00</p>
+        </div>
+        <div>
+          <h4>Expense</h4>
+          <p id="money-minus" class="money minus">-₦0.00</p>
+        </div>
+      </div>
+
+      <!-- Transaction History -->
+      <h3>History</h3>
+      <ul id="history-list">
+        <!-- Transactions will be rendered here by JavaScript -->
+      </ul>
+
+      <!-- Add New Transaction Form -->
+      <h3>Add new transaction</h3>
+      <form id="transaction-form">
+        <div class="form-group">
+          <label for="text">Text (e.g., Salary, Groceries)</label>
+          <input type="text" id="text" placeholder="Enter text..." required />
+        </div>
+        <div class="form-group">
+          <label for="amount"
+            >Amount (Negative = Expense, Positive = Income)</label
+          >
+          <input
+            type="number"
+            id="amount"
+            placeholder="Enter amount..."
+            step="0.01"
+            required
+          />
+        </div>
+        <button class="btn-submit" type="submit">Add Transaction</button>
+      </form>
+    </div>
+
+    <!-- Custom Modal Message (Instead of alert/confirm) -->
+    <div id="modal-message" class="modal-message"></div>
+
+    <script>
+      // -------------------------------------------------------------------
+      // Local Storage Expense Tracker Logic
+      // -------------------------------------------------------------------
+
+      const balanceDisplay = document.getElementById("balance-amount");
+      const moneyPlus = document.getElementById("money-plus");
+      const moneyMinus = document.getElementById("money-minus");
+      const historyList = document.getElementById("history-list");
+      const form = document.getElementById("transaction-form");
+      const textInput = document.getElementById("text");
+      const amountInput = document.getElementById("amount");
+      const modalMessage = document.getElementById("modal-message");
+
+      // Get transactions from local storage, or initialize empty array
+      const localStorageTransactions = JSON.parse(
+        localStorage.getItem("transactions")
+      );
+      let transactions =
+        localStorageTransactions !== null ? localStorageTransactions : [];
+
+      /**
+       * Shows a temporary, non-blocking modal message.
+       * @param {string} message The message to display.
+       * @param {string} type 'success' or 'error'.
+       */
+      function showModalMessage(message, type) {
+        modalMessage.textContent = message;
+        modalMessage.className = `modal-message show ${type}`;
+
+        setTimeout(() => {
+          modalMessage.classList.remove("show");
+        }, 3000);
+      }
+
+      /**
+       * Updates the balance, income, and expense summary displays.
+       */
+      function updateValues() {
+        const amounts = transactions.map((t) => t.amount);
+
+        // Calculate Total Balance
+        const total = amounts.reduce((acc, item) => (acc += item), 0);
+        balanceDisplay.textContent = `₦${total.toFixed(2)}`;
+
+        // Set balance color based on value
+        balanceDisplay.style.color =
+          total >= 0 ? "var(--income-color)" : "var(--expense-color)";
+
+        // Calculate Income
+        const income = amounts
+          .filter((item) => item > 0)
+          .reduce((acc, item) => (acc += item), 0);
+
+        // Calculate Expense
+        const expense =
+          amounts
+            .filter((item) => item < 0)
+            .reduce((acc, item) => (acc += item), 0) * -1; // Convert to positive value
+
+        moneyPlus.textContent = `+₦${income.toFixed(2)}`;
+        moneyMinus.textContent = `-₦${expense.toFixed(2)}`;
+      }
+
+      /**
+       * Renders a single transaction item to the DOM.
+       * @param {object} transaction The transaction object.
+       */
+      function addTransactionToDOM(transaction) {
+        const sign = transaction.amount < 0 ? "-" : "+";
+        const classType = transaction.amount < 0 ? "minus" : "plus";
+
+        const item = document.createElement("li");
+        item.classList.add("transaction", classType);
+        item.id = `transaction-${transaction.id}`; // Use ID for easier deletion
+
+        item.innerHTML = `
+                <span class="text">${transaction.text}</span>
+                <span class="transaction-amount">${sign}₦${Math.abs(
+          transaction.amount
+        ).toFixed(2)}</span>
+                <button onclick="deleteTransaction(${
+                  transaction.id
+                })" class="delete-btn" aria-label="Delete Transaction">
+                    <i class="fas fa-trash-alt"></i>
+                </button>
+            `;
+
+        historyList.appendChild(item);
+      }
+
+      /**
+       * Updates localStorage with the current transactions array.
+       */
+      function updateLocalStorage() {
+        localStorage.setItem("transactions", JSON.stringify(transactions));
+      }
+
+      /**
+       * Initializes the app by loading data from localStorage and rendering the UI.
+       */
+      function init() {
+        historyList.innerHTML = ""; // Clear existing list
+        transactions.forEach(addTransactionToDOM);
+        updateValues();
+      }
+
+      /**
+       * Generates a unique ID for a new transaction.
+       * @returns {number} A unique timestamp-based ID.
+       */
+      function generateID() {
+        return Date.now();
+      }
+
+      /**
+       * Handles the form submission to add a new transaction.
+       * @param {Event} e Form submission event.
+       */
+      function addTransaction(e) {
+        e.preventDefault();
+
+        const text = textInput.value.trim();
+        const amount = parseFloat(amountInput.value);
+
+        if (!text || isNaN(amount) || amount === 0) {
+          showModalMessage(
+            "Please enter valid text and a non-zero amount.",
+            "error"
+          );
+          return;
+        }
+
+        const newTransaction = {
+          id: generateID(),
+          text: text,
+          amount: amount,
+        };
+
+        transactions.push(newTransaction);
+        addTransactionToDOM(newTransaction);
+        updateValues();
+        updateLocalStorage();
+
+        showModalMessage("Transaction added!", "success");
+
+        // Clear form fields
+        textInput.value = "";
+        amountInput.value = "";
+      }
+
+      /**
+       * Deletes a transaction by ID.
+       * NOTE: This is exposed globally for the onclick attribute.
+       * @param {number} id The ID of the transaction to delete.
+       */
+      function deleteTransaction(id) {
+        // Find the index of the transaction to remove
+        const index = transactions.findIndex((t) => t.id === id);
+
+        if (index !== -1) {
+          // Remove the transaction from the array
+          transactions.splice(index, 1);
+
+          // Re-render UI
+          init();
+          updateLocalStorage();
+          showModalMessage("Transaction deleted!", "success");
+        } else {
+          showModalMessage("Error: Transaction not found.", "error");
+        }
+      }
+
+      // Add Event Listeners
+      form.addEventListener("submit", addTransaction);
+
+      // Expose function globally for the delete button's onclick
+      window.deleteTransaction = deleteTransaction;
+
+      // Run initialization
+      document.addEventListener("DOMContentLoaded", init);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Meme Generator</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: #f3f4f6;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      /* Custom styles for the meme canvas area */
+      #memeCanvas {
+        border-radius: 0.5rem;
+        max-width: 100%;
+        height: auto;
+        background-color: #e5e7eb;
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+          0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      }
+      .loader-dot {
+        width: 12px;
+        height: 12px;
+        background-color: #4f46e5;
+        border-radius: 50%;
+        display: inline-block;
+        margin: 0 4px;
+        animation: bounce 1.4s infinite ease-in-out both;
+      }
+      .loader-dot:nth-child(1) {
+        animation-delay: -0.32s;
+      }
+      .loader-dot:nth-child(2) {
+        animation-delay: -0.16s;
+      }
+      @keyframes bounce {
+        0%,
+        80%,
+        100% {
+          transform: scale(0);
+        }
+        40% {
+          transform: scale(1);
+        }
+      }
+    </style>
+  </head>
+  <body class="p-4 sm:p-8">
+    <div class="w-full max-w-4xl mx-auto">
+      <header class="text-center mb-8">
+        <h1 class="text-4xl font-extrabold text-gray-900">AI Meme Generator</h1>
+        <p class="text-gray-600 mt-2">
+          Describe the image, add your text, and generate a masterpiece!
+        </p>
+      </header>
+
+      <!-- Main Content Grid: Inputs on Left, Output on Right (Desktop) / Stacked (Mobile) -->
+      <main class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <!-- Input Panel -->
+        <div
+          class="bg-white p-6 rounded-xl shadow-lg space-y-4 order-2 lg:order-1"
+        >
+          <h2 class="text-2xl font-semibold text-gray-800 border-b pb-2 mb-4">
+            Meme Configuration
+          </h2>
+
+          <!-- Image Prompt Input -->
+          <div>
+            <label
+              for="imagePrompt"
+              class="block text-sm font-medium text-gray-700 mb-1"
+              >1. Image Prompt (What should the AI draw?)</label
+            >
+            <textarea
+              id="imagePrompt"
+              rows="3"
+              class="w-full p-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition"
+              placeholder="e.g., A confused cat sitting at a desk with a coffee mug"
+            ></textarea>
+            <p class="text-xs text-gray-500 mt-1">
+              Leave blank to use a fallback image.
+            </p>
+          </div>
+
+          <!-- Top Text Input -->
+          <div>
+            <label
+              for="topText"
+              class="block text-sm font-medium text-gray-700 mb-1"
+              >2. Top Text</label
+            >
+            <input
+              type="text"
+              id="topText"
+              maxlength="60"
+              value="WHEN THE AI FAILS"
+              class="w-full p-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition"
+              placeholder="WHEN YOU THINK..."
+            />
+          </div>
+
+          <!-- Bottom Text Input -->
+          <div>
+            <label
+              for="bottomText"
+              class="block text-sm font-medium text-gray-700 mb-1"
+              >3. Bottom Text</label
+            >
+            <input
+              type="text"
+              id="bottomText"
+              maxlength="60"
+              value="BUT THE MEME STILL WORKS"
+              class="w-full p-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition"
+              placeholder="IT'S FRIDAY"
+            />
+          </div>
+
+          <!-- Action Button -->
+          <div class="pt-4">
+            <button
+              id="generateBtn"
+              class="w-full py-3 bg-indigo-600 text-white font-bold rounded-lg shadow-lg hover:bg-indigo-700 transition duration-150 transform hover:scale-[1.01] active:scale-[0.99] disabled:bg-indigo-400"
+            >
+              GENERATE MEME!
+            </button>
+          </div>
+        </div>
+
+        <!-- Output Panel -->
+        <div
+          class="bg-white p-6 rounded-xl shadow-lg text-center order-1 lg:order-2"
+        >
+          <h2 class="text-2xl font-semibold text-gray-800 border-b pb-2 mb-4">
+            Meme Preview
+          </h2>
+
+          <!-- Loading Indicator -->
+          <div id="loadingIndicator" class="hidden my-12">
+            <div class="flex justify-center items-center space-x-2">
+              <div class="loader-dot"></div>
+              <div class="loader-dot"></div>
+              <div class="loader-dot"></div>
+            </div>
+            <p class="mt-4 text-gray-600 font-medium">
+              Generating image with PAI...
+            </p>
+          </div>
+
+          <!-- Canvas for Meme Display -->
+          <canvas
+            id="memeCanvas"
+            width="800"
+            height="600"
+            class="w-full h-auto"
+          ></canvas>
+
+          <!-- Status/Error Message -->
+          <p id="statusMessage" class="mt-4 text-red-500 h-6"></p>
+
+          <!-- Download Button -->
+          <button
+            id="downloadBtn"
+            disabled
+            class="mt-6 py-3 px-8 bg-green-500 text-white font-bold rounded-lg shadow-lg hover:bg-green-600 transition duration-150 disabled:bg-gray-400"
+          >
+            Download Meme
+          </button>
+        </div>
+      </main>
+    </div>
+
+    <script>
+      // --- Configuration ---
+      // Fix: Declare apiKey variable. It is initialized as an empty string, and the environment will inject the real key.
+      const apiKey = "AIzaSyAUt9OxSWPXc-xNDXYcKVSR6N5O9VKGQ3A";
+      const IMAGE_MODEL_URL = `https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-002:predict?key=${apiKey}`;
+      const MAX_RETRIES = 3;
+      const INITIAL_DELAY = 1000;
+      const CANVAS_WIDTH = 800;
+      const CANVAS_HEIGHT = 600;
+
+      // Guaranteed Fallback Image URL (Generic Placeholder)
+      const FALLBACK_IMAGE_URL =
+        "https://placehold.co/800x600/312e81/ffffff?text=Image+Generation+Failed+(Using+Fallback)";
+
+      // --- DOM Elements ---
+      const imagePromptInput = document.getElementById("imagePrompt");
+      const topTextInput = document.getElementById("topText");
+      const bottomTextInput = document.getElementById("bottomText");
+      const generateBtn = document.getElementById("generateBtn");
+      const downloadBtn = document.getElementById("downloadBtn");
+      const loadingIndicator = document.getElementById("loadingIndicator");
+      const statusMessage = document.getElementById("statusMessage");
+
+      // Canvas Setup
+      const canvas = document.getElementById("memeCanvas");
+      const ctx = canvas.getContext("2d");
+      canvas.width = CANVAS_WIDTH;
+      canvas.height = CANVAS_HEIGHT;
+
+      // --- State ---
+      let memeImage = null; // Stores the generated Image object
+
+      // --- Helper Functions ---
+
+      /**
+       * Clears canvas and draws initial placeholder text.
+       */
+      const drawPlaceholder = (
+        message = "Enter a prompt above and click GENERATE!"
+      ) => {
+        ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+        ctx.fillStyle = "#e5e7eb"; // Light gray background
+        ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+        ctx.fillStyle = "#6b7280";
+        ctx.font = "24px Inter";
+        ctx.textAlign = "center";
+        ctx.fillText(message, CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2);
+        downloadBtn.disabled = true;
+        memeImage = null; // Clear image state
+      };
+
+      /**
+       * Renders the meme text onto the canvas.
+       */
+      const drawMemeText = () => {
+        if (!memeImage) return; // Can't draw text without an image
+
+        const topText = topTextInput.value.toUpperCase();
+        const bottomText = bottomTextInput.value.toUpperCase();
+
+        // Redraw the image first to clear previous text overlays
+        ctx.drawImage(memeImage, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+
+        // Text configuration for classic meme style
+        ctx.strokeStyle = "black";
+        ctx.lineWidth = 6;
+        ctx.fillStyle = "white";
+        ctx.textAlign = "center";
+
+        // Adjust font size based on canvas width for responsiveness
+        const fontSize = CANVAS_WIDTH * 0.08;
+        ctx.font = `${fontSize}px Impact, Arial Black, sans-serif`;
+
+        // Draw Top Text
+        ctx.strokeText(topText, CANVAS_WIDTH / 2, fontSize + 20);
+        ctx.fillText(topText, CANVAS_WIDTH / 2, fontSize + 20);
+
+        // Draw Bottom Text
+        ctx.strokeText(bottomText, CANVAS_WIDTH / 2, CANVAS_HEIGHT - 20);
+        ctx.fillText(bottomText, CANVAS_WIDTH / 2, CANVAS_HEIGHT - 20);
+      };
+
+      /**
+       * Fetches the image data from the PAI model with exponential backoff.
+       */
+      const generateImageWithRetry = async (prompt) => {
+        const payload = {
+          instances: [{ prompt: prompt }],
+          parameters: { sampleCount: 1 },
+        };
+
+        for (let i = 0; i < MAX_RETRIES; i++) {
+          const delay = INITIAL_DELAY * 2 ** i;
+
+          try {
+            const response = await fetch(IMAGE_MODEL_URL, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(payload),
+            });
+
+            if (response.ok) {
+              const result = await response.json();
+              const base64Data = result.predictions?.[0]?.bytesBase64Encoded;
+
+              if (base64Data) {
+                return `data:image/png;base64,${base64Data}`;
+              } else {
+                throw new Error("API did not return image data.");
+              }
+            } else if (response.status === 429) {
+              // Rate limit error
+              if (i < MAX_RETRIES - 1) {
+                console.warn(`Rate limited. Retrying in ${delay}ms...`);
+                await new Promise((resolve) => setTimeout(resolve, delay));
+              } else {
+                throw new Error("Rate limit exceeded after multiple retries.");
+              }
+            } else {
+              throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+          } catch (error) {
+            if (i === MAX_RETRIES - 1) {
+              throw error; // Re-throw the error on the final attempt
+            }
+            console.error(
+              `Attempt ${i + 1} failed: ${error.message}. Retrying...`
+            );
+            await new Promise((resolve) => setTimeout(resolve, delay));
+          }
+        }
+      };
+
+      /**
+       * Loads an image URL onto the canvas.
+       */
+      const loadImageToCanvas = (imageUrl, successCallback, errorCallback) => {
+        const img = new Image();
+        img.crossOrigin = "Anonymous"; // Required for cross-domain images on canvas for download
+        img.onload = () => {
+          memeImage = img; // Store for redrawing
+          successCallback();
+        };
+        img.onerror = () => {
+          errorCallback("Could not load the image from the given URL.");
+        };
+        img.src = imageUrl;
+      };
+
+      // --- Main Event Handlers ---
+
+      const handleGenerateMeme = async () => {
+        const prompt = imagePromptInput.value.trim();
+        statusMessage.textContent = "";
+        downloadBtn.disabled = true;
+        generateBtn.disabled = true;
+        loadingIndicator.classList.remove("hidden");
+
+        let imageUrl;
+        let finalMessage = "Meme created successfully!";
+
+        try {
+          if (!prompt) {
+            // Use fallback image instantly if no prompt is given
+            imageUrl = FALLBACK_IMAGE_URL;
+            finalMessage = "Using fallback image (No prompt provided).";
+          } else {
+            // Attempt to generate AI image
+            imageUrl = await generateImageWithRetry(prompt);
+          }
+
+          // Load Image onto Canvas
+          loadImageToCanvas(
+            imageUrl,
+            () => {
+              drawMemeText(); // Draw the image and the text
+              downloadBtn.disabled = false;
+              statusMessage.textContent = finalMessage;
+              loadingIndicator.classList.add("hidden");
+              generateBtn.disabled = false;
+            },
+            (loadError) => {
+              throw new Error(loadError);
+            }
+          );
+        } catch (error) {
+          console.error("Meme generation failed, falling back:", error);
+
+          // If AI generation failed, try to load the fallback image
+          loadImageToCanvas(
+            FALLBACK_IMAGE_URL,
+            () => {
+              drawMemeText();
+              downloadBtn.disabled = false;
+              statusMessage.textContent = `PAI failed (Authentication/CORS issue). Loaded fallback image.`;
+            },
+            (fallbackError) => {
+              statusMessage.textContent = `Fatal Error: Cannot load any image. ${fallbackError}`;
+              drawPlaceholder("Cannot load any image data.");
+            }
+          );
+        } finally {
+          loadingIndicator.classList.add("hidden");
+          generateBtn.disabled = false;
+        }
+      };
+
+      const handleDownloadMeme = () => {
+        if (memeImage) {
+          // Use the canvas to generate a data URL (PNG format)
+          const dataURL = canvas.toDataURL("image/png");
+
+          // Create a temporary link element to trigger the download
+          const a = document.createElement("a");
+          a.href = dataURL;
+          a.download = "ai-generated-meme.png";
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+        }
+      };
+
+      // --- Initialization and Event Wiring ---
+
+      document.addEventListener("DOMContentLoaded", () => {
+        drawPlaceholder();
+
+        generateBtn.addEventListener("click", handleGenerateMeme);
+        downloadBtn.addEventListener("click", handleDownloadMeme);
+
+        // Re-render text instantly whenever the user types
+        topTextInput.addEventListener("input", drawMemeText);
+        bottomTextInput.addEventListener("input", drawMemeText);
+
+        // Initial call to draw placeholder
+        drawPlaceholder();
+      });
+    </script>
+  </body>
+</html>

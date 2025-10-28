@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GitHub User Finder</title>
+    <!-- Poppins font for modern aesthetic -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Font Awesome for icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+
+    <style>
+      /* CSS Styling */
+      :root {
+        --primary-color: #0077ff; /* GitHub-like Blue */
+        --secondary-color: #2c3e50; /* Card Background */
+        --background-dark: #121212; /* Dark Mode Background */
+        --text-light: #f0f0f0;
+        --text-muted: #aaaaaa;
+        --shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+        --transition-speed: 0.3s;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Poppins", sans-serif;
+        background-color: var(--background-dark);
+        color: var(--text-light);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+      }
+
+      /* Main Heading */
+      h1 {
+        font-size: 2.2rem;
+        margin-bottom: 25px;
+        font-weight: 700;
+        color: var(--primary-color);
+      }
+
+      /* Search Form */
+      .search-container {
+        width: 100%;
+        max-width: 500px;
+        margin-bottom: 30px;
+        box-shadow: var(--shadow);
+        border-radius: 12px;
+        overflow: hidden;
+        background-color: var(--secondary-color);
+        display: flex;
+        align-items: center;
+        transition: box-shadow var(--transition-speed);
+      }
+
+      .search-container:focus-within {
+        box-shadow: 0 0 0 3px var(--primary-color);
+      }
+
+      #username-input {
+        flex-grow: 1;
+        padding: 15px 20px;
+        border: none;
+        outline: none;
+        font-size: 1rem;
+        background-color: var(--secondary-color);
+        color: var(--text-light);
+        border-radius: 12px 0 0 12px;
+      }
+
+      #username-input::placeholder {
+        color: var(--text-muted);
+      }
+
+      #search-btn {
+        padding: 15px 20px;
+        background-color: var(--primary-color);
+        color: var(--text-light);
+        border: none;
+        cursor: pointer;
+        font-size: 1.1rem;
+        transition: background-color var(--transition-speed);
+        border-radius: 0 12px 12px 0;
+      }
+
+      #search-btn:hover {
+        background-color: #005fcc;
+      }
+
+      /* Loading Spinner */
+      #loading-spinner {
+        text-align: center;
+        padding: 20px;
+        font-size: 2rem;
+        color: var(--primary-color);
+        display: none; /* Hidden by default */
+      }
+
+      /* User Card */
+      #user-card {
+        width: 100%;
+        max-width: 700px;
+        background-color: var(--secondary-color);
+        border-radius: 15px;
+        padding: 30px;
+        box-shadow: var(--shadow);
+        display: none; /* Hidden by default */
+        opacity: 0;
+        transition: opacity 0.5s ease;
+      }
+
+      #user-card.active {
+        display: block;
+        opacity: 1;
+      }
+
+      .user-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 25px;
+      }
+
+      .user-avatar {
+        width: 90px;
+        height: 90px;
+        border-radius: 50%;
+        margin-right: 25px;
+        border: 3px solid var(--primary-color);
+      }
+
+      .user-info h2 {
+        font-size: 1.8rem;
+        color: var(--text-light);
+        margin-bottom: 2px;
+      }
+
+      .user-info a {
+        color: var(--primary-color);
+        text-decoration: none;
+        font-size: 1rem;
+        font-weight: 300;
+        transition: color var(--transition-speed);
+      }
+
+      .user-info a:hover {
+        color: #4da6ff;
+      }
+
+      .user-bio {
+        margin: 20px 0;
+        font-size: 1rem;
+        color: var(--text-light);
+      }
+
+      .stats-container {
+        display: flex;
+        justify-content: space-around;
+        background-color: #1f2f40;
+        padding: 15px;
+        border-radius: 10px;
+        margin-bottom: 25px;
+      }
+
+      .stat-item {
+        text-align: center;
+      }
+
+      .stat-item p:first-child {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--primary-color);
+      }
+
+      .stat-item p:last-child {
+        font-size: 0.85rem;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      /* User Details Grid */
+      .details-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+      }
+
+      .detail-item {
+        font-size: 0.95rem;
+        color: var(--text-light);
+      }
+
+      .detail-item i {
+        margin-right: 10px;
+        color: var(--primary-color);
+        width: 20px;
+        text-align: center;
+      }
+
+      .detail-item a {
+        color: var(--text-light);
+        text-decoration: none;
+        transition: color var(--transition-speed);
+      }
+
+      .detail-item a:hover {
+        color: var(--primary-color);
+      }
+
+      .unavailable {
+        color: var(--text-muted);
+        font-style: italic;
+      }
+
+      /* Message Box */
+      #message-box {
+        text-align: center;
+        padding: 30px;
+        background-color: #2c3e50;
+        border-radius: 10px;
+        margin-top: 30px;
+        display: none; /* Hidden by default */
+        color: #e74c3c;
+        font-weight: 600;
+      }
+
+      /* --- Responsiveness --- */
+      @media (max-width: 650px) {
+        h1 {
+          font-size: 1.8rem;
+        }
+
+        .user-header {
+          flex-direction: column;
+          text-align: center;
+        }
+
+        .user-avatar {
+          margin: 0 0 15px 0;
+          width: 70px;
+          height: 70px;
+        }
+
+        .user-info h2 {
+          font-size: 1.5rem;
+        }
+
+        .stats-container {
+          flex-wrap: wrap;
+        }
+
+        .stat-item {
+          flex-basis: 30%;
+          margin: 5px 0;
+        }
+
+        .details-grid {
+          grid-template-columns: 1fr; /* Stack details vertically on small screens */
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1><i class="fab fa-github"></i> GitHub User Finder</h1>
+
+    <div class="search-container">
+      <input
+        type="text"
+        id="username-input"
+        placeholder="Enter GitHub username (e.g., torvalds)"
+      />
+      <button id="search-btn" aria-label="Search User">
+        <i class="fas fa-search"></i>
+      </button>
+    </div>
+
+    <div id="loading-spinner">
+      <i class="fas fa-spinner fa-spin"></i>
+    </div>
+
+    <!-- User Profile Card -->
+    <div id="user-card">
+      <!-- User Header and Avatar -->
+      <div class="user-header">
+        <img id="avatar" class="user-avatar" src="" alt="User Avatar" />
+        <div class="user-info">
+          <h2 id="name"></h2>
+          <a id="username-link" href="#" target="_blank"></a>
+        </div>
+      </div>
+
+      <!-- Bio -->
+      <p id="bio" class="user-bio"></p>
+
+      <!-- Stats -->
+      <div class="stats-container">
+        <div class="stat-item">
+          <p id="repos-count">0</p>
+          <p>Repositories</p>
+        </div>
+        <div class="stat-item">
+          <p id="followers-count">0</p>
+          <p>Followers</p>
+        </div>
+        <div class="stat-item">
+          <p id="following-count">0</p>
+          <p>Following</p>
+        </div>
+      </div>
+
+      <!-- Details -->
+      <div class="details-grid">
+        <div id="location" class="detail-item"></div>
+        <div id="blog" class="detail-item"></div>
+        <div id="company" class="detail-item"></div>
+        <div id="twitter" class="detail-item"></div>
+      </div>
+    </div>
+
+    <!-- Message Box for Errors/No User Found -->
+    <div id="message-box"></div>
+
+    <script>
+      // -------------------------------------------------------------------
+      // Global Constants and DOM Elements
+      // -------------------------------------------------------------------
+      const API_URL = "https://api.github.com/users/";
+
+      const searchBtn = document.getElementById("search-btn");
+      const usernameInput = document.getElementById("username-input");
+      const userCard = document.getElementById("user-card");
+      const loadingSpinner = document.getElementById("loading-spinner");
+      const messageBox = document.getElementById("message-box");
+
+      // User Data Elements
+      const avatarEl = document.getElementById("avatar");
+      const nameEl = document.getElementById("name");
+      const usernameLinkEl = document.getElementById("username-link");
+      const bioEl = document.getElementById("bio");
+      const reposCountEl = document.getElementById("repos-count");
+      const followersCountEl = document.getElementById("followers-count");
+      const followingCountEl = document.getElementById("following-count");
+      const locationEl = document.getElementById("location");
+      const blogEl = document.getElementById("blog");
+      const companyEl = document.getElementById("company");
+      const twitterEl = document.getElementById("twitter");
+
+      // -------------------------------------------------------------------
+      // UI Helpers
+      // -------------------------------------------------------------------
+
+      /**
+       * Toggles the visibility of the loading spinner.
+       * @param {boolean} show Whether to show or hide the spinner.
+       */
+      function toggleLoading(show) {
+        loadingSpinner.style.display = show ? "block" : "none";
+        userCard.classList.remove("active");
+        messageBox.style.display = "none";
+      }
+
+      /**
+       * Shows a non-blocking message to the user.
+       * @param {string} message The message content.
+       */
+      function showMessage(message) {
+        messageBox.textContent = message;
+        messageBox.style.display = "block";
+        userCard.classList.remove("active");
+      }
+
+      /**
+       * Formats and renders an individual detail item (location, blog, etc.).
+       * @param {HTMLElement} element The DOM element to update.
+       * @param {string} iconClass Font Awesome class for the icon (e.g., 'fa-map-marker-alt').
+       * @param {string | null} value The data value.
+       * @param {string | null} linkHref Optional URL if the value is a link.
+       */
+      function renderDetail(element, iconClass, value, linkHref = null) {
+        if (value) {
+          const content = linkHref
+            ? `<a href="${linkHref}" target="_blank">${value}</a>`
+            : value;
+          element.innerHTML = `<i class="${iconClass}"></i> ${content}`;
+          element.classList.remove("unavailable");
+        } else {
+          element.innerHTML = `<i class="${iconClass}"></i> Not Available`;
+          element.classList.add("unavailable");
+        }
+      }
+
+      // -------------------------------------------------------------------
+      // Main Fetch Logic
+      // -------------------------------------------------------------------
+
+      /**
+       * Fetches user data from the GitHub API and updates the UI.
+       * @param {string} username The GitHub username to search for.
+       */
+      async function getGitHubUser(username) {
+        if (!username) {
+          showMessage("Please enter a GitHub username to search.");
+          return;
+        }
+
+        toggleLoading(true);
+
+        try {
+          const response = await fetch(API_URL + username);
+
+          if (response.status === 404) {
+            showMessage(`User "${username}" not found on GitHub.`);
+            return;
+          }
+
+          if (!response.ok) {
+            throw new Error(`GitHub API returned status: ${response.status}`);
+          }
+
+          const data = await response.json();
+          renderUserCard(data);
+        } catch (error) {
+          console.error("Error fetching data:", error);
+          showMessage(`Failed to fetch user data. Please try again later.`);
+        } finally {
+          toggleLoading(false);
+        }
+      }
+
+      /**
+       * Populates the user card with data received from the API.
+       * @param {object} data The JSON object containing user data.
+       */
+      function renderUserCard(data) {
+        // Header Info
+        avatarEl.src = data.avatar_url;
+        nameEl.textContent = data.name || data.login;
+
+        usernameLinkEl.textContent = `@${data.login}`;
+        usernameLinkEl.href = data.html_url;
+
+        bioEl.textContent = data.bio || "This user has no public bio.";
+
+        // Stats
+        reposCountEl.textContent = data.public_repos || 0;
+        followersCountEl.textContent = data.followers || 0;
+        followingCountEl.textContent = data.following || 0;
+
+        // Details
+        renderDetail(locationEl, "fas fa-map-marker-alt", data.location);
+        renderDetail(
+          blogEl,
+          "fas fa-link",
+          data.blog,
+          data.blog &&
+            (data.blog.startsWith("http") ? data.blog : `https://${data.blog}`)
+        );
+        renderDetail(companyEl, "fas fa-building", data.company);
+        renderDetail(
+          twitterEl,
+          "fab fa-twitter",
+          data.twitter_username,
+          data.twitter_username &&
+            `https://twitter.com/${data.twitter_username}`
+        );
+
+        userCard.classList.add("active"); // Show the populated card
+      }
+
+      // -------------------------------------------------------------------
+      // Event Listeners
+      // -------------------------------------------------------------------
+
+      /**
+       * Handler for both button click and Enter key press.
+       */
+      function handleSearch() {
+        const username = usernameInput.value.trim();
+        getGitHubUser(username);
+      }
+
+      searchBtn.addEventListener("click", handleSearch);
+
+      usernameInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+          e.preventDefault(); // Prevent form submission if input was inside a form
+          handleSearch();
+        }
+      });
+
+      // Initial state setup on load
+      document.addEventListener("DOMContentLoaded", () => {
+        showMessage("Start by entering a GitHub username above.");
+      });
+    </script>
+  </body>
+</html>

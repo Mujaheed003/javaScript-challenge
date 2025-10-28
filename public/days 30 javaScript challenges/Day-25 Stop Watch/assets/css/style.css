@@ -1,0 +1,149 @@
+/* General Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+html {
+  font-size: 62%;
+}
+
+/* Background */
+body {
+  background: linear-gradient(135deg, #2a0845, #6441a5);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+}
+
+/* Stopwatch Container */
+.stopwatch {
+  width: 90%;
+  max-width: 500px;
+  background: url("../img/background.jpg"), rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 2rem;
+  text-align: center;
+  padding: 4rem 3rem;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+  background-size: cover;
+  background-position: center;
+}
+
+/* Timer Display */
+.stopwatch h1 {
+  font-size: 6.4rem;
+  font-weight: 500;
+  letter-spacing: 2px;
+  margin-bottom: 4rem;
+  color: #fff;
+}
+
+/* Buttons Container */
+.buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2.4rem;
+}
+
+/* Button Circle */
+.button-box {
+  background: rgba(255, 255, 255, 0.15);
+  width: 7rem;
+  height: 7rem;
+  padding: 1.4rem;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease;
+}
+
+.button-box:hover {
+  transform: scale(1.1);
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Specific Button Colors */
+.button-box:nth-child(1) {
+  background: #ff4c4c;
+}
+
+.button-box:nth-child(2) {
+  background: #4caf50;
+}
+
+.button-box:nth-child(3) {
+  background: #2196f3;
+}
+
+/* Button Icons */
+.button-box img {
+  width: 3.6rem;
+  filter: brightness(0) invert(1);
+  cursor: pointer;
+}
+
+/* Responsive Design */
+
+/* Tablets */
+@media (max-width: 57em) {
+  .stopwatch h1 {
+    font-size: 5.2rem;
+  }
+
+  .button-box {
+    width: 6rem;
+    height: 6rem;
+  }
+
+  .button-box img {
+    width: 3rem;
+  }
+}
+
+/* Mobile (big and small) */
+@media (max-width: 38em) {
+  .stopwatch {
+    padding: 3rem 2rem;
+  }
+
+  .stopwatch h1 {
+    font-size: 4.2rem;
+  }
+
+  .buttons {
+    gap: 2rem;
+  }
+
+  .button-box {
+    width: 5.6rem;
+    height: 5.6rem;
+    padding: 1.2rem;
+  }
+
+  .button-box img {
+    width: 2.8rem;
+  }
+}
+
+/* Very Small Phones */
+@media (max-width: 25em) {
+  .stopwatch h1 {
+    font-size: 3.4rem;
+  }
+
+  .button-box {
+    width: 5rem;
+    height: 5rem;
+  }
+
+  .button-box img {
+    width: 2.4rem;
+  }
+}

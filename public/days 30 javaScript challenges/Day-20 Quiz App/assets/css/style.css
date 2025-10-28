@@ -1,0 +1,188 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Poppins", sans-serif;
+  box-sizing: border-box;
+}
+
+body {
+  background: linear-gradient(135deg, #4f46e5, #9333ea);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.app {
+  background: #fff;
+  width: 100%;
+  max-width: 600px;
+  border-radius: 15px;
+  padding: 30px 25px 40px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.app h1 {
+  font-size: 28px;
+  color: #4f46e5;
+  text-align: center;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.quiz h2 {
+  font-size: 20px;
+  color: #333;
+  font-weight: 600;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.progress-container {
+  width: 100%;
+  background: #eee;
+  border-radius: 30px;
+  overflow: hidden;
+  height: 10px;
+  margin-bottom: 25px;
+}
+
+#progress-bar {
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, #4f46e5, #9333ea);
+  transition: width 0.4s ease;
+}
+
+.btn {
+  background: #f8f8ff;
+  color: #222;
+  font-weight: 500;
+  width: 100%;
+  border: 2px solid #4f46e5;
+  padding: 12px;
+  margin: 10px 0;
+  text-align: left;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn:hover:not([disabled]) {
+  background: #4f46e5;
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+.btn:disabled {
+  cursor: not-allowed;
+}
+
+#next-btn {
+  background: linear-gradient(135deg, #4f46e5, #9333ea);
+  color: #fff;
+  font-weight: 600;
+  width: 180px;
+  padding: 12px;
+  margin: 25px auto 0;
+  border-radius: 8px;
+  cursor: pointer;
+  display: none;
+  border: none;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+#next-btn:hover {
+  transform: scale(1.05);
+}
+
+.correct {
+  background: #22c55e;
+  color: white;
+  border: none;
+}
+
+.incorrect {
+  background: #ef4444;
+  color: white;
+  border: none;
+}
+
+/* 🌍 RESPONSIVENESS */
+
+/* Tablets */
+@media (max-width: 900px) {
+  .app {
+    max-width: 500px;
+    padding: 25px 20px 35px;
+  }
+
+  .app h1 {
+    font-size: 25px;
+  }
+}
+
+/* Mobile large */
+@media (max-width: 768px) {
+  .app {
+    max-width: 420px;
+    padding: 20px 18px 30px;
+  }
+
+  .quiz h2 {
+    font-size: 18px;
+  }
+
+  .btn {
+    font-size: 15px;
+    padding: 10px;
+  }
+
+  #next-btn {
+    width: 160px;
+    padding: 10px;
+  }
+}
+
+/* Small mobile */
+@media (max-width: 480px) {
+  body {
+    padding: 10px;
+  }
+
+  .app {
+    max-width: 100%;
+    padding: 18px 15px 25px;
+  }
+
+  .app h1 {
+    font-size: 22px;
+  }
+
+  .quiz h2 {
+    font-size: 16px;
+  }
+
+  .btn {
+    font-size: 14px;
+    padding: 8px;
+  }
+
+  #next-btn {
+    width: 140px;
+    padding: 8px;
+  }
+}
