@@ -377,7 +377,7 @@ body {
   content: attr(data-label);
 }
 
-@media (max-width: 400px) {
+@media (max-width: 600px) {
   .progress-bar {
     font-size: 0.8rem;
   }
